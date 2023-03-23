@@ -1,0 +1,139 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+      - "443:443"
+
+
+  router:
+    container_name: ${ROUTER_HOST}
+    build: ./backend/router
+    depends_on:
+      - datadog-agent
+    expose:
+      - "${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    environment:
+      - FLASK_APP=${FLASK_APP}
+      - DATADOG_HOST=datadog-agent
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_AGENT_HOST=datadog-agent
+      - INTERNAL_PORT=${INTERNAL_PORT}
+
+  api-gateway:
+    build: ./backend/api-gateway
+    depends_on:
+      - router
+      - datadog-agent
+    ports:
+      - "${INTERNAL_PORT}:${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    environment:
+      - FLASK_APP=${FLASK_APP}
+      - ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}
+      - INTERNAL_PORT=${INTERNAL_PORT}
+      - DATADOG_HOST=datadog-agent
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_AGENT_HOST=datadog-agent
+
+  user-service:
+    build: ./backend/user-service
+    expose:
+      - "${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    depends_on:
+      - user-db
+      - router
+      - datadog-agent
+    environment:
+      - DB_URI=postgresql://${USER_DB_USERNAME}:${USER_DB_PASSWORD}@${USER_DB_HOST}:${INTERNAL_DB_PORT}/${USER_DB_NAME}
+      - FLASK_APP=${FLASK_APP}
+      - ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}
+      - INTERNAL_PORT=${INTERNAL_PORT}
+      - DATADOG_HOST=datadog-agent
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_AGENT_HOST=datadog-agent
+
+  authentication-service:
+    build: ./backend/authentication-service
+    expose:
+      - "${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    depends_on:
+      - authentication-db
+      - router
+      - datadog-agent
+    environment:
+      - DB_URI=postgresql://${AUTH_DB_USERNAME}:${AUTH_DB_PASSWORD}@${AUTH_DB_HOST}:${INTERNAL_DB_PORT}/${AUTH_DB_NAME}
+      - FLASK_APP=${FLASK_APP}
+      - ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}
+      - INTERNAL_PORT=${INTERNAL_PORT}
+      - DATADOG_HOST=datadog-agent
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_AGENT_HOST=datadog-agent
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+
+  email-service:
+    build: ./backend/email-service
+    depends_on:
+      - router
+      - datadog-agent
+    expose:
+      - "${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    environment:
+      - FLASK_APP=${FLASK_APP}
+      - ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}
+      - INTERNAL_PORT=${INTERNAL_PORT}
+      - DATADOG_HOST=datadog-agent
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_AGENT_HOST=datadog-agent
+
+  user-db:
+    container_name: ${USER_DB_HOST}
+    image: postgres:15-alpine
+    expose:
+      - "${INTERNAL_DB_PORT}"
+    volumes:
+      - user-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${USER_DB_USERNAME}
+      - POSTGRES_PASSWORD=${USER_DB_PASSWORD}
+      - POSTGRES_DB=${USER_DB_NAME}
+
+  authentication-db:
+    container_name: ${AUTH_DB_HOST}
+    image: postgres:15-alpine
+    expose:
+      - "${INTERNAL_DB_PORT}"
+    volumes:
+      - authentication-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${AUTH_DB_USERNAME}
+      - POSTGRES_PASSWORD=${AUTH_DB_PASSWORD}
+      - POSTGRES_DB=${AUTH_DB_NAME}
+
+  datadog-agent:
+    container_name: datadog-agent
+    image: datadog/agent
+    ports:
+      - "8126:8126"
+    environment:
+      - DD_API_KEY=${DD_API_KEY}
+      - DD_SITE=us5.datadoghq.com
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_CONTAINER_EXCLUDE_LOGS="name:datadog-agent"
+      - DD_TAGS=env:${ENV}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+
+volumes:
+  user-data:
+  authentication-data:

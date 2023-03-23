@@ -1,0 +1,27 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo' : 'logo-dark'}}.png"
+             alt="Quick Quiz Ninja logo" class="mr-3 mb-0 w-9rem">
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+            (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu"
+         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button" pTooltip="Account" tooltipPosition="bottom"
+                [routerLink]="['/app/account']">
+            <i class="pi pi-user"></i>
+        </button>
+        <button class="p-link layout-topbar-button" (click)="onConfigButtonClick()" pTooltip="Settings"
+                tooltipPosition="bottom">
+            <i class="pi pi-cog"></i>
+        </button>
+    </div>
+</div>
