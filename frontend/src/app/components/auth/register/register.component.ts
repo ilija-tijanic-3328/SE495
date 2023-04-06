@@ -27,4 +27,5 @@ export class RegisterComponent {
     onSubmit() {
         // TODO
     }
+
 }

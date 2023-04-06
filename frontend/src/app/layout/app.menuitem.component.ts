@@ -74,7 +74,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         this.menuSourceSubscription = this.menuService.menuSource$.subscribe(value => {
             Promise.resolve(null).then(() => {
                 if (value.routeEvent) {
-                    this.active = (value.key === this.key || value.key.startsWith(this.key + '-')) ? true : false;
+                    this.active = !!(value.key === this.key || value.key.startsWith(this.key + '-'));
                 } else {
                     if (value.key !== this.key && !value.key.startsWith(this.key + '-')) {
                         this.active = false;
@@ -88,7 +88,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         });
 
         this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-            .subscribe(params => {
+            .subscribe(() => {
                 if (this.item.routerLink) {
                     this.updateActiveStateFromRoute();
                 }
@@ -154,4 +154,5 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
             this.menuResetSubscription.unsubscribe();
         }
     }
+
 }

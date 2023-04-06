@@ -9,19 +9,21 @@ import {ButtonModule} from 'primeng/button';
 import {StyleClassModule} from 'primeng/styleclass';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {DashboardsRoutingModule} from './dashboard-routing.module';
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ChartModule,
-        MenuModule,
-        TableModule,
-        StyleClassModule,
-        PanelMenuModule,
-        ButtonModule,
-        DashboardsRoutingModule
-    ],
+	imports: [
+		CommonModule,
+		FormsModule,
+		ChartModule,
+		MenuModule,
+		TableModule,
+		StyleClassModule,
+		PanelMenuModule,
+		ButtonModule,
+		DashboardsRoutingModule,
+		RippleModule
+	],
     declarations: [DashboardComponent]
 })
 export class DashboardModule {

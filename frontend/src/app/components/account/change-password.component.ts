@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ResetPasswordRequest} from "../../models/request/reset-password-request";
 import {MessageService} from "primeng/api";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-change-password',
@@ -18,7 +19,7 @@ export class ChangePasswordComponent {
 
     protected request: ResetPasswordRequest = new ResetPasswordRequest();
 
-    constructor(private messageService: MessageService) {
+    constructor(private messageService: MessageService, private authService: AuthService) {
     }
 
     onSubmit() {

@@ -1,33 +1,28 @@
-import atexit
 import urllib.request
 
-from apscheduler.schedulers.background import BackgroundScheduler
-
 from app.data import service_repo
-from app.data.models import Service
 
 
-def register(service: Service):
-    service_repo.save(service)
+def register(service_name, location):
+    service_repo.save(service_name, location)
 
 
 def check_health():
-    for service in service_repo.get_all():
-        try:
-            urllib.request.urlopen(service.location + '/health')
-        except Exception as e:
-            service_repo.remove(service)
+    instances: dict = service_repo.get_all()
+    for service_name in instances:
+        for location in instances[service_name]:
+            try:
+                urllib.request.urlopen(location + '/health')
+            except:
+                unregister(service_name, location)
 
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=check_health, trigger="interval", seconds=30)
-scheduler.start()
-
-atexit.register(lambda: scheduler.shutdown())
-
-
-def get_active(service_name: str) -> Service or None:
-    services: set[Service] = service_repo.get(service_name)
-    if services is not None and len(services) > 0:
-        return services.pop()
+def get_active(service_name: str):
+    instances: set[str] = service_repo.get(service_name)
+    if instances is not None and len(instances) > 0:
+        return instances.pop()
     return None
+
+
+def unregister(service_name, location):
+    service_repo.remove(service_name, location)

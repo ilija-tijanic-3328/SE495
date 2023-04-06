@@ -1,32 +1,35 @@
 from app import cache
-from app.data.models import Service
 
 
-def save(service: Service):
-    services: set[Service] = cache.get(service.name)
-    if not services:
-        services = set[Service]()
-    services.add(service)
-    cache.set(service.name, services)
+def save(service_name, location):
+    instances: set[str] = cache.get(service_name) or set[str]()
+    instances.add(location)
+    cache.set(service_name, instances)
+    services: set[str] = cache.get('services') or set[str]()
+    services.add(service_name)
+    cache.set('services', services)
 
 
-def remove(service: Service):
-    services: set[Service] = cache.get(service.name)
-    if service in services:
-        services.remove(service)
-    cache.set(service.name, services)
+def remove(service_name, location):
+    instances: set[str] = cache.get(service_name)
+    if location in instances:
+        instances.remove(location)
+    cache.set(service_name, instances)
+    services: set[str] = cache.get('services')
+    if len(instances) == 0 and service_name in services:
+        services.remove(service_name)
+    cache.set('services', services)
 
 
-def get_all() -> list[Service]:
-    services = list[Service]()
-    for key in cache.cache._cache:
+def get_all() -> dict:
+    instances = dict()
+    services = cache.get('services')
+    for key in services:
         if cache.has(key):
             values = cache.get(key)
-            if values is not None:
-                for value in values:
-                    services.append(value)
-    return services
+            instances[key] = values
+    return instances
 
 
-def get(service_name: str) -> set[Service]:
+def get(service_name: str) -> set[str]:
     return cache.get(service_name)

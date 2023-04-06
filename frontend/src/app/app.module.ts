@@ -3,20 +3,17 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AppLayoutModule} from './layout/app.layout.module';
-import {NotfoundComponent} from './components/notfound/notfound.component';
-import {ProductService} from './services/product.service';
-import {CountryService} from './services/country.service';
-import {CustomerService} from './services/customer.service';
-import {EventService} from './services/event.service';
-import {IconService} from './services/icon.service';
-import {NodeService} from './services/node.service';
-import {PhotoService} from './services/photo.service';
 import {MessageService} from "primeng/api";
 import {ToastModule} from "primeng/toast";
+import {AuthInterceptor} from "./services/interceptors/auth.interceptor";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthService} from "./services/auth.service";
+import {ProductService} from "./services/product.service";
+import {UserService} from "./services/user.service";
 
 @NgModule({
     declarations: [
-        AppComponent, NotfoundComponent
+        AppComponent
     ],
     imports: [
         AppRoutingModule,
@@ -25,8 +22,8 @@ import {ToastModule} from "primeng/toast";
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MessageService
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+        AuthService, MessageService, UserService, ProductService
     ],
     bootstrap: [AppComponent]
 })
