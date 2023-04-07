@@ -103,4 +103,5 @@ export class LayoutService {
     openConfig() {
         this.configOpen.next(true);
     }
+
 }

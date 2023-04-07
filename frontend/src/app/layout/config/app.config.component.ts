@@ -61,7 +61,6 @@ export class AppConfigComponent implements OnInit {
     changeTheme(theme: string, colorScheme: string) {
         const themeLink = <HTMLLinkElement>document.getElementById('theme-css');
         const newHref = themeLink.getAttribute('href')!.replace(this.layoutService.config.theme, theme);
-        this.layoutService.config.colorScheme
         this.replaceThemeLink(newHref, () => {
             this.layoutService.config.theme = theme;
             this.layoutService.config.colorScheme = colorScheme;

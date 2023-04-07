@@ -3,6 +3,8 @@ import {Injectable} from '@angular/core';
 import {LoginRequest} from "../models/request/login-request";
 import {environment} from "../../environments/environment";
 import {StorageService} from "./storage.service";
+import {RegistrationRequest} from "../models/request/registration-request";
+import {TwoFactorLoginRequest} from "../models/request/two-factor-login-request";
 
 @Injectable()
 export class AuthService {
@@ -13,6 +15,11 @@ export class AuthService {
     login(request: LoginRequest) {
         return this.http.post<any>(environment.apiBaseUrl + '/auth/login', request)
     }
+
+    loginTwoFactor(request: TwoFactorLoginRequest) {
+        return this.http.post<any>(environment.apiBaseUrl + '/auth/login/two-factor', request)
+    }
+
 
     logout() {
         this.storageService.clear();
@@ -28,6 +35,30 @@ export class AuthService {
 
     saveToken(token: string) {
         this.storageService.saveToken(token)
+    }
+
+    saveUserName(userName: string) {
+        this.storageService.saveUserName(userName)
+    }
+
+    save2FactorToken(token: string) {
+        this.storageService.save2FactorToken(token)
+    }
+
+    register(request: RegistrationRequest) {
+        return this.http.post<any>(environment.apiBaseUrl + '/auth/register', request)
+    }
+
+    getUserName() {
+        return this.storageService.getUserName();
+    }
+
+    isWaitingFor2FactorCode() {
+        return !!this.storageService.get2FactorToken();
+    }
+
+    get2FactorToken() {
+        return this.storageService.get2FactorToken();
     }
 
 }

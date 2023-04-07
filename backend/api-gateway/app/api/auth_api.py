@@ -9,3 +9,16 @@ auth = Blueprint('auth', __name__)
 def authenticate():
     data = request.json
     return jsonify(auth_client.authenticate(data))
+
+
+@auth.route('/login/two-factor', methods=['POST'])
+def authenticate_two_factor():
+    data = request.json
+    return jsonify(auth_client.authenticate_two_factor(data))
+
+
+@auth.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    response = auth_client.register(data)
+    return {"message": response.text}, response.status_code

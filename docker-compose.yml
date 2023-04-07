@@ -77,6 +77,9 @@ services:
       - "INTERNAL_PORT=${INTERNAL_PORT}"
       - "JWT_SECRET_KEY=${JWT_SECRET_KEY}"
       - "INIT_DATA=${AUTH_INIT_DATA}"
+      - "TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}"
+      - "TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}"
+      - "TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}"
 
   email-service:
     build: ./backend/email-service
@@ -92,6 +95,10 @@ services:
       - "FLASK_APP=${FLASK_APP}"
       - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
       - "INTERNAL_PORT=${INTERNAL_PORT}"
+      - "MAILGUN_API_BASE_URL=${MAILGUN_API_BASE_URL}"
+      - "MAILGUN_API_KEY=${MAILGUN_API_KEY}"
+      - "MAILGUN_DOMAIN_NAME=${MAILGUN_DOMAIN_NAME}"
+      - "APP_BASE_URL=${APP_BASE_URL}"
 
   user-db:
     container_name: ${USER_DB_HOST}
@@ -113,8 +120,8 @@ services:
   authentication-db:
     container_name: ${AUTH_DB_HOST}
     image: postgres:15-alpine
-    ports:
-      - "5435:${INTERNAL_DB_PORT}"
+    expose:
+      - "${INTERNAL_DB_PORT}"
     volumes:
       - authentication-data:/var/lib/postgresql/data/
     environment:
@@ -138,7 +145,7 @@ services:
       - "DD_API_KEY=${DD_API_KEY}"
       - "DD_SITE=us5.datadoghq.com"
       - "DD_LOGS_ENABLED=true"
-      - "DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true"
+      #      - "DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true"
       - 'DD_CONTAINER_EXCLUDE_LOGS="name:datadog-agent"'
       - "DD_TAGS=env:${ENV}"
     volumes:

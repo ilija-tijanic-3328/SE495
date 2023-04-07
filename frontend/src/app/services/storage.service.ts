@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 
 const USER_KEY = 'auth-user';
 const TOKEN_KEY = 'auth-token';
+const TWO_FACTOR_TOKEN_KEY = '2-factor-token';
 
 @Injectable({
     providedIn: 'root'
@@ -13,26 +14,32 @@ export class StorageService {
     constructor() {
     }
 
-    clear(): void {
+    public clear(): void {
         this.storage.clear();
     }
 
-    public saveToken(token: any): void {
+    public saveToken(token: string): void {
         this.storage.setItem(TOKEN_KEY, token);
     }
 
-    getToken() {
+    public saveUserName(userName: string): void {
+        this.storage.setItem(USER_KEY, userName);
+    }
+
+    public save2FactorToken(token: string): void {
+        this.storage.setItem(TWO_FACTOR_TOKEN_KEY, token);
+    }
+
+    public getToken() {
         return this.storage.getItem(TOKEN_KEY);
     }
 
-    public getUser(): any {
-        const user = this.storage.getItem(USER_KEY);
+    public getUserName(): any {
+        return this.storage.getItem(USER_KEY);
+    }
 
-        if (user) {
-            return JSON.parse(user);
-        }
-
-        return {};
+    public get2FactorToken() {
+        return this.storage.getItem(TWO_FACTOR_TOKEN_KEY);
     }
 
 }

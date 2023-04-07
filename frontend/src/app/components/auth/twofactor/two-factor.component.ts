@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
 import {LayoutService} from 'src/app/layout/service/app.layout.service';
-import {LoginRequest} from "../../../models/request/login-request";
 import {AuthService} from "../../../services/auth.service";
 import {catchError, of} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
+import {TwoFactorLoginRequest} from "../../../models/request/two-factor-login-request";
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
+    selector: 'app-two-factor',
+    templateUrl: './two-factor.component.html',
     styles: [`
         :host ::ng-deep .pi-eye,
         :host ::ng-deep .pi-eye-slash {
@@ -19,9 +19,9 @@ import {Router} from "@angular/router";
         }
     `]
 })
-export class LoginComponent {
+export class TwoFactorComponent {
 
-    request: LoginRequest = new LoginRequest();
+    request: TwoFactorLoginRequest = new TwoFactorLoginRequest();
 
     constructor(protected layoutService: LayoutService, private authService: AuthService,
                 private messageService: MessageService, private router: Router) {
@@ -29,17 +29,19 @@ export class LoginComponent {
 
     onSubmit() {
         this.messageService.clear();
-        this.authService.login(this.request)
+        this.request.token = this.authService.get2FactorToken();
+        this.authService.loginTwoFactor(this.request)
             .pipe(catchError((error) => this.handleError(error, this)))
             .subscribe(data => {
-                if (data.two_factor_token) {
-                    this.authService.save2FactorToken(data.two_factor_token);
-                    this.router.navigate(['/two-factor']);
-                } else if (data.access_token) {
+                if (data.access_token) {
+                    this.authService.logout();
                     this.authService.saveToken(data.access_token);
                     this.authService.saveUserName(data.user_name);
                     window.location.reload();
                     this.messageService.add({severity: 'info', summary: `Welcome back ${data.user.name}`});
+                } else {
+                    this.authService.logout();
+                    this.router.navigate(['/auth/login'])
                 }
             });
     }

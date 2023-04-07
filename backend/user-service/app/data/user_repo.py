@@ -21,3 +21,13 @@ def get_filtered(args):
 
 def get_by_id(user_id):
     return db.get_or_404(User, user_id)
+
+
+def create(user: User) -> User:
+    db.session.add(user)
+    db.session.commit()
+    return user
+
+
+def get_by_email(email):
+    return db.session.scalar(db.select(User).filter_by(email=email))
