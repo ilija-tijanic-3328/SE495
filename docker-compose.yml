@@ -103,8 +103,8 @@ services:
   user-db:
     container_name: ${USER_DB_HOST}
     image: postgres:15-alpine
-    expose:
-      - "${INTERNAL_DB_PORT}"
+    ports:
+      - "5436:${INTERNAL_DB_PORT}"
     volumes:
       - user-data:/var/lib/postgresql/data/
     environment:
@@ -120,8 +120,8 @@ services:
   authentication-db:
     container_name: ${AUTH_DB_HOST}
     image: postgres:15-alpine
-    expose:
-      - "${INTERNAL_DB_PORT}"
+    ports:
+      - "5435:${INTERNAL_DB_PORT}"
     volumes:
       - authentication-data:/var/lib/postgresql/data/
     environment:

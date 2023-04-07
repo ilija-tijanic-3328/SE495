@@ -17,6 +17,6 @@ def create(user_id, password):
     if not password_pattern.match(password):
         abort(400, 'Password must contain at least eight characters, one uppercase letter, one lowercase letter and '
                    'one number.')
-    hashed_password = bcrypt.generate_password_hash(password)
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     user_auth: UserAuth = UserAuth(user_id=user_id, password=hashed_password)
     return user_auth_repo.create(user_auth)

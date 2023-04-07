@@ -25,5 +25,9 @@ def create_two_factor_code(user_id):
     return token_repo.create(token)
 
 
-def get_token(value, token_type):
+def get_token(value, token_type) -> Token:
     return token_repo.get_token(value, token_type)
+
+
+def delete_token(token):
+    return token_repo.delete(token)

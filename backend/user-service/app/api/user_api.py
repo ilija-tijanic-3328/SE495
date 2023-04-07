@@ -23,3 +23,9 @@ def get_by_id(user_id):
 @users.route('/', methods=['POST'])
 def create():
     return jsonify(user_service.create(request.json).to_dict())
+
+
+@users.route('/<int:user_id>/confirm', methods=['PUT'])
+def confirm_user(user_id):
+    user_service.confirm_user(user_id)
+    return "OK", 200

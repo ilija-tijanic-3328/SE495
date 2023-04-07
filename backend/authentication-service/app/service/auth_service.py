@@ -24,19 +24,20 @@ def two_factor_auth(user):
 
 
 def authenticate(email, password):
-    if email is not None and password is not None:
-        try:
+    try:
+        if email is not None and password is not None:
             account = user_client.get_account_by_email(email)
             if account is not None:
                 user = account.get('user')
                 user_id = user.get('id')
                 user_auth: UserAuth = user_auth_service.get_by_user(user_id)
+
                 if user_auth is not None and check_password(user_auth.password, password):
                     status = user.get('status')
                     if status == 'ACTIVE':
                         configs = account.get('configs')
                         if is_two_factor_enabled(configs):
-                            token = two_factor_auth(user_id)
+                            token = two_factor_auth(user)
                             return {"two_factor_token": token.value}
                         else:
                             token = create_access_token(identity=user_id)
@@ -46,13 +47,14 @@ def authenticate(email, password):
                     elif status == 'UNCONFIRMED':
                         abort(401, 'Account is not confirmed, please check your email for account confirmation '
                                    'instructions')
-        except Unauthorized:
-            pass
-        except Exception as e:
-            app.logger.warning(f'Login error {e}')
-            abort(500)
 
-    abort(401, 'Invalid email or password')
+        abort(401, 'Invalid email or password')
+    except Unauthorized as e:
+        abort(401, e.description)
+        # TODO increment failed login count
+    except Exception as e:
+        app.logger.warning(f'Login error {e}')
+        abort(500)
 
 
 def register(account_request):
@@ -84,6 +86,27 @@ def check_two_factor(token, code):
                 and two_factor_code.user_id == two_factor_code.user_id:
             user = user_client.get_by_id(two_factor_token.user_id)
             token = create_access_token(identity=two_factor_token.user_id)
+            token_service.delete_token(two_factor_token)
+            token_service.delete_token(two_factor_code)
             return {"access_token": token, "user_name": user.get('name')}
 
     abort(401, 'Invalid verification code')
+
+
+def confirm_email(data):
+    try:
+        token: str = data.get('token')
+        if token is not None:
+            registration_token = token_service.get_token(token, 'REGISTRATION')
+            if registration_token is not None:
+                user_client.confirm_user(registration_token.user_id)
+                token_service.delete_token(registration_token)
+            else:
+                abort(400, 'Invalid verification token')
+        else:
+            abort(400, 'Missing verification token')
+    except BadRequest as e:
+        abort(400, e.description)
+    except Exception as e:
+        app.logger.warning(f'Confirmation error {e}')
+        abort(500)

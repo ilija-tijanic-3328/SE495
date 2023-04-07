@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {LayoutService} from 'src/app/layout/service/app.layout.service';
 import {AuthService} from "../../../services/auth.service";
-import {catchError, of} from "rxjs";
-import {HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
 import {TwoFactorLoginRequest} from "../../../models/request/two-factor-login-request";
@@ -31,25 +29,29 @@ export class TwoFactorComponent {
         this.messageService.clear();
         this.request.token = this.authService.get2FactorToken();
         this.authService.loginTwoFactor(this.request)
-            .pipe(catchError((error) => this.handleError(error, this)))
-            .subscribe(data => {
-                if (data.access_token) {
-                    this.authService.logout();
-                    this.authService.saveToken(data.access_token);
-                    this.authService.saveUserName(data.user_name);
-                    window.location.reload();
-                    this.messageService.add({severity: 'info', summary: `Welcome back ${data.user.name}`});
-                } else {
-                    this.authService.logout();
-                    this.router.navigate(['/auth/login'])
+            .subscribe({
+                next: data => {
+                    if (data.access_token) {
+                        this.authService.logout();
+                        this.authService.saveToken(data.access_token);
+                        this.authService.saveUserName(data.user_name);
+                        window.location.reload();
+                        this.messageService.add({severity: 'info', summary: `Welcome back ${data.user.name}`});
+                    } else {
+                        this.authService.logout();
+                        this.router.navigate(['/auth/login'])
+                    }
+                },
+                error: error => {
+                    const message = error?.error?.error || 'Unknown error occurred';
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Login failed',
+                        detail: message,
+                        sticky: true
+                    });
                 }
             });
-    }
-
-    private handleError(error: HttpErrorResponse, component: this) {
-        const message = error?.error?.error || 'Unknown error occurred';
-        component.messageService.add({severity: 'error', summary: 'Login failed', detail: message, sticky: true});
-        return of({});
     }
 
 }

@@ -21,7 +21,7 @@ class Token(db.Model):
     id = db.Column(db.Integer, db.Identity(), primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
     value = db.Column(db.String(150), nullable=False, index=True)
-    type = db.Column(db.String(15), nullable=False)
+    type = db.Column(db.String(25), nullable=False)
     expiration_time = db.Column(db.DateTime, nullable=False)
 
     def to_dict(self):

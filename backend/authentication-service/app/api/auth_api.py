@@ -25,3 +25,9 @@ def two_factor_login():
 def register():
     auth_service.register(request.json)
     return "OK", 201
+
+
+@auth.route("/confirm", methods=["PUT"])
+def confirm_email():
+    auth_service.confirm_email(request.json)
+    return "OK", 200

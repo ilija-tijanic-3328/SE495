@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
 import {LayoutService} from 'src/app/layout/service/app.layout.service';
 import {RegistrationRequest} from "../../../models/request/registration-request";
-import {catchError, of} from "rxjs";
 import {AuthService} from "../../../services/auth.service";
 import {MessageService} from "primeng/api";
-import {HttpErrorResponse} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-register',
@@ -26,33 +25,32 @@ export class RegisterComponent {
     showPrivacyModal: boolean = false;
 
     constructor(public layoutService: LayoutService, private authService: AuthService,
-                private messageService: MessageService) {
+                private messageService: MessageService, private router: Router) {
     }
 
     onSubmit() {
         this.messageService.clear();
         this.authService.register(this.request)
-            .pipe(catchError((error) => this.handleError(error, this)))
-            .subscribe(() => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Confirmation email sent',
-                    detail: 'Confirm your email address to start using your account',
-                    sticky: true
-                });
-                this.request = new RegistrationRequest();
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Confirmation email sent',
+                        detail: 'Confirm your email address to start using your account',
+                        sticky: true
+                    });
+                    this.router.navigate(['/auth/login'])
+                },
+                error: error => {
+                    const message = error?.error?.error || 'Unknown error occurred';
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Registration failed',
+                        detail: message,
+                        sticky: true
+                    });
+                }
             });
-    }
-
-    private handleError(error: HttpErrorResponse, component: this) {
-        const message = error?.error?.error || 'Unknown error occurred';
-        component.messageService.add({
-            severity: 'error',
-            summary: 'Registration failed',
-            detail: message,
-            sticky: true
-        });
-        return of({});
     }
 
 }

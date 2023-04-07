@@ -22,3 +22,10 @@ def register():
     data = request.json
     response = auth_client.register(data)
     return {"message": response.text}, response.status_code
+
+
+@auth.route('/confirm', methods=['PUT'])
+def confirm_email():
+    data = request.json
+    response = auth_client.confirm_email(data)
+    return {"message": response.text}, response.status_code

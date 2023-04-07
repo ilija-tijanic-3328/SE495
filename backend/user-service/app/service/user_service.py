@@ -2,6 +2,7 @@ import re
 
 import phonenumbers
 from flask import abort
+from werkzeug.exceptions import BadRequest
 
 from app.data import user_repo, user_app_config_repo
 from app.data.models import User
@@ -20,9 +21,11 @@ def get_by_id(user_id):
 def create(user_request):
     name = user_request.get('name')
     email = user_request.get('email')
-    phone_number = user_request.get('phone_number')
+    phone_number: str = user_request.get('phone_number')
 
     validate(name, email, phone_number)
+
+    phone_number = phone_number.replace(' ', '')
 
     user: User = User(name=name, email=email, phone_number=phone_number, status='UNCONFIRMED', role='USER')
 
@@ -40,8 +43,11 @@ def validate(name, email, phone_number):
         abort(400, 'An account with that email is already registered')
 
     if phone_number is not None:
-        parsed_number = phonenumbers.parse(phone_number)
-        if not phonenumbers.is_valid_number(parsed_number):
+        try:
+            parsed_number = phonenumbers.parse(phone_number)
+            if len(phone_number) > 20 or not phonenumbers.is_valid_number(parsed_number):
+                abort(400)
+        except Exception as e:
             abort(400, 'Invalid phone number')
 
 
@@ -50,3 +56,9 @@ def get_with_config(email):
     configs = user_app_config_repo.get_by_user(user.id)
     user_config = {"user": user.to_dict(), "configs": [config.to_dict() for config in configs]}
     return user_config
+
+
+def confirm_user(user_id):
+    user: User = user_repo.get_by_id(user_id)
+    if user is not None and user.status == 'UNCONFIRMED':
+        user_repo.update_status(user, 'ACTIVE')

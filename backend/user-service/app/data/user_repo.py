@@ -31,3 +31,8 @@ def create(user: User) -> User:
 
 def get_by_email(email):
     return db.session.scalar(db.select(User).filter_by(email=email))
+
+
+def update_status(user: User, status: str):
+    user.status = status
+    db.session.commit()

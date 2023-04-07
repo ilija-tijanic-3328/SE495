@@ -3,6 +3,7 @@ import {Router, RouterModule} from '@angular/router';
 import {guestGuard} from "../../app-routing.module";
 import {LogoutComponent} from "./logout.component";
 import {AuthService} from "../../services/auth.service";
+import {ConfirmComponent} from "./confirm.component";
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -31,6 +32,11 @@ import {AuthService} from "../../services/auth.service";
         {
             path: 'logout',
             component: LogoutComponent
+        },
+        {
+            path: 'confirm',
+            component: ConfirmComponent,
+            canActivate: [guestGuard]
         },
         {
             path: '**',

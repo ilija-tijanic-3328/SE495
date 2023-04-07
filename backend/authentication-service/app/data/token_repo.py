@@ -1,3 +1,5 @@
+import datetime
+
 from app import db
 from app.data.models import Token
 
@@ -8,5 +10,11 @@ def create(token: Token) -> Token:
     return token
 
 
-def get_token(value, token_type):
-    return db.session.scalar(db.select(Token).filter_by(value=value, type=token_type))
+def get_token(value, token_type) -> Token:
+    return db.session.scalar(db.select(Token).filter(Token.value == value, Token.type == token_type,
+                                                     Token.expiration_time > datetime.datetime.now()))
+
+
+def delete(token):
+    db.session.delete(token)
+    db.session.commit()
