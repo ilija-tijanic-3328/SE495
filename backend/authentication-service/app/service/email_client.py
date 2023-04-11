@@ -1,5 +1,5 @@
 import requests
-from flask import current_app as app
+from flask import current_app as app, abort
 
 from app import ROUTER_URL
 
@@ -25,3 +25,19 @@ def send_registration_email(user, token):
     response = send_request('/send', method='POST', body=content)
     if response.status_code != 200:
         app.logger.warning(f'Registration email failed {token.id}')
+        abort(500)
+
+
+def send_forgot_password_email(user, token):
+    content = {
+        "type": 'FORGOT_PASSWORD',
+        "email": user.get('email'),
+        "content": {
+            "name": user.get('name'),
+            "token": token.value
+        }
+    }
+    response = send_request('/send', method='POST', body=content)
+    if response.status_code != 200:
+        app.logger.warning(f'Registration email failed {token.id}')
+        abort(500)

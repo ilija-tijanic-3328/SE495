@@ -22,8 +22,15 @@ def send_json_request(path, method='GET', params=None, body=None, acceptable_cod
         abort(response.status_code, response.json().get('error'))
 
 
-def get_account_by_email(email):
-    return send_json_request('/users/config', params={"email": email})
+def get_account_with_config(email):
+    json_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+    response = send_request('/users/config', params={"email": email}, headers=json_headers)
+    if response.status_code == 200:
+        return response.json()
+    elif 400 <= response.status_code <= 499:
+        return None
+    else:
+        abort(response.status_code, response.json().get('error'))
 
 
 def get_by_id(user_id):

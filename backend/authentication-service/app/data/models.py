@@ -19,7 +19,7 @@ class UserAuth(db.Model):
 class Token(db.Model):
     __tablename__ = "token"
     id = db.Column(db.Integer, db.Identity(), primary_key=True)
-    user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False, index=True)
     value = db.Column(db.String(150), nullable=False, index=True)
     type = db.Column(db.String(25), nullable=False)
     expiration_time = db.Column(db.DateTime, nullable=False)

@@ -1,13 +1,11 @@
 version: '3.8'
 
 services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "80:80"
-      - "443:443"
-    environment:
-      - "API_URL=http://${GATEWAY_HOST}:${INTERNAL_PORT}"
+#  frontend:
+#    build: ./frontend
+#    ports:
+#      - "80:80"
+#      - "443:443"
 
   router:
     container_name: ${ROUTER_HOST}
@@ -25,7 +23,6 @@ services:
       - "CACHE_DIR=${CACHE_DIR}"
 
   api-gateway:
-    container_name: ${GATEWAY_HOST}
     build: ./backend/api-gateway
     depends_on:
       - router

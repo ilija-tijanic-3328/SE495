@@ -31,3 +31,10 @@ def get_token(value, token_type) -> Token:
 
 def delete_token(token):
     return token_repo.delete(token)
+
+
+def create_forgot_password_token(user_id):
+    expiration = datetime.datetime.now() + datetime.timedelta(hours=1)
+    token: Token = Token(user_id=user_id, type='FORGOT_PASSWORD_TOKEN', expiration_time=expiration,
+                         value=str(uuid.uuid4()))
+    return token_repo.create(token)

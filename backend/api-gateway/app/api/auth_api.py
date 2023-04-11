@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 
+from app.api.decorators import jwt_required
 from app.service import auth_client
 
 auth = Blueprint('auth', __name__)
@@ -28,4 +29,33 @@ def register():
 def confirm_email():
     data = request.json
     response = auth_client.confirm_email(data)
+    return {"message": response.text}, response.status_code
+
+
+@auth.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    data = request.json
+    response = auth_client.forgot_password(data)
+    return {"message": response.text}, response.status_code
+
+
+@auth.route('/reset-password', methods=['PUT'])
+def reset_password():
+    data = request.json
+    response = auth_client.reset_password(data)
+    return {"message": response.text}, response.status_code
+
+
+@auth.route('/reset-password/validate', methods=['POST'])
+def validate_reset_password_token():
+    data = request.json
+    response = auth_client.validate_reset_password_token(data)
+    return {"message": response.text}, response.status_code
+
+
+@auth.route('/change-password', methods=['PUT'])
+@jwt_required()
+def change_password():
+    data = request.json
+    response = auth_client.change_password(data)
     return {"message": response.text}, response.status_code

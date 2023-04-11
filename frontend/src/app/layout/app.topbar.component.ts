@@ -22,4 +22,5 @@ export class AppTopBarComponent {
     onConfigButtonClick() {
         this.layoutService.openConfig();
     }
+
 }

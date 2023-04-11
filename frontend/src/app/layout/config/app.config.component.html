@@ -1,5 +1,5 @@
 <p-sidebar [(visible)]="visible" position="right" [transitionOptions]="'.3s cubic-bezier(0, 0, 0.2, 1)'"
-           styleClass="layout-config-sidebar w-20rem" style="z-index: 1110">
+           styleClass="layout-config-sidebar w-20rem">
     <h5>Scale</h5>
     <div class="flex align-items-center">
         <button icon="pi pi-minus" type="button" pButton (click)="decrementScale()"
@@ -26,7 +26,12 @@
     </ng-container>
 
     <ng-container *ngIf="!minimal">
-        <h5>Dark mode</h5>
+        <h5>Dark Mode</h5>
         <p-inputSwitch [(ngModel)]="darkMode"></p-inputSwitch>
+    </ng-container>
+
+    <ng-container *ngIf="!minimal">
+        <h5>Two-Factor Authentication</h5>
+        <p-inputSwitch [(ngModel)]="twoFactorAuth"></p-inputSwitch>
     </ng-container>
 </p-sidebar>

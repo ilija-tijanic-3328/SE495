@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
 import {MessageService} from "primeng/api";
 
@@ -11,40 +11,37 @@ export class ConfirmComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.queryParamMap
-            .subscribe((params: ParamMap) => {
-                const token = params.get('token');
-                if (token) {
-                    this.authService.confirmEmailToken(token)
-                        .subscribe({
-                            next: () => {
-                                this.messageService.add({
-                                    severity: 'success',
-                                    summary: 'Email address confirmed',
-                                    detail: 'You can now sign in to your account',
-                                    sticky: true
-                                });
-                            },
-                            error: error => {
-                                const message = error?.error?.error || 'Unknown error occurred';
-                                this.messageService.add({
-                                    severity: 'error',
-                                    summary: 'Email confirmation failed',
-                                    detail: message,
-                                    sticky: true
-                                });
-                            }
+        let token = this.route.snapshot.queryParamMap.get('token');
+        if (token) {
+            this.authService.confirmEmailToken(token)
+                .subscribe({
+                    next: () => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Email address confirmed',
+                            detail: 'You can now sign in to your account',
+                            sticky: true
                         });
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Email confirmation failed',
-                        detail: 'Missing verification token',
-                        sticky: true
-                    });
-                }
-                this.router.navigate(['/auth/login']);
-            })
+                    },
+                    error: error => {
+                        const message = error?.error?.error || 'Unknown error occurred';
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Email confirmation failed',
+                            detail: message,
+                            sticky: true
+                        });
+                    }
+                });
+        } else {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Email confirmation failed',
+                detail: 'Missing verification token',
+                sticky: true
+            });
+        }
+        this.router.navigate(['/auth/login']);
     }
 
 }

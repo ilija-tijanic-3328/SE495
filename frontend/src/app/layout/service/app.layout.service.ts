@@ -8,6 +8,7 @@ export interface AppConfig {
     ripple: boolean;
     menuMode: string;
     scale: number;
+    twoFactorAuth: boolean;
 }
 
 interface LayoutState {
@@ -31,6 +32,7 @@ export class LayoutService {
         colorScheme: 'light',
         theme: 'lara-light-indigo',
         scale: 14,
+        twoFactorAuth: false
     };
 
     state: LayoutState = {

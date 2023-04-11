@@ -19,7 +19,7 @@ import {TwoFactorLoginRequest} from "../../../models/request/two-factor-login-re
 })
 export class TwoFactorComponent {
 
-    request: TwoFactorLoginRequest = new TwoFactorLoginRequest();
+    protected request: TwoFactorLoginRequest = new TwoFactorLoginRequest();
 
     constructor(protected layoutService: LayoutService, private authService: AuthService,
                 private messageService: MessageService, private router: Router) {

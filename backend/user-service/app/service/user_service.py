@@ -2,10 +2,10 @@ import re
 
 import phonenumbers
 from flask import abort
-from werkzeug.exceptions import BadRequest
 
-from app.data import user_repo, user_app_config_repo
+from app.data import user_repo
 from app.data.models import User
+from app.service import user_app_config_service
 
 email_pattern = re.compile('^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$')
 
@@ -21,13 +21,15 @@ def get_by_id(user_id):
 def create(user_request):
     name = user_request.get('name')
     email = user_request.get('email')
-    phone_number: str = user_request.get('phone_number')
+    phone_number: str | None = user_request.get('phone_number')
 
     validate(name, email, phone_number)
 
-    phone_number = phone_number.replace(' ', '')
+    if phone_number is not None:
+        phone_number = phone_number.replace(' ', '').strip()
 
-    user: User = User(name=name, email=email, phone_number=phone_number, status='UNCONFIRMED', role='USER')
+    user: User = User(name=name.strip(), email=email.strip(), phone_number=phone_number or None, status='UNCONFIRMED',
+                      role='USER')
 
     return user_repo.create(user)
 
@@ -42,7 +44,7 @@ def validate(name, email, phone_number):
     if user_repo.get_by_email(email) is not None:
         abort(400, 'An account with that email is already registered')
 
-    if phone_number is not None:
+    if phone_number:
         try:
             parsed_number = phonenumbers.parse(phone_number)
             if len(phone_number) > 20 or not phonenumbers.is_valid_number(parsed_number):
@@ -53,9 +55,12 @@ def validate(name, email, phone_number):
 
 def get_with_config(email):
     user = user_repo.get_by_email(email)
-    configs = user_app_config_repo.get_by_user(user.id)
-    user_config = {"user": user.to_dict(), "configs": [config.to_dict() for config in configs]}
-    return user_config
+    if user is not None:
+        configs = user_app_config_service.get_by_user(user.id)
+        user_config = {"user": user.to_dict(), "configs": [config.to_dict() for config in configs]}
+        return user_config
+    else:
+        abort(404)
 
 
 def confirm_user(user_id):

@@ -1,6 +1,6 @@
-from flask import abort, current_app as app
+from flask import abort, current_app as app, g
 from flask_jwt_extended import create_access_token
-from werkzeug.exceptions import Unauthorized, BadRequest
+from werkzeug.exceptions import Unauthorized, BadRequest, NotFound
 
 from app import bcrypt
 from app.data.models import UserAuth
@@ -26,7 +26,7 @@ def two_factor_auth(user):
 def authenticate(email, password):
     try:
         if email is not None and password is not None:
-            account = user_client.get_account_by_email(email)
+            account = user_client.get_account_with_config(email)
             if account is not None:
                 user = account.get('user')
                 user_id = user.get('id')
@@ -110,3 +110,67 @@ def confirm_email(data):
     except Exception as e:
         app.logger.warning(f'Confirmation error {e}')
         abort(500)
+
+
+def forgot_password(data):
+    try:
+        email: str = data.get('email')
+        if email is not None:
+            account = user_client.get_account_with_config(email)
+            if account is not None:
+                user = account.get('user')
+                if user.get('status') == 'ACTIVE':
+                    token = token_service.create_forgot_password_token(user.get('id'))
+                    email_client.send_forgot_password_email(user, token)
+    except Exception as e:
+        app.logger.warning(f'Forgot password error {e}')
+        abort(500)
+
+
+def reset_password(data):
+    try:
+        token: str = data.get('token')
+        if token is not None:
+            forgot_password_token = token_service.get_token(token, 'FORGOT_PASSWORD_TOKEN')
+            if forgot_password_token is not None:
+                user = user_client.get_by_id(forgot_password_token.user_id)
+                if user is not None and user.get('status') == 'ACTIVE':
+                    user_auth_service.set_password(forgot_password_token.user_id, data.get('password'))
+                    token_service.delete_token(forgot_password_token)
+                    return
+                else:
+                    abort(400, 'Account is not active')
+        abort(400, 'Invalid token')
+    except BadRequest as e:
+        abort(400, e.description)
+    except Exception as e:
+        app.logger.warning(f'Reset password error {e}')
+        abort(500)
+
+
+def validate_reset_password_token(data):
+    try:
+        token: str = data.get('token')
+        if token is not None:
+            reset_password_token = token_service.get_token(token, 'FORGOT_PASSWORD_TOKEN')
+            if reset_password_token is None:
+                abort(400, 'Invalid verification token')
+        else:
+            abort(400, 'Missing verification token')
+    except BadRequest as e:
+        abort(400, e.description)
+    except Exception as e:
+        app.logger.warning(f'Reset password validation error {e}')
+        abort(500)
+
+
+def change_password(data):
+    user_id = g.current_user_id
+    user_auth = user_auth_service.get_by_user(user_id)
+    current_password = data.get('currentPassword')
+
+    if check_password(user_auth.password, current_password):
+        new_password = data.get('newPassword')
+        user_auth_service.set_password(user_id, new_password)
+    else:
+        abort(400, 'Incorrect current password')

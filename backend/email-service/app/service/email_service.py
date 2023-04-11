@@ -36,3 +36,12 @@ def send_request(to_email: str, subject: str, html_content: str, text_content: s
             "text": text_content,
         }
     )
+
+
+def check_mail_api_health():
+    response = requests.get(
+        f"https://api.mailgun.net/v3/{DOMAIN_NAME}/stats/total",
+        auth=("api", API_KEY),
+        params={"event": ["failed"], "duration": "1h"})
+    if response.status_code != 200:
+        abort(response.status_code)

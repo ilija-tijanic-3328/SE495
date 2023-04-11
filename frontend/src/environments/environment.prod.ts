@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiBaseUrl: 'http://api-gateway:5000'
+    apiBaseUrl: 'https://quickquiz.ninja:5000'
 };

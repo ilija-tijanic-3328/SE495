@@ -1,15 +1,14 @@
-<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden mt-1">
     <div class="flex flex-column align-items-center justify-content-center">
         <a [routerLink]="['/']">
-            <img
-                src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo' : 'logo-dark'}}.png"
-                alt="Quick Quiz Ninja logo" class="mb-5 w-17rem">
+            <img alt="Quick Quiz Ninja logo" class="mb-4 w-17rem"
+                 src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo' : 'logo-dark'}}.png">
         </a>
         <div
             style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
             <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
-                <div class="text-center mb-5">
-                    <div class="text-900 text-3xl font-medium mb-3">Register user account</div>
+                <div class="text-center mb-3">
+                    <div class="text-900 text-3xl font-medium mb-4">Register user account</div>
                     <span class="text-600 font-medium">Already have an account?</span>
                     <a class="font-medium no-underline ml-2 cursor-pointer" [routerLink]="['/auth/login']">Sign in
                         here</a>
@@ -26,8 +25,8 @@
                     <div class="field">
                         <label for="email" class="block text-900 text-xl font-medium mb-2">Email*</label>
                         <input id="email" name="email" type="text" [(ngModel)]="request.email" style="padding:1rem"
-                               placeholder="Email address" pInputText class="w-full md:w-30rem" required email
-                               minlength="8">
+                               placeholder="Email address" pInputText class="w-full md:w-30rem" required minlength="8"
+                               pattern="^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$">
                     </div>
 
                     <div class="field">
@@ -35,7 +34,7 @@
                         <p-password id="password" name="password" [(ngModel)]="request.password" [toggleMask]="true"
                                     inputStyleClass="p-3 w-full md:w-30rem" placeholder="Password"
                                     styleClass="w-full md:w-30rem"
-                                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required></p-password>
+                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,150}$" required></p-password>
                         <small id="password-help" class="block w-full md:w-30rem">At least eight characters, one
                             uppercase letter, one lowercase letter and one number.</small>
                     </div>

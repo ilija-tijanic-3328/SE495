@@ -19,7 +19,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent {
 
-    request: LoginRequest = new LoginRequest();
+    protected request: LoginRequest = new LoginRequest();
 
     constructor(protected layoutService: LayoutService, private authService: AuthService,
                 private messageService: MessageService, private router: Router) {

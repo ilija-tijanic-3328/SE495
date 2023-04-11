@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
-import {ResetPasswordRequest} from "../../models/request/reset-password-request";
+import {ChangePasswordRequest} from "../../models/request/change-password-request";
 import {MessageService} from "primeng/api";
 import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
+import {NgForm} from "@angular/forms";
 
 @Component({
     selector: 'app-change-password',
@@ -17,13 +19,34 @@ import {AuthService} from "../../services/auth.service";
 })
 export class ChangePasswordComponent {
 
-    protected request: ResetPasswordRequest = new ResetPasswordRequest();
+    protected request: ChangePasswordRequest = new ChangePasswordRequest();
 
     constructor(private messageService: MessageService, private authService: AuthService) {
     }
 
-    onSubmit() {
-        // TODO
+    onSubmit(changePasswordForm: NgForm) {
+        this.messageService.clear();
+        this.authService.changePassword(this.request)
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Password changed',
+                        detail: 'Your password has been changed',
+                        sticky: true
+                    });
+                    changePasswordForm.resetForm();
+                },
+                error: error => {
+                    const message = error?.error?.error || 'Unknown error occurred';
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Password change failed',
+                        detail: message,
+                        sticky: true
+                    });
+                }
+            })
     }
 
 }

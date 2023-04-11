@@ -10,3 +10,9 @@ def create(user_auth: UserAuth) -> UserAuth:
     db.session.add(user_auth)
     db.session.commit()
     return user_auth
+
+
+def set_password(user_id, hashed_password):
+    user_auth = get_by_user(user_id)
+    user_auth.password = hashed_password
+    db.session.commit()

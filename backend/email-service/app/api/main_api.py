@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app as app
 
 from app.service import email_service
 
@@ -13,10 +13,10 @@ def send():
 
 @main.route('/health', methods=['GET'])
 def health():
-    # try:
-    #     TODO check mailgun ?
-    # except Exception as e:
-    #     app.logger.error(f'Unhealthy because: {e}')
-    #     return "Error", 503
+    try:
+        email_service.check_mail_api_health()
+    except Exception as e:
+        app.logger.error(f'Unhealthy because: {e}')
+        return "Error", 503
 
     return "OK", 200

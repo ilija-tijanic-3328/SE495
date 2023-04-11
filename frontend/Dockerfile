@@ -6,7 +6,7 @@ RUN npm install -g @angular/cli
 COPY ./package.json .
 RUN npm install
 COPY . .
-RUN ng build
+RUN ng build #--configuration production
 
 FROM nginx:alpine as runtime
 COPY --from=build /app/dist/frontend /usr/share/nginx/html

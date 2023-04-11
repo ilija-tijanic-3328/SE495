@@ -1,5 +1,5 @@
 import requests
-from flask import abort
+from flask import abort, g
 
 from app import ROUTER_URL
 
@@ -39,6 +39,42 @@ def authenticate_two_factor(data):
 
 def confirm_email(data):
     response = send_request('/auth/confirm', 'PUT', body=data)
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+    return response
+
+
+def forgot_password(data):
+    response = send_request('/auth/forgot-password', 'POST', body=data)
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+    return response
+
+
+def reset_password(data):
+    response = send_request('/auth/reset-password', 'PUT', body=data)
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+    return response
+
+
+def validate_reset_password_token(data):
+    response = send_request('/auth/reset-password/validate', 'POST', body=data)
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+    return response
+
+
+def get_current_user(jwt_header):
+    response = send_request('/auth/current-user', headers={"Authorization": jwt_header})
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+    return response.json().get('user_id')
+
+
+def change_password(data):
+    response = send_request('/auth/change-password', 'PUT', body=data,
+                            headers={"current_user_id": str(g.current_user_id)})
     if response.status_code != 200:
         abort(response.status_code, response.json().get('error'))
     return response

@@ -2,7 +2,7 @@ import json
 
 import requests
 from flask import request, Response, abort, Blueprint, current_app as app
-from urllib3.exceptions import MaxRetryError, NewConnectionError
+from urllib3.exceptions import MaxRetryError, NewConnectionError, ConnectTimeoutError
 
 from app.service import registry_service
 
@@ -47,7 +47,7 @@ def send_request(path):
         # app.logger.debug(f'Response {response.status_code} {response.json()} from {instance}')
 
         return response
-    except (MaxRetryError, NewConnectionError):
+    except (MaxRetryError, ConnectTimeoutError):
         app.logger.warning(f'Unregistering unresponsive service instance {instance}')
         registry_service.unregister(service_name, instance)
         return send_request(path)

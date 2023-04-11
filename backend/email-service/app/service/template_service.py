@@ -1,7 +1,8 @@
 from flask import render_template
 
 TEMPLATES = {
-    "REGISTRATION": "Confirm your account"
+    "REGISTRATION": "Confirm your account",
+    "FORGOT_PASSWORD": "Password reset request"
 }
 
 
@@ -10,8 +11,14 @@ def resolve_subject(email_type: str) -> str:
 
 
 def resolve_html_content(email_type: str, values: dict) -> str:
-    return render_template(f'{email_type.lower()}.html', **values)
+    template = resolve_template_name(email_type, '.html')
+    return render_template(template, **values)
 
 
 def resolve_text_content(email_type: str, values: dict) -> str:
-    return render_template(f'{email_type.lower()}.txt', **values)
+    template = resolve_template_name(email_type, '.txt')
+    return render_template(template, **values)
+
+
+def resolve_template_name(email_type: str, file_extension: str) -> str:
+    return f"{email_type.lower().replace('_', '-')}{file_extension}"

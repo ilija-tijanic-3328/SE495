@@ -6,6 +6,8 @@ import {StorageService} from "./storage.service";
 import {RegistrationRequest} from "../models/request/registration-request";
 import {TwoFactorLoginRequest} from "../models/request/two-factor-login-request";
 import {Observable} from "rxjs";
+import {ChangePasswordRequest} from "../models/request/change-password-request";
+import {ResetPasswordRequest} from "../models/request/reset-password-request";
 
 @Injectable()
 export class AuthService {
@@ -13,16 +15,16 @@ export class AuthService {
     constructor(private http: HttpClient, private storageService: StorageService) {
     }
 
-    login(request: LoginRequest) {
+    login(request: LoginRequest): Observable<any> {
         return this.http.post<any>(environment.apiBaseUrl + '/auth/login', request);
     }
 
-    loginTwoFactor(request: TwoFactorLoginRequest) {
+    loginTwoFactor(request: TwoFactorLoginRequest): Observable<any> {
         return this.http.post<any>(environment.apiBaseUrl + '/auth/login/two-factor', request);
     }
 
 
-    logout() {
+    logout(): void {
         this.storageService.clear();
     }
 
@@ -34,19 +36,19 @@ export class AuthService {
         return !!this.storageService.getToken();
     }
 
-    saveToken(token: string) {
+    saveToken(token: string): void {
         this.storageService.saveToken(token);
     }
 
-    saveUserName(userName: string) {
+    saveUserName(userName: string): void {
         this.storageService.saveUserName(userName);
     }
 
-    save2FactorToken(token: string) {
+    save2FactorToken(token: string): void {
         this.storageService.save2FactorToken(token);
     }
 
-    register(request: RegistrationRequest) {
+    register(request: RegistrationRequest): Observable<any> {
         return this.http.post<any>(environment.apiBaseUrl + '/auth/register', request);
     }
 
@@ -54,16 +56,32 @@ export class AuthService {
         return this.storageService.getUserName();
     }
 
-    isWaitingFor2FactorCode() {
+    isWaitingFor2FactorCode(): boolean {
         return !!this.storageService.get2FactorToken();
     }
 
-    get2FactorToken() {
+    get2FactorToken(): string | null {
         return this.storageService.get2FactorToken();
     }
 
     confirmEmailToken(token: string): Observable<any> {
         return this.http.put<any>(environment.apiBaseUrl + '/auth/confirm', {"token": token});
+    }
+
+    forgotPassword(email: string): Observable<any> {
+        return this.http.post<any>(environment.apiBaseUrl + '/auth/forgot-password', {"email": email});
+    }
+
+    validatePasswordResetToken(token: string): Observable<any> {
+        return this.http.post<any>(environment.apiBaseUrl + '/auth/reset-password/validate', {"token": token});
+    }
+
+    resetPassword(request: ResetPasswordRequest): Observable<any> {
+        return this.http.put<any>(environment.apiBaseUrl + '/auth/reset-password', request);
+    }
+
+    changePassword(request: ChangePasswordRequest) {
+        return this.http.put<any>(environment.apiBaseUrl + '/auth/change-password', request);
     }
 
 }

@@ -19,8 +19,11 @@ def create_app():
     cache.init_app(app)
     cors.init_app(app)
 
-    from .api.user_api import user as user_blueprint
+    from .api.user_api import users as user_blueprint
     app.register_blueprint(user_blueprint, url_prefix='/users')
+
+    from .api.user_api import user_app_configs as user_app_config_blueprint
+    app.register_blueprint(user_app_config_blueprint, url_prefix='/user-app-configs')
 
     from .api.auth_api import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
