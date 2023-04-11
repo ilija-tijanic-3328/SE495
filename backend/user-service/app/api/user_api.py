@@ -28,4 +28,10 @@ def create():
 @users.route('/<int:user_id>/confirm', methods=['PUT'])
 def confirm_user(user_id):
     user_service.confirm_user(user_id)
-    return "OK", 200
+    return {"message": "OK"}, 200
+
+
+@users.route('/<int:user_id>', methods=['PUT'])
+def update(user_id):
+    user_service.update(user_id, request.json)
+    return {"message": "OK"}, 200

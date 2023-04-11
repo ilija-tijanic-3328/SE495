@@ -17,9 +17,8 @@
 
                     <div class="field">
                         <label for="email" class="block text-900 text-xl font-medium mb-2">Email*</label>
-                        <input id="email" name="email" type="text" [(ngModel)]="account.email" style="padding:1rem"
-                               placeholder="Email address" pInputText class="w-full md:w-30rem" required email
-                               minlength="8">
+                        <input id="email" name="email" type="text" [ngModel]="account.email" style="padding:1rem"
+                               placeholder="Email address" pInputText class="w-full md:w-30rem" disabled minlength="8">
                     </div>
 
                     <div class="field">

@@ -36,3 +36,9 @@ def get_by_email(email):
 def update_status(user: User, status: str):
     user.status = status
     db.session.commit()
+
+
+def update(user, name, phone_number):
+    user.name = name
+    user.phone_number = phone_number
+    db.session.commit()

@@ -11,12 +11,52 @@ export class AccountComponent {
     protected account: Account;
 
     constructor(private messageService: MessageService, private userService: UserService) {
-        // TODO load account info from backend
-        this.account = {name: "", email: ""};
+        this.account = {"name": '', "email": ''};
+        this.loadAccountData();
     }
 
     onSubmit() {
-        // TODO
+        this.userService.updateUser(this.account)
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: "Account info updated",
+                        detail: 'Your account info has been updated',
+                        sticky: true
+                    });
+                },
+                error: error => {
+                    const message = error?.error?.error || 'Unknown error occurred';
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: "Account update failed",
+                        detail: message,
+                        sticky: true
+                    });
+                }
+            });
+        this.loadAccountData();
+    }
+
+    private loadAccountData() {
+        this.userService.getUser()
+            .subscribe({
+                next: user => {
+                    this.account.name = user.name;
+                    this.account.email = user.email;
+                    this.account.phoneNumber = user.phone_number;
+                },
+                error: error => {
+                    const message = error?.error?.error || 'Unknown error occurred';
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: "Couldn't load account data",
+                        detail: message,
+                        sticky: true
+                    });
+                }
+            });
     }
 
 }

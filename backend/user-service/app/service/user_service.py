@@ -23,7 +23,8 @@ def create(user_request):
     email = user_request.get('email')
     phone_number: str | None = user_request.get('phone_number')
 
-    validate(name, email, phone_number)
+    validate(name, phone_number)
+    validate_email(email)
 
     if phone_number is not None:
         phone_number = phone_number.replace(' ', '').strip()
@@ -34,15 +35,9 @@ def create(user_request):
     return user_repo.create(user)
 
 
-def validate(name, email, phone_number):
+def validate(name, phone_number):
     if name is None or len(name) < 2:
         abort(400, 'Name must be at least 2 characters')
-
-    if email is None or len(email) < 8 or not email_pattern.match(email):
-        abort(400, 'Invalid email')
-
-    if user_repo.get_by_email(email) is not None:
-        abort(400, 'An account with that email is already registered')
 
     if phone_number:
         try:
@@ -51,6 +46,14 @@ def validate(name, email, phone_number):
                 abort(400)
         except Exception as e:
             abort(400, 'Invalid phone number')
+
+
+def validate_email(email):
+    if email is None or len(email) < 8 or not email_pattern.match(email):
+        abort(400, 'Invalid email')
+
+    if user_repo.get_by_email(email) is not None:
+        abort(400, 'An account with that email is already registered')
 
 
 def get_with_config(email):
@@ -67,3 +70,20 @@ def confirm_user(user_id):
     user: User = user_repo.get_by_id(user_id)
     if user is not None and user.status == 'UNCONFIRMED':
         user_repo.update_status(user, 'ACTIVE')
+
+
+def update(user_id, user_request):
+    user: User = user_repo.get_by_id(user_id)
+
+    if user is not None:
+        name = user_request.get('name')
+        phone_number: str | None = user_request.get('phone_number')
+
+        validate(name, phone_number)
+
+        if phone_number is not None:
+            phone_number = phone_number.replace(' ', '').strip()
+
+        user_repo.update(user, name, phone_number)
+    else:
+        abort(404)
