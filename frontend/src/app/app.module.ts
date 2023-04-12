@@ -10,6 +10,7 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {AuthService} from "./services/auth.service";
 import {ProductService} from "./services/product.service";
 import {UserService} from "./services/user.service";
+import {NotificationService} from "./services/notification.service";
 
 @NgModule({
     declarations: [
@@ -23,7 +24,7 @@ import {UserService} from "./services/user.service";
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-        AuthService, MessageService, UserService, ProductService
+        AuthService, MessageService, UserService, NotificationService, ProductService
     ],
     bootstrap: [AppComponent]
 })

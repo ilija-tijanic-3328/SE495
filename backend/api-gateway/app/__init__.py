@@ -22,11 +22,14 @@ def create_app():
     from .api.user_api import users as user_blueprint
     app.register_blueprint(user_blueprint, url_prefix='/users')
 
-    from .api.user_api import user_app_configs as user_app_config_blueprint
-    app.register_blueprint(user_app_config_blueprint, url_prefix='/user-app-configs')
+    from .api.user_api import user_app_configs
+    app.register_blueprint(user_app_configs, url_prefix='/user-app-configs')
 
     from .api.auth_api import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    from .api.notification_api import notifications
+    app.register_blueprint(notifications, url_prefix='/notifications')
 
     with app.app_context():
         from .api import error_handler

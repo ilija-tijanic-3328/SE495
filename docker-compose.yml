@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-#  frontend:
-#    build: ./frontend
-#    ports:
-#      - "80:80"
-#      - "443:443"
+  #  frontend:
+  #    build: ./frontend
+  #    ports:
+  #      - "80:80"
+  #      - "443:443"
 
   router:
     container_name: ${ROUTER_HOST}
@@ -97,6 +97,61 @@ services:
       - "MAILGUN_DOMAIN_NAME=${MAILGUN_DOMAIN_NAME}"
       - "APP_BASE_URL=${APP_BASE_URL}"
 
+#  quiz-service:
+    #    build: ./backend/quiz-service
+    #    expose:
+    #      - "${INTERNAL_PORT}"
+    #    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
+    #    depends_on:
+    #      quiz-db:
+    #        condition: service_healthy
+    #      router:
+    #        condition: service_started
+    #      datadog-agent:
+    #        condition: service_started
+    #    environment:
+    #      - "DB_URI=postgresql://${QUIZ_DB_USERNAME}:${QUIZ_DB_PASSWORD}@${QUIZ_DB_HOST}:${INTERNAL_DB_PORT}/${QUIZ_DB_NAME}"
+    #      - "FLASK_APP=${FLASK_APP}"
+    #      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+    #      - "INTERNAL_PORT=${INTERNAL_PORT}"
+
+    #  participation-service:
+    #    build: ./backend/participation-service
+    #    expose:
+    #      - "${INTERNAL_PORT}"
+    #    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
+    #    depends_on:
+    #      participation-db:
+    #        condition: service_healthy
+    #      router:
+    #        condition: service_started
+    #      datadog-agent:
+    #        condition: service_started
+    #    environment:
+    #      - "DB_URI=postgresql://${PARTICIPATION_DB_USERNAME}:${PARTICIPATION_DB_PASSWORD}@${PARTICIPATION_DB_HOST}:${INTERNAL_DB_PORT}/${PARTICIPATION_DB_NAME}"
+    #      - "FLASK_APP=${FLASK_APP}"
+    #      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+    #      - "INTERNAL_PORT=${INTERNAL_PORT}"
+
+  notification-service:
+    build: ./backend/notification-service
+    expose:
+      - "${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
+    depends_on:
+      notification-db:
+        condition: service_healthy
+      router:
+        condition: service_started
+      datadog-agent:
+        condition: service_started
+    environment:
+      - "DB_URI=postgresql://${NOTIFICATION_DB_USERNAME}:${NOTIFICATION_DB_PASSWORD}@${NOTIFICATION_DB_HOST}:${INTERNAL_DB_PORT}/${NOTIFICATION_DB_NAME}"
+      - "FLASK_APP=${FLASK_APP}"
+      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+      - "APP_BASE_URL=${APP_BASE_URL}"
+
   user-db:
     container_name: ${USER_DB_HOST}
     image: postgres:15-alpine
@@ -131,6 +186,57 @@ services:
       timeout: 2s
       retries: 5
 
+#  quiz-db:
+#    container_name: ${QUIZ_DB_HOST}
+#    image: postgres:15-alpine
+#    ports:
+#      - "5437:${INTERNAL_DB_PORT}"
+#    volumes:
+#      - quiz-data:/var/lib/postgresql/data/
+#    environment:
+#      - "POSTGRES_USER=${QUIZ_DB_USERNAME}"
+#      - "POSTGRES_PASSWORD=${QUIZ_DB_PASSWORD}"
+#      - "POSTGRES_DB=${QUIZ_DB_NAME}"
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+#      interval: 5s
+#      timeout: 2s
+#      retries: 5
+
+  #  participation-db:
+  #    container_name: ${PARTICIPATION_DB_HOST}
+  #    image: postgres:15-alpine
+  #    expose:
+  #      - "${INTERNAL_DB_PORT}"
+  #    volumes:
+  #      - participation-data:/var/lib/postgresql/data/
+  #    environment:
+  #      - "POSTGRES_USER=${PARTICIPATION_DB_USERNAME}"
+  #      - "POSTGRES_PASSWORD=${PARTICIPATION_DB_PASSWORD}"
+  #      - "POSTGRES_DB=${PARTICIPATION_DB_NAME}"
+  #    healthcheck:
+  #      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+  #      interval: 5s
+  #      timeout: 2s
+  #      retries: 5
+  #
+  notification-db:
+    container_name: ${NOTIFICATION_DB_HOST}
+    image: postgres:15-alpine
+    ports:
+      - "5438:${INTERNAL_DB_PORT}"
+    volumes:
+      - notification-data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_USER=${NOTIFICATION_DB_USERNAME}"
+      - "POSTGRES_PASSWORD=${NOTIFICATION_DB_PASSWORD}"
+      - "POSTGRES_DB=${NOTIFICATION_DB_NAME}"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
   datadog-agent:
     container_name: datadog-agent
     image: datadog/agent:7
@@ -155,3 +261,6 @@ volumes:
   user-data:
   authentication-data:
   cache:
+  quiz-data:
+  participation-data:
+  notification-data:

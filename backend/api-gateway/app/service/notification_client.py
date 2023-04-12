@@ -3,7 +3,7 @@ from flask import abort, g
 
 from app import ROUTER_URL
 
-SERVICE_HEADERS = {"service_name": "user-service"}
+SERVICE_HEADERS = {"service_name": "notification-service"}
 
 
 def send_request(path, method='GET', params=None, body=None, headers=None):
@@ -24,23 +24,13 @@ def send_json_request(path, method='GET', params=None, body=None, headers=None, 
         abort(response.status_code, response.json().get('error'))
 
 
-def get_user_configs():
-    return send_json_request('/user-app-configs')
+def mark_as_seen(data):
+    return send_json_request('/notifications', 'PUT', body=data)
 
 
-def update_user_config(data):
-    response = send_request('/user-app-configs', 'PUT', body=data)
-    if response.status_code != 200:
-        abort(response.status_code, response.json().get('error'))
-    return response
+def get_by_user():
+    return send_json_request('/notifications')
 
 
-def get_by_id(user_id):
-    return send_json_request(f'/users/{user_id}')
-
-
-def update_user(data):
-    response = send_request(f'/users/{g.current_user_id}', 'PUT', body=data)
-    if response.status_code != 200:
-        abort(response.status_code, response.json().get('error'))
-    return response
+def get_unseen_count():
+    return send_json_request('/notifications/unseen-count')

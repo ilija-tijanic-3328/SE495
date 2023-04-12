@@ -1,0 +1,27 @@
+.notification-panel {
+    &.p-overlaypanel {
+        width: 40rem;
+    }
+}
+
+.hoverable:hover {
+    background-color: var(--surface-ground) !important;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.new-notification {
+    font-weight: bold;
+}
+
+.new-notification .col-11, .col-1 {
+    color: var(--primary-color)
+}
+
+@media (max-width: 991px) {
+    .notification-panel {
+        &.p-overlaypanel {
+            width: 100%;
+        }
+    }
+}

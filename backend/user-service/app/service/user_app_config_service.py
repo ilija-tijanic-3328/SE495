@@ -14,7 +14,7 @@ def validate_two_factor(value):
 DEFAULT_CONFIGS = [
     {"config": "UI_SCALE", "value": "14"},
     {"config": "UI_MENU_MODE", "value": "static"},
-    {"config": "UI_DARK_MODE", "value": "true"},
+    {"config": "UI_DARK_MODE", "value": "false"},
     {"config": "AUTH_2_FACTOR", "value": "false"}
 ]
 

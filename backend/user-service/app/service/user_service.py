@@ -5,7 +5,7 @@ from flask import abort
 
 from app.data import user_repo
 from app.data.models import User
-from app.service import user_app_config_service
+from app.service import user_app_config_service, notification_client
 
 email_pattern = re.compile('^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$')
 
@@ -70,6 +70,7 @@ def confirm_user(user_id):
     user: User = user_repo.get_by_id(user_id)
     if user is not None and user.status == 'UNCONFIRMED':
         user_repo.update_status(user, 'ACTIVE')
+        notification_client.create_account_confirmed_notification(user)
 
 
 def update(user_id, user_request):
