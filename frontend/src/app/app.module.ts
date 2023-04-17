@@ -11,6 +11,7 @@ import {AuthService} from "./services/auth.service";
 import {ProductService} from "./services/product.service";
 import {UserService} from "./services/user.service";
 import {NotificationService} from "./services/notification.service";
+import {QuizService} from "./services/quiz.service";
 
 @NgModule({
     declarations: [
@@ -24,7 +25,7 @@ import {NotificationService} from "./services/notification.service";
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-        AuthService, MessageService, UserService, NotificationService, ProductService
+        AuthService, MessageService, UserService, NotificationService, QuizService, ProductService
     ],
     bootstrap: [AppComponent]
 })

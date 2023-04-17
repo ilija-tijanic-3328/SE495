@@ -1,17 +1,12 @@
 import atexit
 import os
 import socket
-from datetime import timedelta
 
 import requests
 from flask import Flask
-from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-jwt = JWTManager()
-bcrypt = Bcrypt()
 
 ROUTER_URL = f"http://{os.getenv('ROUTER_URI')}"
 
@@ -27,15 +22,17 @@ def create_app():
     from .api.main_api import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    from .api.quiz_participants_api import quiz_participants
+    app.register_blueprint(quiz_participants, url_prefix='/quiz-participants')
+
     with app.app_context():
         from .api import error_handler
         from .data.models import QuizParticipant, ParticipantAnswer
         db.create_all()
-
         update_router(app, 'register')
         atexit.register(lambda: update_router(app, 'unregister'))
 
-        return app
+    return app
 
 
 def update_router(app, action):

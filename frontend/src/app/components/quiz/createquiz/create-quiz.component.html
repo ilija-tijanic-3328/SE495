@@ -1,0 +1,8 @@
+<div class="card px-3 py-3">
+    <h4 style="text-align: center">{{title}}</h4>
+    <p-steps [model]="items" [readonly]="quiz == null || quiz.status == 'DRAFT'" [activeIndex]="activeIndex"
+             (activeIndexChange)="onActiveIndexChange($event)">
+
+    </p-steps>
+    <router-outlet></router-outlet>
+</div>

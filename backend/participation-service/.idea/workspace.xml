@@ -5,47 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e5f4d0e-8519-47da-8b4f-32382a3e9031" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/notification-service.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app/api/decorators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app/api/error_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app/api/main_api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app/data/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app/data/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/app/service/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../notification-service/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/decorators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/error_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/main_api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/data/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/data/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/service/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/api/decorators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/api/error_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/api/main_api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/data/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/data/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/service/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../api-gateway/app/api/quiz_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/dataSources/8f467c0a-1a33-4281-bceb-1c23a5512d3b.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/dataSources/8f467c0a-1a33-4281-bceb-1c23a5512d3b/storage_v2/_src_/database/notification.64h6Iw.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/dataSources/8f467c0a-1a33-4281-bceb-1c23a5512d3b/storage_v2/_src_/database/notification.64h6Iw/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/dataSources/8f467c0a-1a33-4281-bceb-1c23a5512d3b/storage_v2/_src_/database/notification.64h6Iw/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/dataSources/8f467c0a-1a33-4281-bceb-1c23a5512d3b/storage_v2/_src_/database/notification.64h6Iw/schema/public.abK9xQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-service/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/participation-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/quiz_participants_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/data/quiz_participant_repo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/service/quiz_participant_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../quiz-service/.idea/quiz-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../quiz-service/app/data/quiz_repo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../quiz-service/app/service/participation_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quiz-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quiz.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quiz.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quiz.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/quiz.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/notification_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/notification_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/email_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/email_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/user_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/user_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notification-service/app/data/notification_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../notification-service/app/data/notification_repo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notification-service/app/service/notification_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../notification-service/app/service/notification_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/account.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/account.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/change-password.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/change-password.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/pages/crud/crud.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/pages/crud/crud.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menuitem.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menuitem.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/app.topbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/app.topbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/assets/layout/styles/layout/_notifications.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/assets/layout/styles/layout/_notifications.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +66,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="ProjectId" id="2OHdFHP3L2WUb4n5gWPlUTthByK" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -71,9 +77,14 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Ilija/Documents/SE495/backend/notification-service"
+    "last_opened_file_path": "C:/Users/Ilija/Documents/SE495/backend/participation-service/app/api"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ilija\Documents\SE495\backend\participation-service\app\api" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="participation-service" type="Python.FlaskServer">
       <module name="participation-service" />
@@ -82,7 +93,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -100,6 +111,7 @@
       <option name="presentableId" value="Default" />
       <updated>1681221335250</updated>
       <workItem from="1681221336818" duration="506000" />
+      <workItem from="1681516263255" duration="3693000" />
     </task>
     <servers />
   </component>

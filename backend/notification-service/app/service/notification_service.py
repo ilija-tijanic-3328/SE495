@@ -1,7 +1,7 @@
 import datetime
 import os
 
-from flask import abort, current_app
+from flask import abort
 
 from app.data import notification_repo
 from app.data.models import Notification
@@ -11,7 +11,7 @@ APP_BASE_URL = os.getenv('APP_BASE_URL')
 TEMPLATES = {
     "ACCOUNT_CONFIRMED": {
         "content": "Welcome {name}, start your ninja journey by creating a quick quiz!",
-        "deep_link": "{base_url}/quiz?newDialog=true"
+        "deep_link": "{base_url}/quizzes/create"
     }
 }
 

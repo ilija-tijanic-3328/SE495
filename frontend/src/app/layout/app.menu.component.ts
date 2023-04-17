@@ -17,27 +17,10 @@ export class AppMenuComponent implements OnInit {
             {
                 items: [
                     {label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/app']},
-                    {
-                        label: 'Auth',
-                        icon: 'pi pi-fw pi-user',
-                        items: [
-                            {
-                                label: 'Error',
-                                icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/auth/error']
-                            },
-                            {
-                                label: 'Access Denied',
-                                icon: 'pi pi-fw pi-lock',
-                                routerLink: ['/auth/access']
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Crud',
-                        icon: 'pi pi-fw pi-pencil',
-                        routerLink: ['/app/pages/crud']
-                    }
+                    {label: 'My Quizzes', icon: 'pi pi-fw pi-book', routerLink: ['/app/quizzes']},
+                    {label: 'My Attempts', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/attempts']},
+                    {label: 'Take Quiz', icon: 'pi pi-fw pi-pencil', routerLink: ['/app/quiz']},
+                    {label: 'Crud', icon: 'pi pi-fw pi-pencil', routerLink: ['/app/pages/crud']}
                 ]
             },
             {

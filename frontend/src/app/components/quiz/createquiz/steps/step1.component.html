@@ -1,0 +1,55 @@
+<form #quizForm="ngForm" novalidate>
+    <div class="flex align-items-center justify-content-center mt-6">
+        <div class="grid formgrid md:w-7">
+            <div class="field col-12 md:col-6">
+                <label for="title" class="block text-900 text-xl font-medium mb-2">Title*</label>
+                <input id="title" name="title" type="text" [(ngModel)]="quiz.title" placeholder="Title"
+                       pInputText class="w-full p-3" required minlength="1" maxlength="150">
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="time_allowed" class="block text-900 text-xl font-medium mb-2">Time Allowed
+                    (minutes)*</label>
+                <p-inputNumber id="time_allowed" name="time_allowed" [(ngModel)]="quiz.time_allowed" styleClass="w-full"
+                               placeholder="Time Allowed" inputStyleClass="p-3 w-full" class="w-full" [required]="true"
+                               [min]="1" [max]="300" [showButtons]="true"/>
+            </div>
+
+            <div class="field col-12">
+                <label for="description" class="block text-900 text-xl font-medium mb-2">Description</label>
+                <textarea id="description" name="description" [(ngModel)]="quiz.description" maxlength="1000"
+                          placeholder="Description" pInputText class="w-full p-3"></textarea>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="start_time" class="block text-900 text-xl font-medium mb-2">Start Time*</label>
+                <p-calendar id="start_time" name="start_time" [(ngModel)]="quiz.start_time"
+                            placeholder="Start Time" inputStyleClass="p-3" styleClass="w-full" [required]="true"
+                            [minDate]="minDate" [showIcon]="true" [showTime]="true" dateFormat="yy-mm-dd"/>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="end_time" class="block text-900 text-xl font-medium mb-2">End Time*</label>
+                <p-calendar id="end_time" name="end_time" [(ngModel)]="quiz.end_time"
+                            placeholder="End Time" inputStyleClass="p-3" styleClass="w-full" [required]="true"
+                            [minDate]="minDate" [showIcon]="true" [showTime]="true" dateFormat="yy-mm-dd"/>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="flex align-items-center justify-content-center mt-3">
+    <div class="grid md:w-8" style="text-align: center">
+        <div *ngFor="let item of quizConfigs" class="col-12 md:col-6">
+            <p-checkbox id="{{item.config}}" name="{{item.config}}" [(ngModel)]="item.value" class="w-full md:w-7 p-3"
+                        label="{{item.config}}" [binary]="true" [disabled]="allDisabled"/>
+        </div>
+        <h3 *ngIf="quizConfigs.length == 0" class="col-12">
+            <p-progressSpinner/>
+        </h3>
+        <div class="field col-12 mt-4" style="text-align: center">
+            <button pButton pRipple label="Next Step" class="w-full md:w-6 md:w-6 p-3 text-xl"
+                    [disabled]="quizForm.invalid" (click)="onNextStep(quizForm)"></button>
+        </div>
+    </div>
+</div>

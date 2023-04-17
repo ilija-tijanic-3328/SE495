@@ -1,15 +1,15 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {LayoutService} from "./service/app.layout.service";
 import {NotificationsComponent} from "./notifications/notifications.component";
-import {interval} from "rxjs";
+import {interval, Subscription} from "rxjs";
 import {NotificationService} from "../services/notification.service";
 
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html'
 })
-export class AppTopBarComponent {
+export class AppTopBarComponent implements OnDestroy {
 
     items!: MenuItem[];
 
@@ -22,18 +22,20 @@ export class AppTopBarComponent {
 
     unseenCount: number = 0;
 
+    private notificationsSubscription: Subscription;
+
     constructor(public layoutService: LayoutService, private notificationService: NotificationService) {
         this.updateUnseenCount();
-        interval(10000).subscribe(() => {
+        this.notificationsSubscription = interval(10000).subscribe(() => {
             this.updateUnseenCount();
         });
     }
 
-    onConfigButtonClick() {
+    onConfigButtonClick(): void {
         this.layoutService.openConfig();
     }
 
-    private updateUnseenCount() {
+    private updateUnseenCount(): void {
         this.notificationService.getUnseenCount()
             .subscribe({
                 next: data => {
@@ -47,8 +49,13 @@ export class AppTopBarComponent {
 
     protected readonly String = String;
 
-    onNotificationSeen(seenCount: number) {
+    onNotificationSeen(seenCount: number): void {
         this.unseenCount -= seenCount;
+    }
+
+
+    ngOnDestroy(): void {
+        this.notificationsSubscription.unsubscribe();
     }
 
 }

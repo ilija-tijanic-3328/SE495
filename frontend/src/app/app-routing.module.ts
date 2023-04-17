@@ -20,6 +20,10 @@ import {AuthService} from "./services/auth.service";
                     {
                         path: 'account',
                         loadChildren: () => import('./components/account/account.module').then(m => m.AccountModule)
+                    },
+                    {
+                        path: 'quizzes',
+                        loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
                     }
                 ],
                 canActivate: [userGuard]

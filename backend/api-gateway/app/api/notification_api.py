@@ -8,7 +8,7 @@ notifications = Blueprint('notifications', __name__)
 
 @notifications.route('/', methods=['GET'])
 @jwt_required()
-def get_user_configs():
+def get_by_user():
     return jsonify(notification_client.get_by_user())
 
 

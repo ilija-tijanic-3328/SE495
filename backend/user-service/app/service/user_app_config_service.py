@@ -25,6 +25,7 @@ VALIDATIONS = {
 
 def get_by_user(user_id):
     user_configs: list = user_app_config_repo.get_by_user(user_id)
+
     for default_config in DEFAULT_CONFIGS:
         user_config = [config for config in user_configs if config.config == default_config.get('config')]
         if len(user_config) == 0:

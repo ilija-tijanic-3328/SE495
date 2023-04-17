@@ -31,6 +31,12 @@ def create_app():
     from .api.notification_api import notifications
     app.register_blueprint(notifications, url_prefix='/notifications')
 
+    from .api.quiz_api import quizzes
+    app.register_blueprint(quizzes, url_prefix='/quizzes')
+
+    from .api.quiz_api import quiz_configs
+    app.register_blueprint(quiz_configs, url_prefix='/quiz-configs')
+
     with app.app_context():
         from .api import error_handler
 

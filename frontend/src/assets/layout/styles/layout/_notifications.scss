@@ -18,7 +18,7 @@
     color: var(--primary-color)
 }
 
-@media (max-width: 991px) {
+@media (max-width: 767px) {
     .notification-panel {
         &.p-overlaypanel {
             width: 100%;

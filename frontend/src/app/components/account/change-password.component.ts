@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {ChangePasswordRequest} from "../../models/request/change-password-request";
 import {MessageService} from "primeng/api";
 import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 
 @Component({

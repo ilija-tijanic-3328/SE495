@@ -27,15 +27,17 @@ export class NotificationsComponent implements OnInit {
     }
 
     markAsSeen(notification: any) {
-        this.notificationService.markNotificationAsSeen(notification.id)
-            .subscribe({
-                next: data => {
-                    if (data.length > 0) {
-                        notification.seen_time = data[0].seen_time;
-                        this.notificationSeen.emit(1);
+        if (notification.seen_time == null) {
+            this.notificationService.markNotificationAsSeen(notification.id)
+                .subscribe({
+                    next: data => {
+                        if (data.length > 0) {
+                            notification.seen_time = data[0].seen_time;
+                            this.notificationSeen.emit(1);
+                        }
                     }
-                }
-            });
+                });
+        }
     }
 
     updateNotifications() {

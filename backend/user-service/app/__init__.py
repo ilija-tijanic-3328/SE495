@@ -35,9 +35,8 @@ def create_app():
         from .api import error_handler
         from .data.models import User, UserAppConfig
         db.create_all()
-
-    update_router(app, 'register')
-    atexit.register(lambda: update_router(app, 'unregister'))
+        update_router(app, 'register')
+        atexit.register(lambda: update_router(app, 'unregister'))
 
     return app
 

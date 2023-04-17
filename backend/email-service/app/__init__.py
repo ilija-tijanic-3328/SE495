@@ -14,8 +14,10 @@ def create_app():
     from .api.main_api import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    update_router(app, 'register')
-    atexit.register(lambda: update_router(app, 'unregister'))
+    with app.app_context():
+        from .api import error_handler
+        update_router(app, 'register')
+        atexit.register(lambda: update_router(app, 'unregister'))
 
     return app
 

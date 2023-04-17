@@ -1,16 +1,14 @@
 import atexit
 import os
 import socket
+from datetime import datetime, date
 
 import requests
 from flask import Flask
-from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager
+from flask.json.provider import DefaultJSONProvider
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-jwt = JWTManager()
-bcrypt = Bcrypt()
 
 ROUTER_URL = f"http://{os.getenv('ROUTER_URI')}"
 
@@ -20,21 +18,28 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.url_map.strict_slashes = False
+    app.json = CustomJSONProvider(app)
 
     db.init_app(app)
 
     from .api.main_api import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    from .api.quiz_api import quizzes
+    app.register_blueprint(quizzes, url_prefix='/quizzes')
+
+    from .api.quiz_config_api import quiz_configs
+    app.register_blueprint(quiz_configs, url_prefix='/quiz-configs')
+
     with app.app_context():
         from .api import error_handler
         from .data.models import Quiz, QuizConfig, Question, Answer
         db.create_all()
 
-        update_router(app, 'register')
-        atexit.register(lambda: update_router(app, 'unregister'))
+    update_router(app, 'register')
+    atexit.register(lambda: update_router(app, 'unregister'))
 
-        return app
+    return app
 
 
 def update_router(app, action):
@@ -45,3 +50,13 @@ def update_router(app, action):
         requests.post(f"{ROUTER_URL}/{action}", json=data)
     except Exception as e:
         app.logger.error(f"Couldn't {action} app {app.name} because: {e}")
+
+
+class CustomJSONProvider(DefaultJSONProvider):
+    def default(self, o):
+        if isinstance(o, date) or isinstance(o, datetime):
+            result = o.isoformat()
+            if o.tzinfo is None and o.utcoffset() is None:
+                result += 'Z'
+            return result
+        return super().default(o)

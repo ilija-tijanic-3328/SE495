@@ -19,7 +19,8 @@ def set_seen_time(notifications: list[Notification], seen_time) -> list[Notifica
 
 
 def get_by_user(user_id) -> list[Notification]:
-    return db.session.scalars(db.select(Notification).filter_by(user_id=user_id)).all()
+    return db.session.scalars(
+        db.select(Notification).filter_by(user_id=user_id).order_by(Notification.creation_time.desc())).all()
 
 
 def create(notification):
