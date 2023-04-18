@@ -99,8 +99,9 @@ def confirm_email(data):
         if token is not None:
             registration_token = token_service.get_token(token, 'REGISTRATION')
             if registration_token is not None:
-                user_client.confirm_user(registration_token.user_id)
+                email = user_client.confirm_user(registration_token.user_id)
                 token_service.delete_token(registration_token)
+                return {'email': email}
             else:
                 abort(400, 'Invalid verification token')
         else:
@@ -174,3 +175,17 @@ def change_password(data):
         user_auth_service.set_password(user_id, new_password)
     else:
         abort(400, 'Incorrect current password')
+
+
+def delete_account(data):
+    user_id = g.current_user_id
+    password = data.get('password')
+
+    user_auth = user_auth_service.get_by_user(user_id)
+
+    if password is None or not check_password(user_auth.password, password):
+        abort(400, 'Incorrect password')
+
+    user_client.delete_account(user_id)
+    user_auth_service.delete(user_auth)
+    token_service.delete_for_user(user_id)

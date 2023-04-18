@@ -15,3 +15,8 @@ def set_value(user_config: UserAppConfig, value: str):
         db.session.add(user_config)
     user_config.value = value
     db.session.commit()
+
+
+def delete_for_user(user_id):
+    db.session.query(UserAppConfig).filter_by(user_id=user_id).delete()
+    db.session.commit()

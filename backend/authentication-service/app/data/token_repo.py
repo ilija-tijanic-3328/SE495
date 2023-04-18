@@ -18,3 +18,8 @@ def get_token(value, token_type) -> Token:
 def delete(token):
     db.session.delete(token)
     db.session.commit()
+
+
+def delete_for_user(user_id):
+    db.session.query(Token).filter_by(user_id=user_id).delete()
+    db.session.commit()

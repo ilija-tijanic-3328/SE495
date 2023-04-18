@@ -15,3 +15,8 @@ def set_value(quiz_config: QuizConfig, config_value: str):
         db.session.add(quiz_config)
     quiz_config.value = config_value
     db.session.commit()
+
+
+def delete_for_quiz(quiz_id):
+    db.session.execute(QuizConfig.__table__.delete().where(QuizConfig.quiz_id == quiz_id))
+    db.session.commit()

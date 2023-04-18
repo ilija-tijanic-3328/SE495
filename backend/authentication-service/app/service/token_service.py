@@ -38,3 +38,7 @@ def create_forgot_password_token(user_id):
     token: Token = Token(user_id=user_id, type='FORGOT_PASSWORD_TOKEN', expiration_time=expiration,
                          value=str(uuid.uuid4()))
     return token_repo.create(token)
+
+
+def delete_for_user(user_id):
+    token_repo.delete_for_user(user_id)

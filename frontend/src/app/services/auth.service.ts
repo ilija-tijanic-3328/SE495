@@ -12,6 +12,8 @@ import {ResetPasswordRequest} from "../models/request/reset-password-request";
 @Injectable()
 export class AuthService {
 
+    savedEmail: string | null = null;
+
     constructor(private http: HttpClient, private storageService: StorageService) {
     }
 
@@ -82,6 +84,10 @@ export class AuthService {
 
     changePassword(request: ChangePasswordRequest) {
         return this.http.put<any>(environment.apiBaseUrl + '/auth/change-password', request);
+    }
+
+    deleteAccount(password: string) {
+        return this.http.delete<any>(environment.apiBaseUrl + '/auth/delete-account', {body: {password: password}});
     }
 
 }

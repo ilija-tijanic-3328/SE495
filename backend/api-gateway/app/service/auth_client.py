@@ -10,6 +10,8 @@ def send_request(path, method='GET', params=None, body=None, headers=None):
     if headers is None:
         headers = dict()
     headers.update(SERVICE_HEADERS)
+    if g is not None and g.get('current_user_id') is not None:
+        headers.update({"current_user_id": str(g.current_user_id)})
     return requests.request(method, f"{ROUTER_URL}{path}", params=params, json=body, headers=headers)
 
 
@@ -73,8 +75,14 @@ def get_current_user(jwt_header):
 
 
 def change_password(data):
-    response = send_request('/auth/change-password', 'PUT', body=data,
-                            headers={"current_user_id": str(g.current_user_id)})
+    response = send_request('/auth/change-password', 'PUT', body=data)
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+    return response
+
+
+def delete_account(data):
+    response = send_request('/auth/delete-account', 'DELETE', body=data)
     if response.status_code != 200:
         abort(response.status_code, response.json().get('error'))
     return response

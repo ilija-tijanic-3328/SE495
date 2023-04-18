@@ -27,11 +27,16 @@ def create():
 
 @users.route('/<int:user_id>/confirm', methods=['PUT'])
 def confirm_user(user_id):
-    user_service.confirm_user(user_id)
-    return {"message": "OK"}, 200
+    return user_service.confirm_user(user_id)
 
 
 @users.route('/<int:user_id>', methods=['PUT'])
 def update(user_id):
     user_service.update(user_id, request.json)
+    return {"message": "OK"}, 200
+
+
+@users.route('/<int:user_id>', methods=['DELETE'])
+def delete(user_id):
+    user_service.delete(user_id)
     return {"message": "OK"}, 200

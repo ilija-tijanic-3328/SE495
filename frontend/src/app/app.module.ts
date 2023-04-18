@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AppLayoutModule} from './layout/app.layout.module';
@@ -23,7 +22,6 @@ import {QuizService} from "./services/quiz.service";
         ToastModule
     ],
     providers: [
-        {provide: LocationStrategy, useClass: HashLocationStrategy},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
         AuthService, MessageService, UserService, NotificationService, QuizService, ProductService
     ],

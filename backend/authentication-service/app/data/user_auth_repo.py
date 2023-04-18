@@ -16,3 +16,12 @@ def set_password(user_id, hashed_password):
     user_auth = get_by_user(user_id)
     user_auth.password = hashed_password
     db.session.commit()
+
+
+def delete_for_user(user_id):
+    return None
+
+
+def delete(user_auth):
+    db.session.delete(user_auth)
+    db.session.commit()

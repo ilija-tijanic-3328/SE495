@@ -5,15 +5,17 @@ import {ButtonModule} from 'primeng/button';
 import {NotificationsComponent} from './notifications.component';
 import {OverlayPanelModule} from "primeng/overlaypanel";
 import {ScrollerModule} from "primeng/scroller";
+import {RouterLink} from "@angular/router";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ButtonModule,
-        OverlayPanelModule,
-        ScrollerModule
-    ],
+	imports: [
+		CommonModule,
+		FormsModule,
+		ButtonModule,
+		OverlayPanelModule,
+		ScrollerModule,
+		RouterLink
+	],
     declarations: [
         NotificationsComponent
     ],

@@ -54,3 +54,16 @@ def update_quiz_config(quiz_id):
 @jwt_required()
 def get_default_configs():
     return jsonify(quiz_client.get_default_configs())
+
+
+@quizzes.route('/<quiz_id>/questions', methods=['GET'])
+@jwt_required()
+def get_questions(quiz_id):
+    return jsonify(quiz_client.get_questions(quiz_id))
+
+
+@quizzes.route('/<quiz_id>/questions', methods=['PUT'])
+@jwt_required()
+def update_questions(quiz_id):
+    quiz_client.update_questions(quiz_id, request.json)
+    return {"message": "OK"}, 200

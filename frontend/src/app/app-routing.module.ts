@@ -19,10 +19,12 @@ import {AuthService} from "./services/auth.service";
                     },
                     {
                         path: 'account',
+                        title: 'QuickQuiz.Ninja - Account',
                         loadChildren: () => import('./components/account/account.module').then(m => m.AccountModule)
                     },
                     {
                         path: 'quizzes',
+                        title: 'QuickQuiz.Ninja - My Quizzes',
                         loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
                     }
                 ],

@@ -71,6 +71,9 @@ def confirm_user(user_id):
     if user is not None and user.status == 'UNCONFIRMED':
         user_repo.update_status(user, 'ACTIVE')
         notification_client.create_account_confirmed_notification(user)
+        return {'email': user.email}
+    else:
+        abort(400, 'Cannot confirm this user')
 
 
 def update(user_id, user_request):
@@ -88,3 +91,16 @@ def update(user_id, user_request):
         user_repo.update(user, name, phone_number)
     else:
         abort(404)
+
+
+def delete(user_id):
+    user: User = user_repo.get_by_id(user_id)
+
+    if user.status == 'DELETED':
+        abort(400, 'Account is already deleted')
+
+    if user.role == 'ADMIN':
+        abort(400, 'Cannot delete admin account')
+
+    user_repo.delete_data(user)
+    user_app_config_service.delete_for_user(user_id)

@@ -11,16 +11,19 @@ import {ConfirmComponent} from "./confirm.component";
         {path: 'access', loadChildren: () => import('./access/access.module').then(m => m.AccessModule)},
         {
             path: 'register',
+            title: 'QuickQuiz.Ninja - Register',
             loadChildren: () => import('./register/register.module').then(m => m.RegisterModule),
             canActivate: [guestGuard]
         },
         {
             path: 'forgot-password',
+            title: 'QuickQuiz.Ninja - Forgot Password',
             loadChildren: () => import('./forgotpassword/forgot-password.module').then(m => m.ForgotPasswordModule),
             canActivate: [guestGuard]
         },
         {
             path: 'reset-password',
+            title: 'QuickQuiz.Ninja - Reset Password',
             loadChildren: () => import('./resetpassword/reset-password.module').then(m => m.ResetPasswordModule),
             canActivate: [guestGuard]
         },
@@ -40,6 +43,7 @@ import {ConfirmComponent} from "./confirm.component";
         },
         {
             path: '**',
+            title: 'QuickQuiz.Ninja - Login',
             loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
             canActivate: [guestGuard]
         }

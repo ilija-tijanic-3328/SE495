@@ -42,13 +42,15 @@
     <div class="grid md:w-8" style="text-align: center">
         <div *ngFor="let item of quizConfigs" class="col-12 md:col-6">
             <p-checkbox id="{{item.config}}" name="{{item.config}}" [(ngModel)]="item.value" class="w-full md:w-7 p-3"
-                        label="{{item.config}}" [binary]="true" [disabled]="allDisabled"/>
+                        label="{{item.config}}" [binary]="true" [disabled]="allDisabled"
+                        (click)="configTouched = true"/>
         </div>
         <h3 *ngIf="quizConfigs.length == 0" class="col-12">
             <p-progressSpinner/>
         </h3>
         <div class="field col-12 mt-4" style="text-align: center">
-            <button pButton pRipple label="Next Step" class="w-full md:w-6 md:w-6 p-3 text-xl"
+            <button pButton pRipple [label]="allDisabled || (quizForm.untouched && !configTouched)  ? 'Next' : 'Save'"
+                    class="w-full md:w-6 md:w-6 p-3 text-xl"
                     [disabled]="quizForm.invalid" (click)="onNextStep(quizForm)"></button>
         </div>
     </div>

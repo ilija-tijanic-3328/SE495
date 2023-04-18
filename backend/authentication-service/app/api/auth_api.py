@@ -31,8 +31,7 @@ def register():
 
 @auth.route("/confirm", methods=["PUT"])
 def confirm_email():
-    auth_service.confirm_email(request.json)
-    return "OK", 200
+    return auth_service.confirm_email(request.json)
 
 
 @auth.route("/forgot-password", methods=["POST"])
@@ -57,6 +56,13 @@ def validate_reset_password_token():
 @current_user_required()
 def change_password():
     auth_service.change_password(request.json)
+    return "OK", 200
+
+
+@auth.route("/delete-account", methods=["DELETE"])
+@current_user_required()
+def delete_account():
+    auth_service.delete_account(request.json)
     return "OK", 200
 
 

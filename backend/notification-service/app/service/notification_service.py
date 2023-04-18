@@ -11,7 +11,7 @@ APP_BASE_URL = os.getenv('APP_BASE_URL')
 TEMPLATES = {
     "ACCOUNT_CONFIRMED": {
         "content": "Welcome {name}, start your ninja journey by creating a quick quiz!",
-        "deep_link": "{base_url}/quizzes/create"
+        "deep_link": "/app/quizzes/create"
     }
 }
 

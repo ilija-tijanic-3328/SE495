@@ -15,13 +15,15 @@ export class ConfirmComponent implements OnInit {
         if (token) {
             this.authService.confirmEmailToken(token)
                 .subscribe({
-                    next: () => {
+                    next: data => {
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Email address confirmed',
                             detail: 'You can now sign in to your account',
                             sticky: true
                         });
+                        this.authService.savedEmail = data.email;
+                        this.router.navigate(['/auth/login']);
                     },
                     error: error => {
                         const message = error?.error?.error || 'Unknown error occurred';
@@ -31,6 +33,7 @@ export class ConfirmComponent implements OnInit {
                             detail: message,
                             sticky: true
                         });
+                        this.router.navigate(['/auth/login']);
                     }
                 });
         } else {
@@ -40,8 +43,8 @@ export class ConfirmComponent implements OnInit {
                 detail: 'Missing verification token',
                 sticky: true
             });
+            this.router.navigate(['/auth/login']);
         }
-        this.router.navigate(['/auth/login']);
     }
 
 }

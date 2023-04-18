@@ -1,50 +1,43 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {MessageService} from "primeng/api";
 import {QuizService} from "../../../../services/quiz.service";
 import {Quiz} from "../../../../models/response/quiz";
-import {ActivatedRoute, Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {QuizConfig} from "../../../../models/response/quiz-config";
 import {Observable} from "rxjs";
 
 @Component({
+    selector: 'app-step1',
     templateUrl: './step1.component.html'
 })
-export class Step1Component implements OnInit {
+export class Step1Component implements OnChanges {
 
-    quiz: Quiz = {}
+    @Input() quiz: Quiz = {};
+    @Output() quizChange = new EventEmitter<Quiz>();
+    @Output() indexChange = new EventEmitter<number>();
     quizConfigs: QuizConfig[] = [];
     minDate: Date = new Date();
     startTimeDisabled: boolean = false;
     allDisabled: boolean = false;
+    configTouched: boolean = false;
 
-    constructor(private messageService: MessageService, private quizService: QuizService, private router: Router,
-                private route: ActivatedRoute) {
+
+    constructor(private messageService: MessageService, private quizService: QuizService) {
     }
 
-    ngOnInit(): void {
-        let quizId: number = Number(this.route.snapshot.queryParamMap.get('quizId'));
-        if (quizId) {
-            this.quizService.loadQuiz(quizId)
-                .subscribe({
-                    next: quiz => {
-                        this.quiz = quiz || {};
+    ngOnChanges(): void {
+        if (this.quiz.id) {
+            let now = new Date();
 
-                        if (this.quiz.id) {
-                            let now = new Date();
+            if (this.quiz.status == 'ARCHIVED' || (this.quiz.end_time && now > this.quiz.end_time)) {
+                this.allDisabled = true;
+            }
 
-                            if (this.quiz.status == 'ARCHIVED' || (this.quiz.end_time && now > this.quiz.end_time)) {
-                                this.allDisabled = true;
-                            }
-
-                            if (this.quiz.start_time && now > this.quiz.start_time) {
-                                this.startTimeDisabled = true;
-                            }
-                        }
-                    }
-                });
+            if (this.quiz.start_time && now > this.quiz.start_time) {
+                this.startTimeDisabled = true;
+            }
         }
-        this.loadQuizConfigs(quizId);
+        this.loadQuizConfigs(this.quiz.id);
     }
 
     loadQuizConfigs(quizId?: any) {
@@ -114,7 +107,7 @@ export class Step1Component implements OnInit {
 
     private updateConfigs() {
         if (!this.allDisabled) {
-            this.quizService.updateQuizConfigs(this.quiz?.id, this.quizConfigs)
+            this.quizService.updateQuizConfigs(this.quiz.id, this.quizConfigs)
                 .subscribe({
                     next: () => {
                         this.nextStep();
@@ -133,8 +126,8 @@ export class Step1Component implements OnInit {
     }
 
     private nextStep() {
-        this.router.navigate(['/app/quizzes/create/2'],
-            {queryParams: {quizId: this.quiz.id}, skipLocationChange: true});
+        this.quizChange.emit(this.quiz);
+        this.indexChange.next(1);
     }
 
 }

@@ -20,6 +20,8 @@ def get_by_quiz(quiz_id):
             quiz_configs.append(
                 QuizConfig(quiz_id=quiz_id, config=default_config, value=DEFAULT_CONFIGS.get(default_config)))
 
+    quiz_configs.sort(key=lambda c: c.config)
+
     return quiz_configs
 
 
@@ -41,6 +43,14 @@ def update(quiz_id, configs):
 
 def get_default():
     defaults = []
+
     for default_key in DEFAULT_CONFIGS:
         defaults.append({'config': default_key, 'value': DEFAULT_CONFIGS.get(default_key)})
+
+    defaults.sort(key=lambda c: c.get('config'))
+
     return defaults
+
+
+def delete_for_quiz(quiz_id):
+    quiz_config_repo.delete_for_quiz(quiz_id)

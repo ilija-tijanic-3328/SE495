@@ -1,5 +1,12 @@
 <div class="flex align-items-center justify-content-center mt-6">
-    <div class="grid" style="text-align: center">
+    <div class="grid w-full text-center">
 
+        <div class="col-6 p-2">
+            <button pButton pRipple label="Back" class="w-full md:w-10 p-3 text-lg" (click)="onPrevStep()"></button>
+        </div>
+        <div class="col-6 p-2">
+            <button pButton pRipple [label]="quiz.status == 'DRAFT' ? 'Publish' : 'Save'"
+                    class="w-full md:w-10 p-3 text-lg" (click)="onFinish()" [disabled]="allDisabled"></button>
+        </div>
     </div>
 </div>

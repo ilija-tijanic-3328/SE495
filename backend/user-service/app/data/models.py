@@ -19,7 +19,7 @@ class User(db.Model):
 class UserAppConfig(db.Model):
     __tablename__ = "user_app_config"
     id = db.Column(db.Integer, db.Identity(), primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user_account.id"), nullable=False, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user_account.id", ondelete="CASCADE"), nullable=False, index=True)
     config = db.Column(db.String(20), nullable=False)
     value = db.Column(db.String(150), nullable=False)
 

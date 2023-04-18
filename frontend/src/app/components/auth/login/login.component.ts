@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LayoutService} from 'src/app/layout/service/app.layout.service';
 import {LoginRequest} from "../../../models/request/login-request";
 import {AuthService} from "../../../services/auth.service";
@@ -17,12 +17,18 @@ import {Router} from "@angular/router";
         }
     `]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
     protected request: LoginRequest = new LoginRequest();
 
     constructor(protected layoutService: LayoutService, private authService: AuthService,
                 private messageService: MessageService, private router: Router) {
+    }
+
+    ngOnInit(): void {
+        if (this.authService.savedEmail) {
+            this.request.email = this.authService.savedEmail;
+        }
     }
 
     onSubmit() {

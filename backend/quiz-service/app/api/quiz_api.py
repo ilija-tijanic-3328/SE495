@@ -48,3 +48,16 @@ def get_quiz_configs(quiz_id):
 def update_quiz_config(quiz_id):
     quiz_service.update_configs(g.current_user_id, quiz_id, request.json)
     return {"message": "OK"}, 200
+
+
+@quizzes.route('/<quiz_id>/questions', methods=['GET'])
+@current_user_required()
+def get_questions(quiz_id):
+    return jsonify(quiz_service.get_questions(g.current_user_id, quiz_id))
+
+
+@quizzes.route('/<quiz_id>/questions', methods=['PUT'])
+@current_user_required()
+def update_questions(quiz_id):
+    quiz_service.update_questions(g.current_user_id, quiz_id, request.json)
+    return {"message": "OK"}, 200

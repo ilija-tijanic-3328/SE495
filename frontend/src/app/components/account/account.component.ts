@@ -25,6 +25,7 @@ export class AccountComponent {
                         detail: 'Your account info has been updated',
                         sticky: true
                     });
+                    this.loadAccountData();
                 },
                 error: error => {
                     const message = error?.error?.error || 'Unknown error occurred';
@@ -36,7 +37,6 @@ export class AccountComponent {
                     });
                 }
             });
-        this.loadAccountData();
     }
 
     private loadAccountData() {

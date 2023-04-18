@@ -29,7 +29,9 @@ def get_by_user(status: str):
 
 
 def delete(quiz_id):
-    return send_request(f'/quizzes/{quiz_id}', method='DELETE')
+    response = send_request(f'/quizzes/{quiz_id}', method='DELETE')
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
 
 
 def get_by_id(quiz_id):
@@ -54,3 +56,13 @@ def update_configs(quiz_id, data):
 
 def get_default_configs():
     return send_json_request('/quiz-configs')
+
+
+def get_questions(quiz_id):
+    return send_json_request(f'/quizzes/{quiz_id}/questions')
+
+
+def update_questions(quiz_id, data):
+    response = send_request(f'/quizzes/{quiz_id}/questions', method='PUT', body=data)
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))

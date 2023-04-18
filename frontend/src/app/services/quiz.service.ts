@@ -1,37 +1,15 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {Quiz} from "../models/response/quiz";
-import {MessageService} from "primeng/api";
 import {QuizConfig} from "../models/response/quiz-config";
 import {Question} from "../models/response/question";
 
 @Injectable()
 export class QuizService {
 
-    constructor(private http: HttpClient, private messageService: MessageService) {
-    }
-
-    loadQuiz(quizId: any): Observable<Quiz | null> {
-        return this.getQuiz(quizId)
-            .pipe(
-                map((quiz: any) => {
-                    quiz.start_time = new Date(quiz.start_time);
-                    quiz.end_time = new Date(quiz.end_time);
-                    return quiz;
-                }),
-                catchError((error: any) => {
-                    const message = error?.error?.error || 'Unknown error occurred';
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: "Couldn't load quiz data",
-                        detail: message,
-                        sticky: true
-                    });
-                    return of(null);
-                })
-            )
+    constructor(private http: HttpClient) {
     }
 
     getUserCreatedQuizzes(status: string): Observable<Quiz[]> {
@@ -68,6 +46,10 @@ export class QuizService {
 
     getQuestions(quizId: any): Observable<Question[]> {
         return this.http.get<Question[]>(environment.apiBaseUrl + `/quizzes/${quizId}/questions`);
+    }
+
+    updateQuestions(quizId: any, questions: Question[]): Observable<any> {
+        return this.http.put<any>(environment.apiBaseUrl + `/quizzes/${quizId}/questions`, questions);
     }
 
 }

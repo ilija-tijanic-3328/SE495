@@ -47,3 +47,11 @@ def confirm_user(user_id):
     response = send_request(f'/users/{user_id}/confirm', method='PUT')
     if response.status_code != 200:
         app.logger.warning(f'Confirmation failed {user_id}')
+        abort(500, 'Confirmation failed')
+    return response.json().get('email')
+
+
+def delete_account(user_id):
+    response = send_request(f'/users/{user_id}', method='DELETE')
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))

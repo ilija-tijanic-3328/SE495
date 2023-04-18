@@ -26,7 +26,8 @@ export class NotificationsComponent implements OnInit {
         this.overlayPanel.toggle(event);
     }
 
-    markAsSeen(notification: any) {
+    markAsSeen(notification: any, event: Event) {
+        event.stopPropagation();
         if (notification.seen_time == null) {
             this.notificationService.markNotificationAsSeen(notification.id)
                 .subscribe({

@@ -14,6 +14,10 @@ import {PasswordModule} from "primeng/password";
 import {RippleModule} from "primeng/ripple";
 import {InputMaskModule} from "primeng/inputmask";
 import {InputTextModule} from "primeng/inputtext";
+import {AccordionModule} from "primeng/accordion";
+import {DeleteAccountComponent} from "./delete-account.component";
+import {MessagesModule} from "primeng/messages";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
     imports: [
@@ -29,9 +33,12 @@ import {InputTextModule} from "primeng/inputtext";
         PasswordModule,
         RippleModule,
         InputMaskModule,
-        InputTextModule
+        InputTextModule,
+        AccordionModule,
+        MessagesModule,
+        DialogModule
     ],
-    declarations: [ChangePasswordComponent, AccountComponent]
+    declarations: [ChangePasswordComponent, DeleteAccountComponent, AccountComponent]
 })
 export class AccountModule {
 }

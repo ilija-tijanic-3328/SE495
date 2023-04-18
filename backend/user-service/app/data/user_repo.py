@@ -38,7 +38,15 @@ def update_status(user: User, status: str):
     db.session.commit()
 
 
-def update(user, name, phone_number):
+def update(user: User, name: str, phone_number: str):
     user.name = name
     user.phone_number = phone_number
+    db.session.commit()
+
+
+def delete_data(user: User):
+    user.name = '[Deleted User]'
+    user.email = '[Deleted User]'
+    user.phone_number = None
+    user.status = 'DELETED'
     db.session.commit()

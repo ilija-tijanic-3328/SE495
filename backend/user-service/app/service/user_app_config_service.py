@@ -47,3 +47,7 @@ def update(user_id, config, value):
         user_app_config_repo.set_value(user_config, value)
     else:
         abort(400, 'Invalid config')
+
+
+def delete_for_user(user_id):
+    user_app_config_repo.delete_for_user(user_id)

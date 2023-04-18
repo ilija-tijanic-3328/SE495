@@ -29,7 +29,7 @@ def register():
 def confirm_email():
     data = request.json
     response = auth_client.confirm_email(data)
-    return {"message": response.text}, response.status_code
+    return jsonify(response.json()), response.status_code
 
 
 @auth.route('/forgot-password', methods=['POST'])
@@ -58,4 +58,12 @@ def validate_reset_password_token():
 def change_password():
     data = request.json
     response = auth_client.change_password(data)
+    return {"message": response.text}, response.status_code
+
+
+@auth.route('/delete-account', methods=['DELETE'])
+@jwt_required()
+def delete_account():
+    data = request.json
+    response = auth_client.delete_account(data)
     return {"message": response.text}, response.status_code

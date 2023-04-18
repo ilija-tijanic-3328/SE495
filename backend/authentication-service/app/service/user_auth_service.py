@@ -29,3 +29,7 @@ def create(user_id, password):
 def set_password(user_id, password):
     hashed_password = hash_password(password)
     user_auth_repo.set_password(user_id, hashed_password)
+
+
+def delete(user_auth):
+    user_auth_repo.delete(user_auth)
