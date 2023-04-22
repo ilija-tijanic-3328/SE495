@@ -8,6 +8,11 @@ import {ChartModule} from 'primeng/chart';
 import {PanelModule} from 'primeng/panel';
 import {ButtonModule} from 'primeng/button';
 import {RippleModule} from "primeng/ripple";
+import {DialogModule} from "primeng/dialog";
+import {PasswordModule} from "primeng/password";
+import {InputTextModule} from "primeng/inputtext";
+import {FormsModule} from "@angular/forms";
+import {KeyFilterModule} from "primeng/keyfilter";
 
 @NgModule({
     imports: [
@@ -18,7 +23,12 @@ import {RippleModule} from "primeng/ripple";
         ChartModule,
         PanelModule,
         ButtonModule,
-        RippleModule
+        RippleModule,
+        DialogModule,
+        PasswordModule,
+        InputTextModule,
+        FormsModule,
+        KeyFilterModule
     ],
     declarations: [LandingComponent]
 })

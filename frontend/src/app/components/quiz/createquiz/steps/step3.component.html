@@ -158,7 +158,7 @@
             Enter the name of participant with code {{selectedParticipant?.code}}:
         </div>
         <form class="mt-4">
-            <input pInputText name="name" type="text" id="name" #name placeholder="Name">
+            <input pInputText name="name" type="text" id="name" #name placeholder="Name" autofocus>
             <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Set Name"
                     (click)="setName(name)"></button>
         </form>

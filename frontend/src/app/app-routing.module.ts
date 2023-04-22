@@ -26,9 +26,24 @@ import {AuthService} from "./services/auth.service";
                         path: 'quizzes',
                         title: 'QuickQuiz.Ninja - My Quizzes',
                         loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
+                    },
+                    {
+                        path: 'attempts',
+                        title: 'QuickQuiz.Ninja - My Attempts',
+                        loadChildren: () => import('./components/attempt/attempt.module').then(m => m.AttemptModule)
+                    },
+                    {
+                        path: 'quiz',
+                        title: 'QuickQuiz.Ninja - Quiz Attempt',
+                        loadChildren: () => import('./components/attempt/newattempt/new-attempt.module').then(m => m.NewAttemptModule)
                     }
                 ],
                 canActivate: [userGuard]
+            },
+            {
+                path: 'quiz',
+                title: 'QuickQuiz.Ninja - Quiz Attempt',
+                loadChildren: () => import('./components/attempt/newattempt/new-attempt.module').then(m => m.NewAttemptModule)
             },
             {path: 'auth', loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule)},
             {

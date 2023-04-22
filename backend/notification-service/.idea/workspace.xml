@@ -5,57 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ca7abc3-4bd8-4150-b990-b9c4ad94f461" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/data/question_repo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quiz-service/app/service/question_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/delete-account.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/delete-account.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/auth_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/auth_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/quiz_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/quiz_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/auth_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/auth_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/api/auth_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/api/auth_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/data/token_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/data/token_repo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/data/user_auth_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/data/user_auth_repo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/auth_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/token_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/token_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/user_auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/user_auth_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/user_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/user_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../email-service/templates/forgot-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/templates/forgot-password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../email-service/templates/forgot-password.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/templates/forgot-password.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../email-service/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/templates/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../email-service/templates/registration.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/templates/registration.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attempt-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attempt.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../email-service/templates/participant-invitation.html" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/templates/participant-invitation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../email-service/templates/participant-invitation.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/templates/participant-invitation.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/service/notification_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/notification_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../quiz-service/app/data/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/data/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../quiz-service/app/data/quiz_config_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/data/quiz_config_repo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/quiz_config_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_config_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user-service/app/api/user_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/api/user_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user-service/app/data/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/data/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user-service/app/data/user_app_config_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/data/user_app_config_repo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user-service/app/data/user_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/data/user_repo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user-service/app/service/user_app_config_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/service/user_app_config_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user-service/app/service/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/service/user_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/account.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/account.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/account.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/account.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/change-password.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/change-password.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/confirm.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/confirm.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step2.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step2.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step2.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step2.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step3.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step3.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step3.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step3.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,19 +31,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Ilija/Documents/SE495/backend/email-service"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ilija/Documents/SE495/backend/email-service&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Docker...: Compose Deployment">
     <configuration name="notification-service" type="Python.FlaskServer">
       <module name="notification-service" />
@@ -141,6 +95,7 @@
       <workItem from="1681514185444" duration="275000" />
       <workItem from="1681599054972" duration="221000" />
       <workItem from="1681770378434" duration="1790000" />
+      <workItem from="1682108378901" duration="6106000" />
     </task>
     <servers />
   </component>

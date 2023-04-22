@@ -8,7 +8,17 @@ import {LayoutService} from 'src/app/layout/service/app.layout.service';
 })
 export class LandingComponent {
 
+    enterCodeDialog: boolean = false;
+    code?: string;
+
     constructor(public layoutService: LayoutService, public router: Router) {
+    }
+
+    openQuiz() {
+        if (this.code && this.code.length == 5) {
+            this.enterCodeDialog = false;
+            this.router.navigate(['/quiz', this.code]);
+        }
     }
 
 }
