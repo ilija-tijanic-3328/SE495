@@ -20,9 +20,14 @@ export class AuthInterceptor implements HttpInterceptor {
         }
         return next.handle(request)
             .pipe(catchError(error => {
-                if (error.status == 401 && this.authService.isLoggedIn()) {
-                    this.authService.logout();
-                    this.router.navigate(['/auth/login']);
+                if (this.authService.isLoggedIn()) {
+                    if (error.status == 401) {
+                        this.authService.logout();
+                        this.router.navigate(['/auth/login']);
+                    }
+                    if (error.status == 403) {
+                        this.router.navigate(['/auth/access-denied']);
+                    }
                 }
                 return throwError(() => error);
             }));

@@ -2,7 +2,8 @@ from flask import render_template
 
 TEMPLATES = {
     "REGISTRATION": "Confirm your account",
-    "FORGOT_PASSWORD": "Password reset request"
+    "FORGOT_PASSWORD": "Password reset request",
+    "PARTICIPANT_INVITATION": "Invitation to quiz"
 }
 
 

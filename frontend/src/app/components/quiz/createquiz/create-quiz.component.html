@@ -1,4 +1,4 @@
-<div class="card px-3 py-3">
+<div class="card px-3 py-3" style="min-height: 80vh">
     <h4 style="text-align: center">{{quiz.title || 'Create Quiz'}}</h4>
     <p-steps [model]="items" [readonly]="!quiz.id || quiz.status == 'DRAFT'" [activeIndex]="activeIndex"
              (activeIndexChange)="onActiveIndexChange($event)"></p-steps>

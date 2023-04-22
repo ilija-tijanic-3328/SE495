@@ -61,3 +61,10 @@ def get_questions(quiz_id):
 def update_questions(quiz_id):
     quiz_service.update_questions(g.current_user_id, quiz_id, request.json)
     return {"message": "OK"}, 200
+
+
+@quizzes.route('/<quiz_id>/publish', methods=['PUT'])
+@current_user_required()
+def publish_quiz(quiz_id):
+    quiz_service.publish_quiz(g.current_user_id, quiz_id)
+    return {"message": "OK"}, 200

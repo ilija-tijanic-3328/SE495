@@ -1,0 +1,5 @@
+Hi {{name}},
+
+You have been invited to test your knowledge on this quiz: {{quiz_title}}
+
+Go to this link to open the quiz: {{base_url}}/quiz?code={{code}}

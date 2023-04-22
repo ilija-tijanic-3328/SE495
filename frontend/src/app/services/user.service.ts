@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {Account} from "../models/response/account";
+import {AutoCompleteUser} from "../models/response/auto-complete-user";
 
 @Injectable()
 export class UserService {
@@ -30,6 +31,10 @@ export class UserService {
             "name": account.name,
             "phone_number": account.phoneNumber
         });
+    }
+
+    getActiveUsers(): Observable<AutoCompleteUser[]> {
+        return this.http.get<AutoCompleteUser[]>(environment.apiBaseUrl + '/users/active');
     }
 
 }

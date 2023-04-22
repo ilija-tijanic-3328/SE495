@@ -137,8 +137,7 @@ export class QuizListComponent implements OnInit {
     }
 
     onQuizClicked(quiz: Quiz) {
-        this.router.navigate(['/app/quizzes/create'],
-            {queryParams: {quizId: quiz.id}, skipLocationChange: true})
+        this.router.navigate(['/app/quizzes', quiz.id])
     }
 
 }

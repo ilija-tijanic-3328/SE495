@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
 
-from flask import abort, current_app
+from flask import abort
 
 from app.data import quiz_repo
-from app.data.models import Quiz, QuizConfig
+from app.data.models import Quiz
 from app.service import participation_client, quiz_config_service, question_service
 
 DATE_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
@@ -15,7 +15,10 @@ def get_by_user_and_status(user_id, status='PUBLISHED'):
     quiz_dtos = []
 
     if len(quizzes) > 0:
-        participation_counts = participation_client.get_participation_count([q.id for q in quizzes])
+        try:
+            participation_counts = participation_client.get_participation_count([q.id for q in quizzes])
+        except:
+            participation_counts = {}
 
         for quiz in quizzes:
             counts = participation_counts.get(str(quiz.id))
@@ -177,3 +180,8 @@ def update_questions(user_id, quiz_id, questions):
     validate_status(quiz)
 
     question_service.update(quiz_id, questions)
+
+
+def publish_quiz(user_id, quiz_id):
+    quiz: Quiz = get_by_id(user_id, quiz_id)
+    quiz_repo.update_status(quiz, 'PUBLISHED')

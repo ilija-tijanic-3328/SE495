@@ -1,6 +1,6 @@
 <div class="grid">
     <div class="col-12">
-        <div class="card px-4 py-4">
+        <div class="card px-4 py-4" style="min-height: 80vh">
             <p-dataView #dt [value]="quizzes" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
                         [sortField]="sortField" [sortOrder]="sortOrder" [rows]="10" [filterBy]="searchFields">
                 <ng-template pTemplate="header">
@@ -20,7 +20,7 @@
                         </span>
                         <span class="block mt-2 md:mt-0">
                             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 w-8rem"
-                                    routerLink="/app/quizzes/create"></button>
+                                    routerLink="/app/quizzes/new"></button>
                         </span>
                     </div>
                 </ng-template>

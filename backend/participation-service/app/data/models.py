@@ -1,13 +1,15 @@
 from app import db
 
 
-class QuizParticipant(db.Model):
+class Participant(db.Model):
     __tablename__ = "quiz_participant"
     id = db.Column(db.Integer, db.Identity(), primary_key=True)
     user_id = db.Column(db.Integer, index=True)
     quiz_id = db.Column(db.Integer, index=True, nullable=False)
     name = db.Column(db.String(150), nullable=False)
     code = db.Column(db.String(5), nullable=False)
+    invitation_type = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(150))
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
 

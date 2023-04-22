@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 
 from app.api.decorators import jwt_required
-from app.service import quiz_client
+from app.service import quiz_client, participation_client
 
 quizzes = Blueprint('quizzes', __name__)
 quiz_configs = Blueprint('quiz_configs', __name__)
@@ -67,3 +67,15 @@ def get_questions(quiz_id):
 def update_questions(quiz_id):
     quiz_client.update_questions(quiz_id, request.json)
     return {"message": "OK"}, 200
+
+
+@quizzes.route('/<quiz_id>/participants', methods=['GET'])
+@jwt_required()
+def get_participants(quiz_id):
+    return jsonify(participation_client.get_participants(quiz_id))
+
+
+@quizzes.route('/<quiz_id>/participants', methods=['PUT'])
+@jwt_required()
+def update_participants(quiz_id):
+    return jsonify(participation_client.update_participants(quiz_id, request.json))

@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {MessageService} from "primeng/api";
 import {QuizService} from "../../../../services/quiz.service";
-import {ActivatedRoute, Router} from "@angular/router";
 import {Quiz} from "../../../../models/response/quiz";
 import {Question} from "../../../../models/response/question";
 import {Answer} from "../../../../models/response/answer";
@@ -23,6 +22,7 @@ export class Step2Component implements OnChanges {
     currentAnswer: Answer = {};
     questionTypes: string[] = ['Single choice', 'Multiple choice'];
     touched: boolean = false;
+    edit: boolean = false;
 
     constructor(private messageService: MessageService, private quizService: QuizService) {
     }
@@ -113,28 +113,26 @@ export class Step2Component implements OnChanges {
     }
 
     saveQuestion() {
-        if (this.currentQuestion.id) {
-
-        } else {
+        if (!this.currentQuestion.id && !this.edit) {
             this.questions.push(this.currentQuestion);
             this.questions = [...this.questions];
         }
 
+        this.edit = false;
         this.currentQuestion = {answers: []};
         this.showQuestionDialog = false;
         this.touched = true;
     }
 
     saveAnswer() {
-        if (this.currentAnswer.id) {
-
-        } else {
+        if (!this.currentAnswer.id && !this.edit) {
             if (this.selectedQuestion?.answers) {
                 this.selectedQuestion.answers.push(this.currentAnswer);
                 this.selectedQuestion.answers = [...this.selectedQuestion.answers];
             }
         }
 
+        this.edit = false;
         this.currentAnswer = {};
         this.showAnswerDialog = false;
         this.touched = true;
@@ -175,6 +173,7 @@ export class Step2Component implements OnChanges {
     editQuestion(question: any, event: Event) {
         event.stopPropagation();
         this.currentQuestion = question;
+        this.edit = true;
         this.showQuestionDialog = true;
     }
 
@@ -184,13 +183,14 @@ export class Step2Component implements OnChanges {
     }
 
     addQuestion() {
-        this.currentQuestion = {};
+        this.currentQuestion = {answers: []};
         this.showQuestionDialog = true;
     }
 
     editAnswer(answer: Answer, event: Event) {
         event.stopPropagation();
         this.currentAnswer = answer;
+        this.edit = true;
         this.showAnswerDialog = true;
     }
 

@@ -48,15 +48,18 @@
             </p-orderList>
         </div>
         <div class="col-12 lg:col-6 p-2">
-            <p-orderList [value]="selectedQuestion.answers || []" [dragdrop]="!allDisabled" *ngIf="selectedQuestion"
-                         (onReorder)="touched = true" [listStyle]="{'max-height': '30rem'}" filterBy="text"
+            <p-orderList [value]="selectedQuestion?.answers || []" [dragdrop]="!allDisabled"
+                         (onReorder)="touched = true"
+                         [listStyle]="{'max-height': '30rem'}" filterBy="text"
                          filterPlaceholder="Filter answers by text">
                 <ng-template pTemplate="header">
                     <div class="flex flex-wrap justify-content-between m-0 w-full">
-                        <h6 class="mt-3">Answers for <i>{{selectedQuestion.text || ''}}</i></h6>
-                        <p-button icon="pi pi-plus" styleClass="p-button-rounded p-button-success"
-                                  pTooltip="Add Answer" tooltipPosition="left" [disabled]="allDisabled"
-                                  (click)="addAnswer()"></p-button>
+                        <h6 class="mt-3" *ngIf="selectedQuestion">Answers for <i>{{selectedQuestion.text || ''}}</i>
+                        </h6>
+                        <h6 class="mt-3" *ngIf="!selectedQuestion">Select a question to show its answers</h6>
+                        <button pButton icon="pi pi-plus" class="p-button-rounded p-button-success"
+                                pTooltip="Add Answer" tooltipPosition="left" (click)="addAnswer()"
+                                [disabled]="allDisabled || !selectedQuestion"></button>
                     </div>
                 </ng-template>
                 <ng-template let-answer pTemplate="item">
@@ -95,18 +98,18 @@
             </p-orderList>
         </div>
         <div class="col-6 p-2">
-            <button pButton pRipple label="Back" class="w-full md:w-10 p-3 text-lg"
+            <button pButton pRipple label="Back" class="w-full md:w-10 lg:w-6 p-3 text-lg"
                     (click)="onPrevStep()"></button>
         </div>
         <div class="col-6 p-2">
             <button pButton pRipple [label]="allDisabled || !touched ? 'Next' : 'Save'"
-                    class="w-full md:w-10 p-3 text-lg"
-                    (click)="onNextStep()" [disabled]="questions.length == 0"></button>
+                    class="w-full md:w-10 lg:w-6 p-3 text-lg" (click)="onNextStep()"
+                    [disabled]="questions.length == 0"></button>
         </div>
     </div>
 </div>
 
-<p-dialog header="{{currentQuestion.id ? 'Edit' : 'Add'}} Question" [(visible)]="showQuestionDialog" [modal]="true"
+<p-dialog header="{{edit ? 'Edit' : 'Add'}} Question" [(visible)]="showQuestionDialog" [modal]="true"
           [draggable]="false" [closable]="true" [style]="{width: '30rem'}" class="p-fluid">
     <ng-template pTemplate="content">
         <form #questionForm="ngForm" (ngSubmit)="saveQuestion()">
@@ -121,14 +124,14 @@
                             [options]="questionTypes"></p-dropdown>
             </div>
             <div class="field mt-5">
-                <button pButton pRipple label="{{currentQuestion.id ? 'Edit' : 'Add'}}" icon="pi pi-check"
+                <button pButton pRipple label="{{edit ? 'Edit' : 'Add'}}" icon="pi pi-check"
                         class="p-button-" [disabled]="questionForm.invalid"></button>
             </div>
         </form>
     </ng-template>
 </p-dialog>
 
-<p-dialog header="{{currentAnswer.id ? 'Edit' : 'Add'}} Answer" [(visible)]="showAnswerDialog" [modal]="true"
+<p-dialog header="{{edit ? 'Edit' : 'Add'}} Answer" [(visible)]="showAnswerDialog" [modal]="true"
           [draggable]="false" [style]="{width: '30rem'}" class="p-fluid">
     <ng-template pTemplate="content">
         <form #answerForm="ngForm" (ngSubmit)="saveAnswer()">
@@ -142,8 +145,8 @@
                             label="Correct"></p-checkbox>
             </div>
             <div class="field mt-5">
-                <button pButton pRipple label="{{currentAnswer.id ? 'Edit' : 'Add'}}" icon="pi pi-check"
-                        class="p-button-" [disabled]="answerForm.invalid"></button>
+                <button pButton pRipple label="{{edit ? 'Edit' : 'Add'}}" icon="pi pi-check"
+                        [disabled]="answerForm.invalid"></button>
             </div>
         </form>
     </ng-template>

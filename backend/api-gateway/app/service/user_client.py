@@ -44,3 +44,7 @@ def update_user(data):
     if response.status_code != 200:
         abort(response.status_code, response.json().get('error'))
     return response
+
+
+def get_active_users():
+    return send_json_request('/users/active')

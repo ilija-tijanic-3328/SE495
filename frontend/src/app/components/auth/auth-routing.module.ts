@@ -8,7 +8,7 @@ import {ConfirmComponent} from "./confirm.component";
 @NgModule({
     imports: [RouterModule.forChild([
         {path: 'error', loadChildren: () => import('./error/error.module').then(m => m.ErrorModule)},
-        {path: 'access', loadChildren: () => import('./access/access.module').then(m => m.AccessModule)},
+        {path: 'access-denied', loadChildren: () => import('./access/access.module').then(m => m.AccessModule)},
         {
             path: 'register',
             title: 'QuickQuiz.Ninja - Register',

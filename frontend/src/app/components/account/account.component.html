@@ -2,7 +2,7 @@
     <p-accordion [activeIndex]="0">
         <p-accordionTab header="Edit Account Information">
             <div class="flex flex-wrap align-items-center justify-content-center">
-                <div class="surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="surface-card py-4 px-4">
                     <form #accountForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
                         <div class="field">
                             <label for="name" class="block text-900 text-xl font-medium mb-2">Name*</label>
@@ -25,9 +25,10 @@
                                          mask="+999 99 9999 999" placeholder="+381 65 9999 999"
                                          styleClass="w-full md:w-30rem"></p-inputMask>
                         </div>
-
-                        <button pButton pRipple label="Update account info" class="w-full p-3 text-xl"
-                                [disabled]="accountForm.invalid"></button>
+                        <div class="field text-center mt-4">
+                            <button pButton pRipple label="Update account info" class="w-full lg:w-6 p-3 text-xl"
+                                    [disabled]="accountForm.invalid"></button>
+                        </div>
                     </form>
                 </div>
             </div>

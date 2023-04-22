@@ -8,13 +8,15 @@ import {TwoFactorLoginRequest} from "../models/request/two-factor-login-request"
 import {Observable} from "rxjs";
 import {ChangePasswordRequest} from "../models/request/change-password-request";
 import {ResetPasswordRequest} from "../models/request/reset-password-request";
+import {MessageService} from "primeng/api";
 
 @Injectable()
 export class AuthService {
 
     savedEmail: string | null = null;
 
-    constructor(private http: HttpClient, private storageService: StorageService) {
+    constructor(private http: HttpClient, private storageService: StorageService,
+                private messageService: MessageService) {
     }
 
     login(request: LoginRequest): Observable<any> {
@@ -27,6 +29,7 @@ export class AuthService {
 
 
     logout(): void {
+        this.messageService.clear();
         this.storageService.clear();
     }
 

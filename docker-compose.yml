@@ -206,8 +206,8 @@ services:
   participation-db:
     container_name: ${PARTICIPATION_DB_HOST}
     image: postgres:15-alpine
-    expose:
-      - "${INTERNAL_DB_PORT}"
+    ports:
+      - "5439:${INTERNAL_DB_PORT}"
     volumes:
       - participation-data:/var/lib/postgresql/data/
     environment:

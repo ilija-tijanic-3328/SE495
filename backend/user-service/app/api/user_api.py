@@ -40,3 +40,8 @@ def update(user_id):
 def delete(user_id):
     user_service.delete(user_id)
     return {"message": "OK"}, 200
+
+
+@users.route('/active', methods=['GET'])
+def get_active_users():
+    return jsonify(user_service.get_active_users())

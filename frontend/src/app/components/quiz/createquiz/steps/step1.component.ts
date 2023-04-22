@@ -41,8 +41,8 @@ export class Step1Component implements OnChanges {
     }
 
     loadQuizConfigs(quizId?: any) {
-        let observable: Observable<QuizConfig[]> = quizId ? this.quizService.getQuizConfigs(quizId)
-            : this.quizService.getDefaultQuizConfigs();
+        let observable: Observable<QuizConfig[]> = quizId ? this.quizService.getConfigs(quizId)
+            : this.quizService.getDefaultConfigs();
 
         observable.subscribe({
             next: quizConfigs => {
@@ -107,7 +107,7 @@ export class Step1Component implements OnChanges {
 
     private updateConfigs() {
         if (!this.allDisabled) {
-            this.quizService.updateQuizConfigs(this.quiz.id, this.quizConfigs)
+            this.quizService.updateConfigs(this.quiz.id, this.quizConfigs)
                 .subscribe({
                     next: () => {
                         this.nextStep();

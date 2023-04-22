@@ -11,7 +11,11 @@ APP_BASE_URL = os.getenv('APP_BASE_URL')
 TEMPLATES = {
     "ACCOUNT_CONFIRMED": {
         "content": "Welcome {name}, start your ninja journey by creating a quick quiz!",
-        "deep_link": "/app/quizzes/create"
+        "deep_link": "/app/quizzes/new"
+    },
+    "PARTICIPANT_INVITATION": {
+        "content": "{name}, you have been invited to test your knowledge on this quiz: {quiz_title}",
+        "deep_link": "/quiz?code={code}"
     }
 }
 
@@ -43,17 +47,15 @@ def create(data):
         abort(400, 'Invalid notification data')
 
     deep_link_values = data.get('deep_link', dict())
-    deep_link_values.update({'base_url': APP_BASE_URL})
-
     deep_link = None
     deep_link_template = template.get('deep_link')
+
     if deep_link_template is not None:
         deep_link = deep_link_template.format(**deep_link_values)
 
     content = template.get('content').format(**content_values)
 
-    notification = Notification(user_id=user_id, content=content, type=notification_type,
-                                deep_link=deep_link)
+    notification = Notification(user_id=user_id, content=content, type=notification_type, deep_link=deep_link)
     notification_repo.create(notification)
 
 

@@ -50,3 +50,7 @@ def delete_data(user: User):
     user.phone_number = None
     user.status = 'DELETED'
     db.session.commit()
+
+
+def get_active():
+    return db.session.query(User).filter_by(status='ACTIVE', role='USER').order_by(User.name, User.email).all()

@@ -25,6 +25,10 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {CalendarModule} from "primeng/calendar";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {OrderListModule} from "primeng/orderlist";
+import {TabViewModule} from "primeng/tabview";
+import {AutoCompleteModule} from "primeng/autocomplete";
+import {ChipsModule} from "primeng/chips";
+import {PasswordModule} from "primeng/password";
 
 @NgModule({
     imports: [
@@ -49,7 +53,11 @@ import {OrderListModule} from "primeng/orderlist";
         InputNumberModule,
         CalendarModule,
         ProgressSpinnerModule,
-        OrderListModule
+        OrderListModule,
+        TabViewModule,
+        AutoCompleteModule,
+        ChipsModule,
+        PasswordModule
     ],
     declarations: [CreateQuizComponent, Step1Component, Step2Component, Step3Component]
 })

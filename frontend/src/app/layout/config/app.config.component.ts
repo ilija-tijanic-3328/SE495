@@ -57,6 +57,7 @@ export class AppConfigComponent implements OnInit {
 
     private setScale(_val: number | string, component: AppConfigComponent) {
         component.layoutService.config.scale = Number(_val);
+        component.applyScale();
     }
 
     get menuMode(): string {

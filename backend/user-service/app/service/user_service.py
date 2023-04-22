@@ -104,3 +104,25 @@ def delete(user_id):
 
     user_repo.delete_data(user)
     user_app_config_service.delete_for_user(user_id)
+
+
+def hide_email(email) -> str:
+    at_index: int = email.find('@')
+
+    if at_index > 0:
+        mask_count = len(email[2:at_index])
+        return f'{email[0:2]}{"*" * mask_count}{email[at_index:]}'
+    else:
+        return email
+
+
+def get_active_users():
+    users: list[User] = user_repo.get_active()
+    user_dtos = []
+
+    for user in users:
+        masked_email = hide_email(user.email)
+        dto = {'id': user.id, 'name': user.name, 'email': masked_email}
+        user_dtos.append(dto)
+
+    return user_dtos

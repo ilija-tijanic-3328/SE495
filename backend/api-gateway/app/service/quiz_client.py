@@ -66,3 +66,9 @@ def update_questions(quiz_id, data):
     response = send_request(f'/quizzes/{quiz_id}/questions', method='PUT', body=data)
     if response.status_code != 200:
         abort(response.status_code, response.json().get('error'))
+
+
+def publish_quiz(quiz_id):
+    response = send_request(f'/quizzes/{quiz_id}/publish', method='PUT')
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))

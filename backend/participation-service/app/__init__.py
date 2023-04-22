@@ -27,7 +27,7 @@ def create_app():
 
     with app.app_context():
         from .api import error_handler
-        from .data.models import QuizParticipant, ParticipantAnswer
+        from .data.models import Participant, ParticipantAnswer
         db.create_all()
         update_router(app, 'register')
         atexit.register(lambda: update_router(app, 'unregister'))

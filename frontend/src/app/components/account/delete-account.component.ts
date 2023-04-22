@@ -19,7 +19,6 @@ export class DeleteAccountComponent {
 
     messages: Message[] = [{
         severity: 'error',
-        summary: 'Warning',
         detail: 'Account deletion is a permanent and irreversible action that removes all your personal data ' +
             'on QuickQuiz.Ninja. Your quiz scores will still be visible to other users, but will no longer be ' +
             'associated with your account. If you want to continue using QuickQuiz.Ninja after deleting your account, ' +

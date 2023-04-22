@@ -23,7 +23,7 @@ def get_by_user(user_id) -> list[Notification]:
         db.select(Notification).filter_by(user_id=user_id).order_by(Notification.creation_time.desc())).all()
 
 
-def create(notification):
+def create(notification: Notification):
     notification.seen_time = None
     notification.creation_time = datetime.datetime.now()
     db.session.add(notification)

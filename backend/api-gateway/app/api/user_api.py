@@ -20,6 +20,12 @@ def update_user():
     return {"message": response.text}, response.status_code
 
 
+@users.route('/active', methods=['GET'])
+@jwt_required()
+def get_active_users():
+    return jsonify(user_client.get_active_users())
+
+
 @user_app_configs.route('/', methods=['GET'])
 @jwt_required()
 def get_user_configs():

@@ -28,7 +28,7 @@ export class CreateQuizComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        let quizId: number = Number(this.route.snapshot.queryParamMap.get('quizId'));
+        let quizId: number = Number(this.route.snapshot.paramMap.get('id'));
         if (quizId) {
             this.quizService.getQuiz(quizId)
                 .subscribe({

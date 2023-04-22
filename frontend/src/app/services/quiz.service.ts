@@ -5,6 +5,7 @@ import {environment} from "../../environments/environment";
 import {Quiz} from "../models/response/quiz";
 import {QuizConfig} from "../models/response/quiz-config";
 import {Question} from "../models/response/question";
+import {Participant} from "../models/response/participant";
 
 @Injectable()
 export class QuizService {
@@ -32,15 +33,15 @@ export class QuizService {
         return this.http.get<Quiz>(environment.apiBaseUrl + '/quizzes/' + quizId);
     }
 
-    getQuizConfigs(quizId: any): Observable<QuizConfig[]> {
+    getConfigs(quizId: any): Observable<QuizConfig[]> {
         return this.http.get<QuizConfig[]>(environment.apiBaseUrl + `/quizzes/${quizId}/quiz-configs`);
     }
 
-    getDefaultQuizConfigs(): Observable<QuizConfig[]> {
+    getDefaultConfigs(): Observable<QuizConfig[]> {
         return this.http.get<QuizConfig[]>(environment.apiBaseUrl + '/quiz-configs');
     }
 
-    updateQuizConfigs(quizId: any, quizConfigs: QuizConfig[]): Observable<any> {
+    updateConfigs(quizId: any, quizConfigs: QuizConfig[]): Observable<any> {
         return this.http.put<any>(environment.apiBaseUrl + `/quizzes/${quizId}/quiz-configs`, quizConfigs);
     }
 
@@ -50,6 +51,14 @@ export class QuizService {
 
     updateQuestions(quizId: any, questions: Question[]): Observable<any> {
         return this.http.put<any>(environment.apiBaseUrl + `/quizzes/${quizId}/questions`, questions);
+    }
+
+    getParticipants(quizId: any): Observable<Participant[]> {
+        return this.http.get<Participant[]>(environment.apiBaseUrl + `/quizzes/${quizId}/participants`);
+    }
+
+    updateParticipants(quizId: any, participants: Participant[]): Observable<any> {
+        return this.http.put<any>(environment.apiBaseUrl + `/quizzes/${quizId}/participants`, participants);
     }
 
 }
