@@ -1,8 +1,11 @@
-from flask import abort
+import datetime
 
+from flask import abort, g, current_app
+
+from app import scheduler
 from app.data import quiz_participant_repo
-from app.data.models import Participant
-from app.service import email_client, notification_client, participant_answer_service
+from app.data.models import Participant, ParticipantAnswer
+from app.service import email_client, notification_client, participant_answer_service, quiz_client
 
 INVITATION_TYPES = ['NOTIFICATION', 'EMAIL', 'MANUAL']
 
@@ -94,3 +97,88 @@ def update_participants(data):
         abort(400, "Couldn't send invitation to any participants")
 
     return {'not_sent': not_sent, 'not_deleted': not_deleted}
+
+
+def get_unfinished_by_user(user_id):
+    return quiz_participant_repo.get_unfinished_by_user(user_id)
+
+
+def get_unfinished_by_code(code):
+    participant: Participant = quiz_participant_repo.get_by_code(code)
+
+    if participant is None:
+        abort(404, "That code doesn't exist")
+
+    if participant.end_time is not None:
+        abort(400, "That code has already been used")
+
+    current_user_id = g.get('current_user_id')
+    if current_user_id is not None and int(current_user_id) != participant.user_id:
+        abort(403)
+
+    return participant
+
+
+def end_attempt(participant_id, app_context):
+    with app_context:
+        participant: Participant = quiz_participant_repo.get_by_id(participant_id)
+        if participant.end_time is None:
+            end_time = datetime.datetime.now()
+            quiz_participant_repo.set_end_time(participant, end_time)
+
+
+def start_attempt(participant_id, allowed_time: int):
+    participant: Participant = quiz_participant_repo.get_by_id(participant_id)
+    start_time = datetime.datetime.now()
+    quiz_participant_repo.set_start_time(participant, start_time)
+
+    scheduler.add_job(func=end_attempt, args=[participant_id, current_app.app_context()],
+                      run_date=start_time + datetime.timedelta(minutes=allowed_time, seconds=10))
+
+    return {'start_time': start_time}
+
+
+def submit_answers(participant_id, attempt: dict):
+    participant: Participant = quiz_participant_repo.get_by_id(participant_id)
+
+    if participant.start_time is None:
+        abort(400, 'Quiz not started')
+
+    if participant.end_time is not None:
+        abort(400, 'Answers already submitted')
+
+    quiz_participant_repo.set_end_time(participant, datetime.datetime.now())
+
+    answers: list[ParticipantAnswer] = []
+
+    quiz = quiz_client.get_questions_for_quiz(participant.quiz_id)
+    actual_question_answers = quiz.get('questions')
+
+    for attempt_question in attempt.keys():
+        actual_question = actual_question_answers.get(str(attempt_question))
+
+        if actual_question is None:
+            continue
+
+        attempt_answers = attempt.get(str(attempt_question))
+
+        if attempt_answers is None:
+            continue
+
+        actual_answers = actual_question.get('answers')
+
+        if actual_question.get('type') != 'Multiple choice':
+            attempt_answers = [attempt_answers]
+
+        filtered_answers = set()
+        for attempt_answer in attempt_answers:
+            actual_answer = actual_answers.get(str(attempt_answer))
+            if actual_answer is not None:
+                filtered_answers.add(str(attempt_answer))
+
+        answers.append(ParticipantAnswer(quiz_participant_id=participant.id, question_id=attempt_question,
+                                         value=','.join(filtered_answers)))
+
+    quiz_participant_repo.set_answers(participant, answers)
+
+    return {}

@@ -4,6 +4,7 @@ import {QuizService} from "../../../../services/quiz.service";
 import {Quiz} from "../../../../models/response/quiz";
 import {Question} from "../../../../models/response/question";
 import {Answer} from "../../../../models/response/answer";
+import {StorageService} from "../../../../services/storage.service";
 
 @Component({
     selector: 'app-step2',
@@ -24,7 +25,8 @@ export class Step2Component implements OnChanges {
     touched: boolean = false;
     edit: boolean = false;
 
-    constructor(private messageService: MessageService, private quizService: QuizService) {
+    constructor(private messageService: MessageService, private quizService: QuizService,
+                private storageService: StorageService) {
     }
 
     ngOnChanges(): void {
@@ -38,24 +40,39 @@ export class Step2Component implements OnChanges {
     }
 
     private loadQuestions(quizId: any) {
-        this.quizService.getQuestions(quizId)
-            .subscribe({
-                next: questions => {
-                    this.questions = questions;
-                },
-                error: error => {
-                    const message = error?.error?.error || 'Unknown error occurred';
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: "Couldn't load questions",
-                        detail: message,
-                        sticky: true
-                    });
-                }
-            });
+        let unsavedQuestions = this.storageService.getQuestions(quizId);
+
+        if (unsavedQuestions?.length > 0) {
+            this.questions = unsavedQuestions;
+
+            if (unsavedQuestions.filter(q => !q.id).length > 0) {
+                this.touched = true;
+            }
+
+            this.storageService.saveQuestions([], quizId);
+        } else {
+            this.quizService.getQuestions(quizId)
+                .subscribe({
+                    next: questions => {
+                        this.questions = questions;
+                    },
+                    error: error => {
+                        const message = error?.error?.error || 'Unknown error occurred';
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: "Couldn't load questions",
+                            detail: message,
+                            sticky: true
+                        });
+                    }
+                });
+        }
     }
 
     onPrevStep() {
+        if (this.questions.length > 0) {
+            this.storageService.saveQuestions(this.questions, this.quiz.id);
+        }
         this.indexChange.emit(0);
     }
 

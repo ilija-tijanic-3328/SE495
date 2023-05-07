@@ -65,7 +65,9 @@ export class Step1Component implements OnChanges {
 
     onNextStep(quizForm: NgForm) {
         if (this.quiz.id) {
-            if (quizForm.untouched && quizForm.valid) {
+            if (this.allDisabled) {
+                this.nextStep();
+            } else if (quizForm.untouched && quizForm.valid) {
                 this.updateConfigs();
             } else {
                 this.quizService.updateQuiz(this.quiz)
@@ -106,23 +108,21 @@ export class Step1Component implements OnChanges {
     }
 
     private updateConfigs() {
-        if (!this.allDisabled) {
-            this.quizService.updateConfigs(this.quiz.id, this.quizConfigs)
-                .subscribe({
-                    next: () => {
-                        this.nextStep();
-                    },
-                    error: error => {
-                        const message = error?.error?.error || 'Unknown error occurred';
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: "Couldn't update quiz configuration",
-                            detail: message,
-                            sticky: true
-                        });
-                    }
-                });
-        }
+        this.quizService.updateConfigs(this.quiz.id, this.quizConfigs)
+            .subscribe({
+                next: () => {
+                    this.nextStep();
+                },
+                error: error => {
+                    const message = error?.error?.error || 'Unknown error occurred';
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: "Couldn't update quiz configuration",
+                        detail: message,
+                        sticky: true
+                    });
+                }
+            });
     }
 
     private nextStep() {

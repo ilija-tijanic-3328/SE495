@@ -9,7 +9,7 @@
                         <h6 class="mt-3">Questions ({{questions.length}})</h6>
                         <p-button icon="pi pi-plus" styleClass="p-button-rounded p-button-success"
                                   pTooltip="Add Question" tooltipPosition="left" [disabled]="allDisabled"
-                                  (click)="addQuestion()"></p-button>
+                                  (onClick)="addQuestion()"></p-button>
                     </div>
                 </ng-template>
                 <ng-template let-question pTemplate="item">

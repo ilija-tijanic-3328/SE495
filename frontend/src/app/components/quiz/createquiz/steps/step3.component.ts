@@ -6,6 +6,7 @@ import {Participant} from "../../../../models/response/participant";
 import {UserService} from "../../../../services/user.service";
 import {AutoCompleteUser} from "../../../../models/response/auto-complete-user";
 import {Router} from "@angular/router";
+import {StorageService} from "../../../../services/storage.service";
 
 @Component({
     selector: 'app-step3',
@@ -38,7 +39,7 @@ export class Step3Component implements OnChanges {
     separatorRegex: string = /[,;\t]/;
 
     constructor(private messageService: MessageService, private quizService: QuizService,
-                private userService: UserService, private router: Router) {
+                private userService: UserService, private router: Router, private storageService: StorageService) {
     }
 
     ngOnChanges(): void {
@@ -55,6 +56,10 @@ export class Step3Component implements OnChanges {
     }
 
     onPrevStep() {
+        if (this.totalParticipants > 0) {
+            let participants = this.userParticipants.concat(this.emailParticipants).concat(this.manualParticipants);
+            this.storageService.saveParticipants(participants, this.quiz.id);
+        }
         this.indexChange.emit(1);
     }
 
@@ -67,20 +72,24 @@ export class Step3Component implements OnChanges {
                     if (response.not_sent.length > 0) {
                         const action = this.quiz.status == 'DRAFT' ? 'Published' : 'Saved';
                         this.messageService.add({
-                            severity: 'warning',
+                            severity: 'warn',
                             summary: `${action} quiz but couldn't send invitation to these participants:`,
                             detail: response.not_sent.join(', '),
                             sticky: true
                         });
+                        this.quiz.status = 'PUBLISHED';
+                        this.ngOnChanges();
                     }
 
                     if (response.not_deleted.length > 0) {
                         this.messageService.add({
-                            severity: 'warning',
+                            severity: 'warn',
                             summary: "Couldn't delete these participants because they have already attempted the quiz:",
                             detail: response.not_deleted.join(', '),
                             sticky: true
                         });
+                        this.quiz.status = 'PUBLISHED';
+                        this.ngOnChanges();
                     }
 
                     if (response.not_sent.length == 0 && response.not_deleted.length == 0) {
@@ -108,24 +117,38 @@ export class Step3Component implements OnChanges {
     }
 
     private loadParticipants() {
-        this.quizService.getParticipants(this.quiz.id)
-            .subscribe({
-                next: participants => {
-                    this.totalParticipants = participants.length;
-                    this.userParticipants = participants.filter(p => p.invitation_type == 'NOTIFICATION');
-                    this.emailParticipants = participants.filter(p => p.invitation_type == 'EMAIL');
-                    this.manualParticipants = participants.filter(p => p.invitation_type == 'MANUAL');
-                },
-                error: error => {
-                    const message = error?.error?.error || 'Unknown error occurred';
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: "Couldn't load participants",
-                        detail: message,
-                        sticky: true
-                    });
-                }
-            });
+        let unsavedParticipants = this.storageService.getParticipants(this.quiz.id);
+
+        if (unsavedParticipants?.length > 0) {
+            this.setParticipants(unsavedParticipants);
+            if (unsavedParticipants.filter(p => !p.id).length > 0) {
+                this.touched = true;
+            }
+            this.storageService.saveParticipants([], this.quiz.id);
+        } else {
+            this.quizService.getParticipants(this.quiz.id)
+                .subscribe({
+                    next: participants => {
+                        this.setParticipants(participants);
+                    },
+                    error: error => {
+                        const message = error?.error?.error || 'Unknown error occurred';
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: "Couldn't load participants",
+                            detail: message,
+                            sticky: true
+                        });
+                    }
+                });
+        }
+    }
+
+    setParticipants(participants: Participant[]) {
+        this.totalParticipants = participants.length;
+        this.userParticipants = participants.filter(p => p.invitation_type == 'NOTIFICATION');
+        this.emailParticipants = participants.filter(p => p.invitation_type == 'EMAIL');
+        this.manualParticipants = participants.filter(p => p.invitation_type == 'MANUAL');
     }
 
     searchUsers(event: any) {

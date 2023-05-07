@@ -8,7 +8,7 @@
             <ng-template pTemplate="item" let-item let-options="options">
                 <div class="flex align-items-center p-2 hoverable" routerLink="{{ item.deep_link }}"
                      [ngClass]="{ 'surface-hover': options.odd, 'new-notification': item.seen_time == null }"
-                     style="height: 75px;">
+                     style="height: 75px;" (click)="markAsSeen(item, $event)">
                     <div class="col-11" style="padding: 0.2rem;">
                         {{ item.content }}
                         <br/>
@@ -16,7 +16,7 @@
                             {{ item.creation_time | date:'medium' }}
                         </span>
                     </div>
-                    <div class="col-1" (click)="markAsSeen(item, $event)">
+                    <div class="col-1">
                         <i class="pi pi-circle-fill" *ngIf="item.seen_time == null"></i>
                     </div>
                 </div>

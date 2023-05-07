@@ -68,3 +68,25 @@ def update_questions(quiz_id):
 def publish_quiz(quiz_id):
     quiz_service.publish_quiz(g.current_user_id, quiz_id)
     return {"message": "OK"}, 200
+
+
+@quizzes.route('/unfinished', methods=['GET'])
+@current_user_required()
+def get_unfinished_by_ids():
+    return jsonify(quiz_service.get_unfinished_by_ids(request.args.getlist('ids')))
+
+
+@quizzes.route('/<quiz_id>/unfinished', methods=['GET'])
+def get_unfinished(quiz_id):
+    return jsonify(quiz_service.get_unfinished(quiz_id).to_dict())
+
+
+@quizzes.route('/<quiz_id>/unfinished/questions', methods=['GET'])
+def get_attempt_questions(quiz_id):
+    return jsonify(quiz_service.get_attempt_questions(quiz_id))
+
+
+@quizzes.route('/<quiz_id>/questions/grouped', methods=['GET'])
+@current_user_required(optional=True)
+def get_questions_grouped(quiz_id):
+    return jsonify(quiz_service.get_questions_grouped(quiz_id))

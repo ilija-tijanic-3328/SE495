@@ -12,6 +12,7 @@ class Participant(db.Model):
     email = db.Column(db.String(150))
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
+    answers = db.relationship("ParticipantAnswer", backref='quiz_participant', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {field.name: getattr(self, field.name) for field in self.__table__.c}

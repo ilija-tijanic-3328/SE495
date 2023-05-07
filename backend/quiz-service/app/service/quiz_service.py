@@ -1,3 +1,4 @@
+import random
 from datetime import datetime, timezone
 
 from flask import abort
@@ -51,21 +52,22 @@ def delete(user_id, quiz_id):
         quiz_repo.delete(quiz)
 
 
-def validate_new(title: str, time_allowed: int, start_time: datetime, end_time: datetime):
+def validate_new(title: str, time_allowed: int, start_time: datetime, end_time: datetime,
+                 skip_start_time_check: bool = False):
     if title is None or len(title) > 150:
         abort(400, 'Title is invalid')
 
-    if time_allowed is None or time_allowed < 1 or time_allowed > 300:
+    if time_allowed is None or time_allowed < 1 or time_allowed > 60:
         abort(400, 'Time allowed is invalid')
 
     now: datetime = datetime.now(timezone.utc)
-    if start_time is None or start_time < now:
+    if start_time is None or (not skip_start_time_check and start_time < now):
         abort(400, 'Start time must be in the future')
 
     if end_time is None or end_time < now:
         abort(400, 'End time must be in the future')
 
-    if start_time > end_time:
+    if start_time >= end_time:
         abort(400, 'End time must be after start time')
 
 
@@ -86,7 +88,7 @@ def validate_existing(quiz: Quiz, title: str, time_allowed: int, start_time: dat
     if quiz.status == 'PUBLISHED' and now > quiz.start_time.replace(tzinfo=timezone.utc) != start_time:
         abort(400, 'Cannot change start time after quiz has started')
 
-    validate_new(title, time_allowed, start_time, end_time)
+    validate_new(title, time_allowed, start_time, end_time, skip_start_time_check=True)
 
 
 def create(user_id, data: dict) -> Quiz:
@@ -185,3 +187,76 @@ def update_questions(user_id, quiz_id, questions):
 def publish_quiz(user_id, quiz_id):
     quiz: Quiz = get_by_id(user_id, quiz_id)
     quiz_repo.update_status(quiz, 'PUBLISHED')
+
+
+def get_unfinished_by_ids(quiz_ids) -> dict:
+    if quiz_ids is None or len(quiz_ids) == 0:
+        return {}
+
+    unfinished_quizzes = {}
+    for quiz in quiz_repo.get_unfinished_by_ids(quiz_ids):
+        unfinished_quizzes[quiz.id] = quiz.to_dict()
+
+    return unfinished_quizzes
+
+
+def get_unfinished(quiz_id):
+    quiz: Quiz = quiz_repo.get_by_id(quiz_id)
+
+    now = datetime.now(timezone.utc)
+    if quiz.status != 'PUBLISHED' or now > quiz.end_time.replace(tzinfo=timezone.utc):
+        abort(400, 'Quiz is finished')
+
+    if now < quiz.start_time.replace(tzinfo=timezone.utc):
+        abort(400, f"Quiz hasn't started yet. Come back on {quiz.start_time.isoformat(sep=' ')}")
+
+    return quiz
+
+
+def get_attempt_questions(quiz_id):
+    get_unfinished(quiz_id)
+
+    questions = question_service.get_by_quiz(quiz_id)
+    question_dtos = []
+
+    shuffle_questions: bool = quiz_config_service.should_shuffle_questions(quiz_id)
+    shuffle_answers: bool = quiz_config_service.should_shuffle_answers(quiz_id)
+
+    for question in questions:
+        question_dto = question.to_dict()
+        answer_dtos = []
+
+        for answer in question.answers:
+            answer_dto = {'id': answer.id, 'text': answer.text}
+            answer_dtos.append(answer_dto)
+
+        if shuffle_answers:
+            random.shuffle(answer_dtos)
+
+        question_dto['answers'] = answer_dtos
+
+        question_dtos.append(question_dto)
+
+    if shuffle_questions:
+        random.shuffle(question_dtos)
+
+    return question_dtos
+
+
+def get_questions_grouped(quiz_id):
+    quiz: Quiz = quiz_repo.get_by_id(quiz_id)
+
+    quiz_dto = quiz.to_dict()
+    questions_dto = {}
+
+    for question in question_service.get_by_quiz(quiz_id):
+        question_dto = question.to_dict()
+        answers_dto = {}
+        for answer in question.answers:
+            answers_dto[answer.id] = answer.to_dict()
+        question_dto['answers'] = answers_dto
+        questions_dto[question.id] = question_dto
+
+    quiz_dto['questions'] = questions_dto
+
+    return quiz_dto

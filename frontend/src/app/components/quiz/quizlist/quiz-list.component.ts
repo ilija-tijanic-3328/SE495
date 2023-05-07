@@ -101,9 +101,9 @@ export class QuizListComponent implements OnInit {
         if (quiz.start_time && now < quiz.start_time) {
             return 'primary';
         } else if (quiz.end_time && now > quiz.end_time) {
-            return 'success';
-        } else {
             return 'warning';
+        } else {
+            return 'success';
         }
     }
 
@@ -122,7 +122,11 @@ export class QuizListComponent implements OnInit {
         this.quizService.getUserCreatedQuizzes(status)
             .subscribe({
                 next: quizList => {
-                    this.quizzes = quizList;
+                    this.quizzes = quizList.map(q => {
+                        q.start_time = new Date(String(q.start_time));
+                        q.end_time = new Date(String(q.end_time));
+                        return q;
+                    });
                 },
                 error: error => {
                     const message = error?.error?.error || 'Unknown error occurred';

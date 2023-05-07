@@ -1,3 +1,5 @@
+import datetime
+
 from app import db
 from app.data.models import Quiz
 
@@ -32,3 +34,8 @@ def update(quiz: Quiz, title, description, time_allowed, start_time, end_time):
     quiz.start_time = start_time
     quiz.end_time = end_time
     db.session.commit()
+
+
+def get_unfinished_by_ids(quiz_ids):
+    return db.session.query(Quiz).filter(Quiz.id.in_(quiz_ids), Quiz.status == 'PUBLISHED',
+                                         Quiz.end_time > datetime.datetime.now()).all()

@@ -2,8 +2,6 @@ import json
 
 import requests
 from flask import request, Response, abort, Blueprint, current_app as app
-from urllib3.exceptions import MaxRetryError, NewConnectionError, ConnectTimeoutError
-from werkzeug.exceptions import HTTPException
 
 from app.service import registry_service
 
@@ -27,6 +25,8 @@ def unregister():
 
 
 def resolve_service_instance(service_name):
+    if service_name is None:
+        abort(400, 'Missing service_name header')
     instance = registry_service.get_active(service_name)
     if instance is None:
         app.logger.warning(f'No instance found for {service_name}')
@@ -35,19 +35,12 @@ def resolve_service_instance(service_name):
 
 
 def send_request(path):
-    service_name = request.headers.get("service_name")
+    service_name = request.headers.get("X-Service-Name")
     instance = resolve_service_instance(service_name)
 
-    # app.logger.debug(f'Request {path} {request.headers} from {instance}')
-
     try:
-        response = requests.request(request.method, f"{instance}/{path}", data=request.data,
-                                    params=request.args,
-                                    headers=request.headers)
-
-        # app.logger.debug(f'Response {response.status_code} {response.json()} from {instance}')
-
-        return response
+        return requests.request(request.method, f"{instance}/{path}", data=request.data,
+                                params=request.args.to_dict(flat=False), headers=request.headers)
     except Exception as e:
         app.logger.warning(f'Unregistering unresponsive service instance {instance} because {e}')
         registry_service.unregister(service_name, instance)

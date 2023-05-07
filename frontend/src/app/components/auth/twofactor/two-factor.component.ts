@@ -36,7 +36,13 @@ export class TwoFactorComponent {
                         this.authService.saveToken(data.access_token);
                         this.authService.saveUserName(data.user_name);
                         window.location.reload();
-                        this.messageService.add({severity: 'info', summary: `Welcome back ${data.user.name}`});
+                        if (data.last_logged_in) {
+                            this.messageService.add({
+                                severity: 'info',
+                                summary: `Welcome back ${data.user.name}`,
+                                life: 4000
+                            });
+                        }
                     } else {
                         this.authService.logout();
                         this.router.navigate(['/auth/login'])

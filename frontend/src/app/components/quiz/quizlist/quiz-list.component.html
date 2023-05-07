@@ -39,7 +39,8 @@
                                         <span class="flex align-items-center gap-2">
                                             <i class="pi pi-calendar"></i>
                                             <span class="font-semibold">
-                                                {{ quiz.start_time | date }} - {{quiz.end_time | date}}
+                                                {{ quiz.start_time | date:'medium' }}
+                                                - {{ quiz.end_time | date:'medium' }}
                                             </span>
                                         </span>
                                     </div>

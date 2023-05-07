@@ -1,7 +1,6 @@
 <div class="card px-3 py-3" style="min-height: 80vh">
     <h4 style="text-align: center">{{quiz.title || 'Create Quiz'}}</h4>
-    <p-steps [model]="items" [readonly]="!quiz.id || quiz.status == 'DRAFT'" [activeIndex]="activeIndex"
-             (activeIndexChange)="onActiveIndexChange($event)"></p-steps>
+    <p-steps [model]="items" [activeIndex]="activeIndex" (activeIndexChange)="onActiveIndexChange($event)"></p-steps>
     <div [ngSwitch]="activeIndex">
         <app-step1 *ngSwitchCase="0" [quiz]="quiz" (indexChange)="onActiveIndexChange($event)"
                    (quizChange)="onQuizChange($event)"></app-step1>

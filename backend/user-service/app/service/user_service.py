@@ -126,3 +126,14 @@ def get_active_users():
         user_dtos.append(dto)
 
     return user_dtos
+
+
+def get_names_by_ids(user_ids):
+    if user_ids is None or len(user_ids) == 0:
+        return {}
+
+    user_names = {}
+    for user in user_repo.get_names_by_ids(user_ids):
+        user_names[user.id] = user.name
+
+    return user_names

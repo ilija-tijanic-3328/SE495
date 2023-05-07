@@ -5,7 +5,7 @@ from flask import request, abort, g
 from app.service import auth_client
 
 
-def jwt_required():
+def jwt_required(optional: bool = False):
     def wrapper(func):
         @wraps(func)
         def decorator(*args, **kwargs):
@@ -14,7 +14,8 @@ def jwt_required():
                 user_id = auth_client.get_current_user(jwt_header)
                 g.current_user_id = user_id
             else:
-                abort(401)
+                if not optional:
+                    abort(401)
             return func(*args, **kwargs)
 
         return decorator

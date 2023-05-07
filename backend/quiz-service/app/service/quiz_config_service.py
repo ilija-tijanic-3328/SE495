@@ -54,3 +54,11 @@ def get_default():
 
 def delete_for_quiz(quiz_id):
     quiz_config_repo.delete_for_quiz(quiz_id)
+
+
+def should_shuffle_questions(quiz_id):
+    return quiz_config_repo.get_by_quiz_and_config(quiz_id, 'Questions have random order').value == 'true'
+
+
+def should_shuffle_answers(quiz_id):
+    return quiz_config_repo.get_by_quiz_and_config(quiz_id, 'Answers have random order').value == 'true'

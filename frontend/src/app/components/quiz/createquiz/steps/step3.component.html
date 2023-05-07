@@ -124,6 +124,7 @@
                                         <div class="col-3">
                                             <button pButton class="p-button-danger p-button-rounded"
                                                     pTooltip="Delete Participant" icon="pi pi-trash"
+                                                    [disabled]="allDisabled"
                                                     (click)="deleteManualParticipant(item, $event)"></button>
                                         </div>
                                     </div>
@@ -133,9 +134,7 @@
                     </ng-template>
                 </p-tabPanel>
                 <p-tabPanel header="Total Invitations: {{ totalParticipants }}" [disabled]="true">
-                    <ng-template pTemplate="content">
-
-                    </ng-template>
+                    <ng-template pTemplate="content"></ng-template>
                 </p-tabPanel>
             </p-tabView>
         </div>

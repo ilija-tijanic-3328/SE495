@@ -33,6 +33,11 @@ import {AuthService} from "./services/auth.service";
                         loadChildren: () => import('./components/attempt/attempt.module').then(m => m.AttemptModule)
                     },
                     {
+                        path: 'invitations',
+                        title: 'QuickQuiz.Ninja - My Invitations',
+                        loadChildren: () => import('./components/attempt/invitationlist/invitation-list.module').then(m => m.InvitationListModule)
+                    },
+                    {
                         path: 'quiz',
                         title: 'QuickQuiz.Ninja - Quiz Attempt',
                         loadChildren: () => import('./components/attempt/newattempt/new-attempt.module').then(m => m.NewAttemptModule)

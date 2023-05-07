@@ -63,6 +63,9 @@ def validate(questions):
         if question_type == 'Single choice' and correct_count > 1:
             abort(400, f'Only one correct answer is allowed for question: {text}')
 
+        if question_type == 'Multiple choice' and correct_count < 2:
+            abort(400, f'At least two correct answers are needed for question: {text}')
+
 
 def update(quiz_id, questions):
     validate(questions)

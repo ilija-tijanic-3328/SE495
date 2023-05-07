@@ -7,7 +7,7 @@ def current_user_required():
     def wrapper(func):
         @wraps(func)
         def decorator(*args, **kwargs):
-            current_user_id = request.headers.get('current_user_id')
+            current_user_id = request.headers.get('X-Current-User-Id')
             if current_user_id is not None:
                 g.current_user_id = current_user_id
             else:

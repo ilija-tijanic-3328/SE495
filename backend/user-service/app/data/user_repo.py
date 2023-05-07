@@ -54,3 +54,7 @@ def delete_data(user: User):
 
 def get_active():
     return db.session.query(User).filter_by(status='ACTIVE', role='USER').order_by(User.name, User.email).all()
+
+
+def get_names_by_ids(user_ids):
+    return db.session.query(User).filter(User.id.in_(user_ids)).all()

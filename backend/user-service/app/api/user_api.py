@@ -45,3 +45,8 @@ def delete(user_id):
 @users.route('/active', methods=['GET'])
 def get_active_users():
     return jsonify(user_service.get_active_users())
+
+
+@users.route('/names', methods=['GET'])
+def get_names_by_ids():
+    return jsonify(user_service.get_names_by_ids(request.args.getlist('ids')))

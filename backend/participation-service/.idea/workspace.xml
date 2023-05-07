@@ -5,49 +5,89 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e5f4d0e-8519-47da-8b4f-32382a3e9031" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../api-gateway/app/service/participation_client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/auto-complete-user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/participant.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/quiz_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/quiz_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/user_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/user_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../api-gateway/app/api/participation_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../email-service/app/api/decorators.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/32eaf636-bdfe-4399-b749-bd5479b545cd.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/32eaf636-bdfe-4399-b749-bd5479b545cd/storage_v2/_src_/database/participation.QY0Btg.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/32eaf636-bdfe-4399-b749-bd5479b545cd/storage_v2/_src_/database/participation.QY0Btg/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/32eaf636-bdfe-4399-b749-bd5479b545cd/storage_v2/_src_/database/participation.QY0Btg/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/32eaf636-bdfe-4399-b749-bd5479b545cd/storage_v2/_src_/database/participation.QY0Btg/schema/public.abK9xQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/service/quiz_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/invitationlist/invitation-list-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/invitationlist/invitation-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/invitationlist/invitation-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/invitationlist/invitation-list.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/attempt-question.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/invitation.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/participant-quiz.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/decorators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/error_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/error_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/auth_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/auth_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/notification_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/notification_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/participation_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/participation_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/user_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/user_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../email-service/templates/forgot-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/templates/forgot-password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../email-service/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/../email-service/templates/registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/app/api/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/api/decorators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/auth_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/email_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/email_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/user_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/user_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notification-service/app/api/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/../notification-service/app/api/decorators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9a530387-0126-40be-af99-b7697a5c5aef.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9a530387-0126-40be-af99-b7697a5c5aef/storage_v2/_src_/database/participation.QY0Btg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9a530387-0126-40be-af99-b7697a5c5aef/storage_v2/_src_/database/participation.QY0Btg/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9a530387-0126-40be-af99-b7697a5c5aef/storage_v2/_src_/database/participation.QY0Btg/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9a530387-0126-40be-af99-b7697a5c5aef/storage_v2/_src_/database/participation.QY0Btg/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/decorators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/error_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/error_handler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/quiz_participants_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/quiz_participants_api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/data/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/data/quiz_participant_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/quiz_participant_repo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/service/email_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/email_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/service/notification_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/notification_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/service/quiz_participant_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/quiz_participant_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/api/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/api/decorators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/api/error_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/api/error_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/data/quiz_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/data/quiz_repo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/participation_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/participation_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/question_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/question_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/quiz_config_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_config_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../router/app/api/main_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../router/app/api/main_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service/app/api/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/api/decorators.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../user-service/app/api/user_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/api/user_api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../user-service/app/data/user_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/data/user_repo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service/app/service/notification_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/service/notification_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../user-service/app/service/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/service/user_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/account.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/account.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/change-password.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/change-password.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/delete-account.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/delete-account.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/account/delete-account.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/account/delete-account.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/access/access.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/access/access.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/access/access.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/access/access.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/auth-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/auth-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/forgotpassword/forgot-password.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/forgotpassword/forgot-password.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/register/register.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/resetpassword/reset-password.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/resetpassword/reset-password.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/twofactor/two-factor.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/twofactor/two-factor.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step2.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step2.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step2.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step2.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step3.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step3.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step3.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step3.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quiz-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quiz-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quizlist/quiz-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quizlist/quiz-list.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quizlist/quiz-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quizlist/quiz-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/config/app.config.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/config/app.config.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/interceptors/auth.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/interceptors/auth.interceptor.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/notifications/notifications.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/participation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/participation.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/storage.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/storage.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +101,17 @@
       </list>
     </option>
   </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
@@ -72,19 +123,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ilija/Documents/SE495/backend/participation-service&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Ilija/Documents/SE495/backend/router"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Ilija\Documents\SE495\backend\participation-service\app\api" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Docker...: Compose Deployment">
     <configuration name="participation-service" type="Python.FlaskServer">
       <module name="participation-service" />
       <option name="target" value="$PROJECT_DIR$/app.py" />
@@ -100,6 +157,23 @@
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
+    <configuration name="..: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="../../docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker...: Compose Deployment" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -113,6 +187,8 @@
       <workItem from="1681516263255" duration="3693000" />
       <workItem from="1681840238492" duration="146000" />
       <workItem from="1681901559862" duration="3641000" />
+      <workItem from="1683213810886" duration="9796000" />
+      <workItem from="1683292559948" duration="25971000" />
     </task>
     <servers />
   </component>

@@ -4,6 +4,8 @@ from werkzeug.exceptions import HTTPException
 
 @app.errorhandler(HTTPException)
 def generic_error_handler(error):
+    if app.debug:
+        app.logger.debug(f'ERROR {error}')
     return jsonify({'error': error.description}), error.code
 
 

@@ -37,6 +37,9 @@ def create_app():
     from .api.quiz_api import quiz_configs
     app.register_blueprint(quiz_configs, url_prefix='/quiz-configs')
 
+    from .api.participation_api import participation
+    app.register_blueprint(participation, url_prefix='/participation')
+
     with app.app_context():
         from .api import error_handler
 

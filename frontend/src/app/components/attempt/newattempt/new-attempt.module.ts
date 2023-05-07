@@ -17,6 +17,7 @@ import {TagModule} from "primeng/tag";
 import {CheckboxModule} from "primeng/checkbox";
 import {TooltipModule} from "primeng/tooltip";
 import {NewAttemptComponent} from "./new-attempt.component";
+import {RadioButtonModule} from "primeng/radiobutton";
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import {NewAttemptComponent} from "./new-attempt.component";
         DropdownModule,
         TagModule,
         CheckboxModule,
-        TooltipModule
+        TooltipModule,
+        RadioButtonModule
     ],
     declarations: [NewAttemptComponent]
 })

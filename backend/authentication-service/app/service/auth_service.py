@@ -41,7 +41,8 @@ def authenticate(email, password):
                             return {"two_factor_token": token.value}
                         else:
                             token = create_access_token(identity=user_id)
-                            return {"access_token": token, "user_name": user.get('name')}
+                            return {"access_token": token, "user_name": user.get('name'),
+                                    "last_logged_in": user_auth.last_logged_in}
                     elif status == 'DISABLED':
                         abort(401, 'Account is disabled')
                     elif status == 'UNCONFIRMED':

@@ -1,9 +1,9 @@
 import requests
-from flask import abort, g
+from flask import abort, g, current_app
 
 from app import ROUTER_URL
 
-SERVICE_HEADERS = {"service_name": "user-service"}
+SERVICE_HEADERS = {"X-Service-Name": "user-service"}
 
 
 def send_request(path, method='GET', params=None, body=None, headers=None):
@@ -11,7 +11,7 @@ def send_request(path, method='GET', params=None, body=None, headers=None):
         headers = dict()
     headers.update(SERVICE_HEADERS)
     if g is not None and g.get('current_user_id') is not None:
-        headers.update({"current_user_id": str(g.current_user_id)})
+        headers.update({"X-Current-User-Id": str(g.current_user_id)})
     return requests.request(method, f"{ROUTER_URL}{path}", params=params, json=body, headers=headers)
 
 
@@ -48,3 +48,13 @@ def update_user(data):
 
 def get_active_users():
     return send_json_request('/users/active')
+
+
+def get_names_by_ids(user_ids):
+    response = send_request(f'/users/names', params={'ids': user_ids})
+
+    if response.status_code != 200:
+        current_app.logger.warning(f"Fetching user names failed for ids: {user_ids}")
+        return {}
+
+    return response.json()

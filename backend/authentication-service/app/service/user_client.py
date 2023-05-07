@@ -3,7 +3,7 @@ from flask import abort, current_app as app, g
 
 from app import ROUTER_URL
 
-SERVICE_HEADERS = {"service_name": "user-service"}
+SERVICE_HEADERS = {"X-Service-Name": "user-service"}
 
 
 def send_request(path, method='GET', params=None, body=None, headers=None):

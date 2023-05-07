@@ -4,7 +4,7 @@
             <div class="field col-12 md:col-6">
                 <label for="title" class="block text-900 text-xl font-medium mb-2">Title*</label>
                 <input id="title" name="title" type="text" [(ngModel)]="quiz.title" placeholder="Title"
-                       pInputText class="w-full p-3" required minlength="1" maxlength="150">
+                       pInputText class="w-full p-3" required minlength="1" maxlength="150" [disabled]="allDisabled">
             </div>
 
             <div class="field col-12 md:col-6">
@@ -12,25 +12,26 @@
                     (minutes)*</label>
                 <p-inputNumber id="time_allowed" name="time_allowed" [(ngModel)]="quiz.time_allowed" styleClass="w-full"
                                placeholder="Time Allowed" inputStyleClass="p-3 w-full" class="w-full" [required]="true"
-                               [min]="1" [max]="300" [showButtons]="true"/>
+                               [min]="1" [max]="60" [showButtons]="true" [disabled]="allDisabled"/>
             </div>
 
             <div class="field col-12">
                 <label for="description" class="block text-900 text-xl font-medium mb-2">Description</label>
                 <textarea id="description" name="description" [(ngModel)]="quiz.description" maxlength="1000"
-                          placeholder="Description" pInputText class="w-full p-3"></textarea>
+                          placeholder="Description" pInputText class="w-full p-3" [disabled]="allDisabled"></textarea>
             </div>
 
             <div class="field col-12 md:col-6">
                 <label for="start_time" class="block text-900 text-xl font-medium mb-2">Start Time*</label>
                 <p-calendar id="start_time" name="start_time" [(ngModel)]="quiz.start_time"
+                            [disabled]="allDisabled || startTimeDisabled"
                             placeholder="Start Time" inputStyleClass="p-3" styleClass="w-full" [required]="true"
                             [minDate]="minDate" [showIcon]="true" [showTime]="true" dateFormat="yy-mm-dd"/>
             </div>
 
             <div class="field col-12 md:col-6">
                 <label for="end_time" class="block text-900 text-xl font-medium mb-2">End Time*</label>
-                <p-calendar id="end_time" name="end_time" [(ngModel)]="quiz.end_time"
+                <p-calendar id="end_time" name="end_time" [(ngModel)]="quiz.end_time" [disabled]="allDisabled"
                             placeholder="End Time" inputStyleClass="p-3" styleClass="w-full" [required]="true"
                             [minDate]="minDate" [showIcon]="true" [showTime]="true" dateFormat="yy-mm-dd"/>
             </div>
