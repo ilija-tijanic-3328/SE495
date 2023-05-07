@@ -16,6 +16,10 @@ TEMPLATES = {
     "PARTICIPANT_INVITATION": {
         "content": "{name}, you have been invited to test your knowledge on this quiz: {quiz_title}",
         "deep_link": "/quiz/{code}"
+    },
+    "REPORT_QUIZ": {
+        "content": "{name} ({code}) has reported a quiz for the following reason: {message}",
+        "deep_link": "/admin/quizzes/{quiz_id}"
     }
 }
 

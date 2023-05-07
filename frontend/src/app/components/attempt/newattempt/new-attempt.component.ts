@@ -21,8 +21,9 @@ export class NewAttemptComponent implements OnInit {
         takeWhile(n => n >= 0),
         finalize(() => this.submitAnswers())
     );
-    private code: string | null = null;
+    code: string | null = null;
     answers: any = {}
+    submitted: boolean = false;
 
     constructor(private messageService: MessageService, private router: Router, private route: ActivatedRoute,
                 private authService: AuthService, private participationService: ParticipationService) {
@@ -48,6 +49,14 @@ export class NewAttemptComponent implements OnInit {
                         }
                     },
                     error: error => {
+                        if (error?.status == 418) {
+                            if (this.authService.isLoggedIn()) {
+                                this.router.navigate(['/app/quiz', code, 'results']);
+                            } else {
+                                this.router.navigate(['/quiz', code, 'results']);
+                            }
+                            return;
+                        }
                         const message = error?.error?.error || 'Unknown error occurred';
                         this.messageService.add({
                             severity: 'error',
@@ -118,25 +127,24 @@ export class NewAttemptComponent implements OnInit {
     }
 
     submitAnswers() {
-        this.participationService.saveAnswers(this.attempt?.id, this.answers)
-            .subscribe({
-                next: () => {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: `Saved answers`,
-                        sticky: true
-                    });
-                },
-                error: error => {
-                    const message = error?.error?.error || 'Unknown error occurred';
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: `Couldn't submit answers`,
-                        detail: message,
-                        sticky: true
-                    });
-                }
-            });
+        if (!this.submitted) {
+            this.participationService.saveAnswers(this.attempt?.id, this.answers)
+                .subscribe({
+                    next: () => {
+                        this.submitted = true;
+                        this.router.navigate(['/app/quiz', this.code, 'results'])
+                    },
+                    error: error => {
+                        const message = error?.error?.error || 'Unknown error occurred';
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: `Couldn't submit answers`,
+                            detail: message,
+                            sticky: true
+                        });
+                    }
+                });
+        }
     }
 
 }

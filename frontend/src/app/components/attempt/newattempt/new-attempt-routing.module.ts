@@ -4,8 +4,15 @@ import {NewAttemptComponent} from "./new-attempt.component";
 
 @NgModule({
     imports: [RouterModule.forChild([
-        {path: '', component: NewAttemptComponent},
+        {
+            path: ':code/results',
+            title: 'QuickQuiz.Ninja - Results',
+            loadChildren: () => import('./attemptresult/attempt-result.module').then(m => m.AttemptResultModule)
+        },
+        {path: ':quizId/leaderboard', component: NewAttemptComponent},
+        {path: ':quizId/stats', component: NewAttemptComponent},
         {path: ':code', component: NewAttemptComponent},
+        {path: '', component: NewAttemptComponent},
     ])],
     exports: [RouterModule]
 })

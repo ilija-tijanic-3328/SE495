@@ -1,5 +1,5 @@
 import requests
-from flask import abort, g
+from flask import abort, g, current_app
 
 from app import ROUTER_URL
 
@@ -25,7 +25,7 @@ def send_json_request(path, method='GET', params=None, body=None, headers=None, 
 
 
 def mark_as_seen(data):
-    return send_json_request('/notifications', 'PUT', body=data)
+    return send_json_request('/notifications', method='PUT', body=data)
 
 
 def get_by_user():
@@ -34,3 +34,21 @@ def get_by_user():
 
 def get_unseen_count():
     return send_json_request('/notifications/unseen-count')
+
+
+def report_quiz(message, quiz_id, code, name):
+    response = send_request(f'/notifications', 'POST', body={
+        "user_id": 1,
+        "type": "REPORT_QUIZ",
+        "content": {
+            "name": name,
+            "code": code,
+            "message": message
+        },
+        "deep_link": {
+            "quiz_id": quiz_id
+        }
+    })
+    if response.status_code != 201:
+        current_app.logger.warning(f'Report quiz notification failed {code}')
+        abort(response.status_code, response.json())

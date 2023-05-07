@@ -21,7 +21,6 @@ export class Step1Component implements OnChanges {
     allDisabled: boolean = false;
     configTouched: boolean = false;
 
-
     constructor(private messageService: MessageService, private quizService: QuizService) {
     }
 

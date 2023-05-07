@@ -2,10 +2,9 @@ from datetime import timezone, datetime
 
 import requests
 from flask import g, abort
-from werkzeug.exceptions import BadRequest
 
 from app import ROUTER_URL
-from app.service import quiz_client, user_client
+from app.service import quiz_client, user_client, notification_client
 
 SERVICE_HEADERS = {"X-Service-Name": "participation-service"}
 
@@ -108,7 +107,7 @@ def get_unfinished_participant_by_code(code):
     return response.json()
 
 
-def get_quiz_by_code(code):
+def get_unfinished_by_code(code):
     participant = get_unfinished_participant_by_code(code)
 
     participant['quiz'] = quiz_client.get_unfinished(participant.get('quiz_id'))
@@ -117,7 +116,7 @@ def get_quiz_by_code(code):
 
 
 def start_quiz(code):
-    participant = get_quiz_by_code(code)
+    participant = get_unfinished_by_code(code)
 
     questions = quiz_client.get_attempt_questions(participant.get('quiz_id'))
 
@@ -132,3 +131,60 @@ def start_quiz(code):
 
 def submit_answers(participant_id, answers):
     return send_json_request(f'/quiz-participants/{participant_id}/answers', method='PUT', body=answers)
+
+
+def get_results(code):
+    return send_json_request(f'/quiz-participants/{code}/results')
+
+
+def get_user_finished_participants():
+    response = send_request('/quiz-participants/finished')
+
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+
+    return response.json()
+
+
+def get_attempts():
+    attempts = []
+
+    user_finished_participants = get_user_finished_participants()
+
+    quiz_ids = [p.get('quiz_id') for p in user_finished_participants]
+    quizzes = quiz_client.get_by_ids(quiz_ids)
+
+    inviter_ids = [q.get('user_id') for q in quizzes.values()]
+    inviters = user_client.get_names_by_ids(inviter_ids)
+
+    for participant in user_finished_participants:
+        quiz = quizzes.get(str(participant.get('quiz_id')))
+
+        if quiz is not None:
+            quiz['inviter'] = inviters.get(str(quiz.get('user_id')))
+            participant['quiz'] = quiz
+            attempts.append(participant)
+
+    attempts.sort(key=lambda x: x.get('start_time'))
+
+    return attempts
+
+
+def get_by_id(participant_id):
+    response = send_request(f'/quiz-participants/{participant_id}')
+
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+
+    return response.json()
+
+
+def report_quiz(data):
+    participant = get_by_id(data.get('participant_id'))
+
+    message = data.get('message')
+    if message is None or message == '':
+        abort(400, 'Report cannot be empty')
+
+    notification_client.report_quiz(message, participant.get('quiz_id'), participant.get('code'),
+                                    participant.get('name'))

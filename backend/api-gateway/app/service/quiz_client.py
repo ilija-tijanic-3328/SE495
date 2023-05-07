@@ -78,7 +78,7 @@ def get_unfinished_by_ids(quiz_ids) -> dict:
     response = send_request(f'/quizzes/unfinished', params={'ids': quiz_ids})
 
     if response.status_code != 200:
-        current_app.logger.warning(f"Fetching grouped quizzes failed for ids: {quiz_ids}")
+        current_app.logger.warning(f"Fetching unfinished quizzes failed for ids: {quiz_ids}")
         return {}
 
     return response.json()
@@ -90,3 +90,13 @@ def get_unfinished(quiz_id):
 
 def get_attempt_questions(quiz_id):
     return send_json_request(f'/quizzes/{quiz_id}/unfinished/questions')
+
+
+def get_by_ids(quiz_ids):
+    response = send_request(f'/quizzes/grouped', params={'ids': quiz_ids})
+
+    if response.status_code != 200:
+        current_app.logger.warning(f"Fetching grouped quizzes failed for ids: {quiz_ids}")
+        return {}
+
+    return response.json()

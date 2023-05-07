@@ -32,9 +32,9 @@
                             </span>
 
                             <button pButton pTooltip="Add Selected Participants" icon="pi pi-plus"
-                                    class="p-button-success"
-                                    tooltipPosition="left" (click)="addUserParticipants()"
-                                    style="margin-left: -4px" [disabled]="selectedUsers.length == 0"></button>
+                                    class="p-button-success" tooltipPosition="left" (click)="addUserParticipants()"
+                                    style="margin-left: -4px"
+                                    [disabled]="selectedUsers.length == 0 || allDisabled"></button>
                         </div>
                         <p-dataView [value]="userParticipants" [rows]="50" styleClass="border-1 surface-border">
                             <ng-template pTemplate="listItem" let-item>
@@ -51,6 +51,7 @@
                                         <div class="col-3">
                                             <button pButton class="p-button-danger p-button-rounded"
                                                     pTooltip="Delete Participant" icon="pi pi-trash"
+                                                    [disabled]="allDisabled"
                                                     (click)="deleteUserParticipant(item, $event)"></button>
                                         </div>
                                     </div>
@@ -68,7 +69,7 @@
 
                             <button pButton pTooltip="Add Email Addresses" icon="pi pi-plus"
                                     class="p-button-success" tooltipPosition="left" (click)="addEmailParticipants()"
-                                    [disabled]="enteredEmails.length == 0"></button>
+                                    [disabled]="enteredEmails.length == 0 || allDisabled"></button>
                         </div>
                         <p-dataView [value]="emailParticipants" [rows]="50" styleClass="border-1 surface-border">
                             <ng-template pTemplate="listItem" let-item>
@@ -87,6 +88,7 @@
                                         <div class="col-3">
                                             <button pButton class="p-button-danger p-button-rounded"
                                                     pTooltip="Delete Participant" icon="pi pi-trash"
+                                                    [disabled]="allDisabled"
                                                     (click)="deleteEmailParticipant(item, $event)"></button>
                                         </div>
                                     </div>
@@ -104,7 +106,7 @@
 
                             <button pButton pTooltip="Generate Codes" icon="pi pi-plus"
                                     class="p-button-success" tooltipPosition="left" (click)="addManualParticipants()"
-                                    [disabled]="enteredNames.length == 0"></button>
+                                    [disabled]="enteredNames.length == 0 || allDisabled"></button>
                         </div>
                         <p-dataView [value]="manualParticipants" [rows]="50" styleClass="border-1 surface-border">
                             <ng-template pTemplate="listItem" let-item>
@@ -159,7 +161,7 @@
         <form class="mt-4">
             <input pInputText name="name" type="text" id="name" #name placeholder="Name" autofocus>
             <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Set Name"
-                    (click)="setName(name)"></button>
+                    (click)="setName(name)" [disabled]="allDisabled"></button>
         </form>
     </div>
 </p-dialog>

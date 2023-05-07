@@ -45,4 +45,23 @@ def start_attempt(participant_id):
 @quiz_participants.route('/<participant_id>/answers', methods=['PUT'])
 @current_user_required(optional=True)
 def submit_answers(participant_id):
-    return jsonify(quiz_participant_service.submit_answers(participant_id, request.json))
+    quiz_participant_service.submit_answers(participant_id, request.json)
+    return {'message': 'OK'}, 200
+
+
+@quiz_participants.route('/<code>/results', methods=['GET'])
+@current_user_required(optional=True)
+def get_results(code):
+    return jsonify(quiz_participant_service.get_results(code))
+
+
+@quiz_participants.route('/finished', methods=['GET'])
+@current_user_required()
+def get_user_finished_participants():
+    return jsonify(quiz_participant_service.get_finished_by_user(g.current_user_id))
+
+
+@quiz_participants.route('/<participant_id>', methods=['GET'])
+@current_user_required(optional=True)
+def get_by_id(participant_id):
+    return jsonify(quiz_participant_service.get_by_id(participant_id).to_dict())

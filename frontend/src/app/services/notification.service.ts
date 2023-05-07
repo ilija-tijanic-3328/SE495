@@ -18,7 +18,7 @@ export class NotificationService {
     }
 
     markNotificationAsSeen(id: any): Observable<any> {
-        return this.http.put<any>(environment.apiBaseUrl + '/notifications', {"ids": [id]});
+        return this.http.put<any>(environment.apiBaseUrl + '/notifications', {ids: [id]});
     }
 
 }

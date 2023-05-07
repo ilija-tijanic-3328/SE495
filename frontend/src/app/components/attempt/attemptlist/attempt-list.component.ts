@@ -1,87 +1,39 @@
 import {Component, OnInit} from '@angular/core';
 import {MessageService, SelectItem} from "primeng/api";
-import {QuizService} from "../../../services/quiz.service";
-import {Quiz} from "../../../models/response/quiz";
 import {DataView} from "primeng/dataview";
-import {Router} from "@angular/router";
+import {ParticipantAttempt} from "../../../models/response/participant-attempt";
+import {ParticipationService} from "../../../services/participation.service";
+import {formatNumber} from "@angular/common";
 
 @Component({
     templateUrl: './attempt-list.component.html'
 })
 export class AttemptListComponent implements OnInit {
 
-    deleteQuizDialog: boolean = false;
-
-    quizzes: Quiz[] = [];
-
-    quiz: Quiz | null = null;
+    attempts: ParticipantAttempt[] = [];
 
     sortField: string = 'start_time';
 
     sortOrder: number = 1;
 
-    searchFields: string = 'title,description,start_time,end_time,allowed_time';
+    searchFields: string = 'name,code,quiz.title,start_time,end_time';
 
     sortOptions: SelectItem[] = [
         {label: "Sort by Start Time Ascending", value: "start_time"},
         {label: "Sort by Start Time Descending", value: "!start_time"},
-        {label: "Sort by Title Ascending", value: "title"},
-        {label: "Sort by Title Descending", value: "!title"}
+        {label: "Sort by Title Ascending", value: "quiz.title"},
+        {label: "Sort by Title Descending", value: "!quiz.title"}
     ];
 
-    filterOptions: SelectItem[] = [
-        {label: "Published", value: "PUBLISHED"},
-        {label: "Draft", value: "DRAFT"},
-        {label: "Archived", value: "ARCHIVED"}
-    ];
-
-    constructor(private messageService: MessageService, private quizService: QuizService, private router: Router) {
+    constructor(private messageService: MessageService, private participationService: ParticipationService) {
     }
 
     ngOnInit(): void {
-        this.loadQuizzes('PUBLISHED');
-    }
-
-    deleteQuiz(quiz: Quiz, event: Event) {
-        event.stopPropagation();
-        this.deleteQuizDialog = true;
-        this.quiz = {...quiz};
-    }
-
-    confirmDelete() {
-        this.deleteQuizDialog = false;
-        if (this.quiz) {
-            this.quizService.deleteQuiz(this.quiz)
-                .subscribe({
-                    next: () => {
-                        this.quizzes = this.quizzes.filter(val => val.id !== this.quiz?.id);
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Successful',
-                            detail: 'Quiz Deleted',
-                            life: 3000
-                        });
-                        this.quiz = null;
-                    },
-                    error: error => {
-                        const message = error?.error?.error || 'Unknown error occurred';
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: "Quiz deletion failed",
-                            detail: message,
-                            sticky: true
-                        });
-                    }
-                });
-        }
+        this.loadAttempts();
     }
 
     onGlobalFilter(dataView: DataView, event: Event) {
         dataView.filter((event.target as HTMLInputElement).value, 'contains');
-    }
-
-    onFilterChange(event: any) {
-        this.loadQuizzes(event.value);
     }
 
     onSortChange(event: any) {
@@ -96,39 +48,29 @@ export class AttemptListComponent implements OnInit {
         }
     }
 
-    getSeverity(quiz: Quiz) {
-        let now = new Date();
-        if (quiz.start_time && now < quiz.start_time) {
-            return 'primary';
-        } else if (quiz.end_time && now > quiz.end_time) {
-            return 'success';
+    getSeverity(attempt: ParticipantAttempt) {
+        if (attempt.percentage > 90) {
+            return '#22C55E';
+        } else if (attempt.percentage > 75) {
+            return '#6366F1';
+        } else if (attempt.percentage > 50) {
+            return '#F59E0B';
         } else {
-            return 'warning';
+            return '#EF4444';
         }
     }
 
-    getStatus(quiz: Quiz) {
-        let now = new Date();
-        if (quiz.start_time && now < quiz.start_time) {
-            return 'Not started';
-        } else if (quiz.end_time && now > quiz.end_time) {
-            return 'Finished';
-        } else {
-            return 'Active';
-        }
-    }
-
-    private loadQuizzes(status: string) {
-        this.quizService.getUserCreatedQuizzes(status)
+    private loadAttempts() {
+        this.participationService.getUserAttempts()
             .subscribe({
-                next: quizList => {
-                    this.quizzes = quizList;
+                next: attempts => {
+                    this.attempts = attempts;
                 },
                 error: error => {
                     const message = error?.error?.error || 'Unknown error occurred';
                     this.messageService.add({
                         severity: 'error',
-                        summary: "Couldn't load your quizzes",
+                        summary: "Couldn't load your attempts",
                         detail: message,
                         sticky: true
                     });
@@ -136,8 +78,5 @@ export class AttemptListComponent implements OnInit {
             });
     }
 
-    onQuizClicked(quiz: Quiz) {
-        this.router.navigate(['/app/quizzes', quiz.id])
-    }
-
+    protected readonly formatNumber = formatNumber;
 }

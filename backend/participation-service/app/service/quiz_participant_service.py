@@ -110,10 +110,10 @@ def get_unfinished_by_code(code):
         abort(404, "That code doesn't exist")
 
     if participant.end_time is not None:
-        abort(400, "That code has already been used")
+        abort(418, "That code has already been used")
 
     current_user_id = g.get('current_user_id')
-    if current_user_id is not None and int(current_user_id) != participant.user_id:
+    if current_user_id is not None and participant.user_id is not None and int(current_user_id) != participant.user_id:
         abort(403)
 
     return participant
@@ -181,4 +181,81 @@ def submit_answers(participant_id, attempt: dict):
 
     quiz_participant_repo.set_answers(participant, answers)
 
-    return {}
+
+def get_results(code):
+    participant: Participant = quiz_participant_repo.get_by_code(code)
+
+    if participant.start_time is None:
+        abort(400, 'Quiz not started')
+
+    if participant.end_time is None:
+        abort(400, 'Answers not submitted')
+
+    quiz = quiz_client.get_questions_for_quiz(participant.quiz_id)
+    actual_question_answers = quiz.get('questions')
+
+    question_dtos = []
+
+    for question_id in actual_question_answers:
+        question = actual_question_answers.get(question_id)
+        question_dto = {'id': question_id, 'text': question.get('text'), 'type': question.get('type')}
+        answer_dtos = []
+
+        answer_attempt = [a for a in participant.answers if a.question_id == int(question_id)]
+        answers = question.get('answers')
+
+        for answer_id in answers:
+            answer = answers.get(answer_id)
+            values = answer_attempt[0].value.split(',') if answer_attempt else []
+
+            answer_dtos.append({'id': answer_id, 'text': answer.get('text'), 'correct': answer.get('correct'),
+                                'selected': values.count(answer_id) > 0})
+
+        question_dto['answers'] = answer_dtos
+        question_dtos.append(question_dto)
+
+    results = participant.to_dict()
+    results['quiz'] = {'id': quiz.get('id'), 'title': quiz.get('title')}
+    results['questions'] = question_dtos
+
+    return results
+
+
+def get_correct_count(participant: Participant):
+    quiz = quiz_client.get_questions_for_quiz(participant.quiz_id)
+    actual_question_answers = quiz.get('questions')
+    correct_count = 0
+
+    for question_id in actual_question_answers:
+        question = actual_question_answers.get(question_id)
+
+        answer_attempt = [a for a in participant.answers if a.question_id == int(question_id)]
+        answers = question.get('answers')
+        correct_answers = len([a for a in answers.values() if a.get('correct')])
+
+        for answer_id in answers:
+            answer = answers.get(answer_id)
+            values = answer_attempt[0].value.split(',') if answer_attempt else []
+
+            if answer.get('correct') and values.count(answer_id) > 0:
+                correct_count += 1 / correct_answers
+
+    return correct_count, len(actual_question_answers)
+
+
+def get_finished_by_user(user_id):
+    participant_dtos = []
+
+    for participant in quiz_participant_repo.get_finished_by_user(user_id):
+        dto = participant.to_dict()
+        counts = get_correct_count(participant)
+        dto['correct_count'] = counts[0]
+        dto['total_questions'] = counts[1]
+        dto['percentage'] = counts[0] / counts[1] * 100
+        participant_dtos.append(dto)
+
+    return participant_dtos
+
+
+def get_by_id(participant_id):
+    return quiz_participant_repo.get_by_id(participant_id)

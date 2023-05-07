@@ -7,9 +7,7 @@ import {StyleClassModule} from 'primeng/styleclass';
 import {QuizListRoutingModule} from "./quiz-list-routing.module";
 import {RippleModule} from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
-import {FileUploadModule} from "primeng/fileupload";
 import {ToolbarModule} from "primeng/toolbar";
-import {RatingModule} from "primeng/rating";
 import {DialogModule} from "primeng/dialog";
 import {DataViewModule} from "primeng/dataview";
 import {DropdownModule} from "primeng/dropdown";
@@ -28,9 +26,7 @@ import {QuizListComponent} from "./quiz-list.component";
         QuizListRoutingModule,
         RippleModule,
         InputTextModule,
-        FileUploadModule,
         ToolbarModule,
-        RatingModule,
         DialogModule,
         DataViewModule,
         DropdownModule,

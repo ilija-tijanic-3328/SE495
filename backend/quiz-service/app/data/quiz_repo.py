@@ -39,3 +39,7 @@ def update(quiz: Quiz, title, description, time_allowed, start_time, end_time):
 def get_unfinished_by_ids(quiz_ids):
     return db.session.query(Quiz).filter(Quiz.id.in_(quiz_ids), Quiz.status == 'PUBLISHED',
                                          Quiz.end_time > datetime.datetime.now()).all()
+
+
+def get_by_ids(quiz_ids):
+    return db.session.query(Quiz).filter(Quiz.id.in_(quiz_ids)).all()

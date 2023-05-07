@@ -12,10 +12,10 @@ def get_invitations():
     return jsonify(participation_client.get_invitations())
 
 
-@participation.route('/quiz-participants/<code>', methods=['GET'])
+@participation.route('/<code>', methods=['GET'])
 @jwt_required(optional=True)
 def get_quiz_by_code(code):
-    return jsonify(participation_client.get_quiz_by_code(code))
+    return jsonify(participation_client.get_unfinished_by_code(code))
 
 
 @participation.route('/start', methods=['PUT'])
@@ -28,3 +28,22 @@ def start_quiz():
 @jwt_required(optional=True)
 def submit_answers(participant_id):
     return jsonify(participation_client.submit_answers(participant_id, request.json))
+
+
+@participation.route('/<code>/results', methods=['GET'])
+@jwt_required(optional=True)
+def get_results(code):
+    return jsonify(participation_client.get_results(code))
+
+
+@participation.route('/attempts', methods=['GET'])
+@jwt_required()
+def get_attempts():
+    return jsonify(participation_client.get_attempts())
+
+
+@participation.route('/report-quiz', methods=['POST'])
+@jwt_required(optional=True)
+def report_quiz():
+    participation_client.report_quiz(request.json)
+    return {"message": "OK"}, 200

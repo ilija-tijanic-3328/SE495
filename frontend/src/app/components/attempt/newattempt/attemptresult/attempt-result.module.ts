@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
 import {StyleClassModule} from 'primeng/styleclass';
-import {AttemptRoutingModule} from "./attempt-routing.module";
+import {AttemptResultRoutingModule} from "./attempt-result-routing.module";
 import {RippleModule} from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
 import {ToolbarModule} from "primeng/toolbar";
@@ -14,6 +14,9 @@ import {DropdownModule} from "primeng/dropdown";
 import {TagModule} from "primeng/tag";
 import {CheckboxModule} from "primeng/checkbox";
 import {TooltipModule} from "primeng/tooltip";
+import {AttemptResultComponent} from "./attempt-result.component";
+import {RadioButtonModule} from "primeng/radiobutton";
+import {ReportQuizModule} from "../../reportquiz/report-quiz.module";
 
 @NgModule({
     imports: [
@@ -22,7 +25,7 @@ import {TooltipModule} from "primeng/tooltip";
         TableModule,
         StyleClassModule,
         ButtonModule,
-        AttemptRoutingModule,
+        AttemptResultRoutingModule,
         RippleModule,
         InputTextModule,
         ToolbarModule,
@@ -31,9 +34,11 @@ import {TooltipModule} from "primeng/tooltip";
         DropdownModule,
         TagModule,
         CheckboxModule,
-        TooltipModule
+        TooltipModule,
+        RadioButtonModule,
+        ReportQuizModule
     ],
-    declarations: []
+    declarations: [AttemptResultComponent]
 })
-export class AttemptModule {
+export class AttemptResultModule {
 }

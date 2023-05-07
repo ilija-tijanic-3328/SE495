@@ -90,3 +90,8 @@ def get_attempt_questions(quiz_id):
 @current_user_required(optional=True)
 def get_questions_grouped(quiz_id):
     return jsonify(quiz_service.get_questions_grouped(quiz_id))
+
+
+@quizzes.route('/grouped', methods=['GET'])
+def get_grouped():
+    return jsonify(quiz_service.get_grouped(request.args.getlist('ids')))

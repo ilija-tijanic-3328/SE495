@@ -58,3 +58,7 @@ def set_end_time(participant: Participant, end_time: datetime):
 def set_answers(participant: Participant, answers: list[ParticipantAnswer]):
     participant.answers = answers
     db.session.commit()
+
+
+def get_finished_by_user(user_id):
+    return db.session.query(Participant).filter(Participant.user_id == user_id, Participant.end_time.is_not(None)).all()
