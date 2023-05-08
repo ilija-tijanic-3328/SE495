@@ -6,7 +6,15 @@
                     <img src="../../../../../assets/demo/images/quiz/quiz-results.svg" alt="{{attempt?.quiz?.title}}"
                          width="120rem"/>
                 </div>
-                <div class="col-12 text-center"><h3>{{attempt?.name}}'s results for {{ attempt?.quiz?.title }}</h3>
+                <div class="col-12 text-center p-0">
+                    <h5>{{attempt?.name}}'s results for {{ attempt?.quiz?.title }}</h5>
+                </div>
+                <div class="col-12 text-center p-0">
+                    <h4>{{ attempt?.correct_count || 0 }} / {{ attempt?.total_questions || 0 }}</h4>
+                </div>
+                <div class="col-12 flex justify-content-center align-content-center align-items-center p-0">
+                    <p-progressBar [value]="formatNumber(attempt?.percentage, 'en-US', '1.0-2')"
+                                   [color]="getSeverity(attempt)" styleClass="w-8rem ml-2"></p-progressBar>
                 </div>
                 <div class="col-12 grid justify-content-center align-content-center">
                     <div class="w-full md:w-6 xl:w-4">
@@ -32,13 +40,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 mt-3 text-center">
-                    <button pButton label="Leaderboard" class="p-button-outlined w-full md:w-6"
+                <div class="col-6 mt-3 text-right" [pTooltip]="getTooltipText('leaderboard')"
+                     [tooltipDisabled]="leaderboardEnabled && isLoggedIn()" tooltipPosition="top">
+                    <button pButton label="Leaderboard" class="p-button-outlined w-full md:w-6 xl:w-4"
+                            [disabled]="!leaderboardEnabled || !isLoggedIn()"
                             [routerLink]="'/quiz/' + attempt?.quiz?.id + '/leaderboard'"></button>
                 </div>
-                <div class="col-6 mt-3 text-center">
-                    <button pButton label="Statistics" class="p-button-outlined w-full md:w-6"
+                <div class="col-6 mt-3 text-left" [pTooltip]="getTooltipText('stats')"
+                     [tooltipDisabled]="statsEnabled && isLoggedIn()" tooltipPosition="top">
+                    <button pButton label="Statistics" class="p-button-outlined w-full md:w-6 xl:w-4"
+                            [disabled]="!statsEnabled || !isLoggedIn()"
                             [routerLink]="'/quiz/' + attempt?.quiz?.id + '/stats'"></button>
+                </div>
+                <div class="col-12 flex flex-wrap justify-content-center align-items-center align-content-center mt-7"
+                     *ngIf="!isLoggedIn()">
+                    <h6>Want to create your own quiz and challenge your friends?</h6>
+                    <button pButton label="Sign Up" class="w-10rem ml-2" routerLink="/auth/register"></button>
                 </div>
             </div>
         </div>

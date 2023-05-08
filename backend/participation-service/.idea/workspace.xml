@@ -5,49 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e5f4d0e-8519-47da-8b4f-32382a3e9031" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/reportquiz/report-quiz-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/reportquiz/report-quiz.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/reportquiz/report-quiz.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/reportquiz/report-quiz.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/participant-attempt.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/assets/demo/images/landing/education.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/assets/demo/images/quiz/quiz-results.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/assets/demo/images/quiz/quiz.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/assets/demo/images/quiz/trophy.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/participation_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/participation_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/notification_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/notification_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/participation_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/participation_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats-routing.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../notification-service/app/service/notification_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../notification-service/app/service/notification_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/quiz_participants_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/quiz_participants_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/data/quiz_participant_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/quiz_participant_repo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/service/quiz_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/quiz_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/service/quiz_participant_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/quiz_participant_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../quiz-service/app/data/quiz_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/data/quiz_repo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attempt.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attempt.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/invitationlist/invitation-list.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/invitationlist/invitation-list.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/landing/landing.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/landing/landing.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/create-quiz.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/createquiz/steps/step1.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quiz.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quiz.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quizlist/quiz-list.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/quiz/quizlist/quiz-list.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/notification.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/notification.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/participation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/participation.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/assets/demo/images/landing/screen-1.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +127,7 @@
       <workItem from="1683213810886" duration="9796000" />
       <workItem from="1683292559948" duration="26552000" />
       <workItem from="1683460741994" duration="9351000" />
-      <workItem from="1683476924962" duration="6039000" />
+      <workItem from="1683476924962" duration="8704000" />
     </task>
     <servers />
   </component>

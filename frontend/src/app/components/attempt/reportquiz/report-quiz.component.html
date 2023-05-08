@@ -10,14 +10,16 @@
             <i class="pi pi-exclamation-circle mr-3" style="font-size: 2rem"></i>
             Please describe the inappropriate content:
         </div>
-        <div class="mt-4">
-            <textarea pInputTextarea [(ngModel)]="message" rows="4"></textarea>
-        </div>
+        <form #reportForm="ngForm" class="mt-4 w-full">
+            <textarea pInputTextarea [(ngModel)]="message" rows="4" class="w-full" required name="message" id="message"
+                      placeholder="Write a description of the content that you believe shouldn't be on this platform"></textarea>
+
+            <div class="text-right mt-2">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Cancel"
+                        (click)="reportDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-danger" label="Send Report"
+                        (click)="sendReportToAdmin()" [disabled]="reportForm.invalid"></button>
+            </div>
+        </form>
     </div>
-    <ng-template pTemplate="footer">
-        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Cancel"
-                (click)="reportDialog = false"></button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-danger" label="Send Report"
-                (click)="sendReportToAdmin()"></button>
-    </ng-template>
 </p-dialog>

@@ -162,7 +162,7 @@ def submit_answers(participant_id, attempt: dict):
 
         attempt_answers = attempt.get(str(attempt_question))
 
-        if attempt_answers is None:
+        if attempt_answers is None or len(attempt_answers) == 0:
             continue
 
         actual_answers = actual_question.get('answers')
@@ -191,7 +191,7 @@ def get_results(code):
     if participant.end_time is None:
         abort(400, 'Answers not submitted')
 
-    quiz = quiz_client.get_questions_for_quiz(participant.quiz_id)
+    quiz = quiz_client.get_questions_for_quiz(participant.quiz_id, include_configs=True)
     actual_question_answers = quiz.get('questions')
 
     question_dtos = []
@@ -215,7 +215,11 @@ def get_results(code):
         question_dtos.append(question_dto)
 
     results = participant.to_dict()
-    results['quiz'] = {'id': quiz.get('id'), 'title': quiz.get('title')}
+    counts = get_correct_count(participant)
+    results['correct_count'] = counts[0]
+    results['total_questions'] = counts[1]
+    results['percentage'] = counts[0] / counts[1] * 100
+    results['quiz'] = {'id': quiz.get('id'), 'title': quiz.get('title'), 'configs': quiz.get('configs')}
     results['questions'] = question_dtos
 
     return results

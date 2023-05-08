@@ -132,7 +132,11 @@ export class NewAttemptComponent implements OnInit {
                 .subscribe({
                     next: () => {
                         this.submitted = true;
-                        this.router.navigate(['/app/quiz', this.code, 'results'])
+                        if (this.authService.isLoggedIn()) {
+                            this.router.navigate(['/app/quiz', this.code, 'results'])
+                        } else {
+                            this.router.navigate(['/quiz', this.code, 'results'])
+                        }
                     },
                     error: error => {
                         const message = error?.error?.error || 'Unknown error occurred';

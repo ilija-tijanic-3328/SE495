@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
 import {StyleClassModule} from 'primeng/styleclass';
-import {AttemptResultRoutingModule} from "./attempt-result-routing.module";
+import {StatsRoutingModule} from "./stats-routing.module";
 import {RippleModule} from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
 import {ToolbarModule} from "primeng/toolbar";
@@ -14,10 +14,9 @@ import {DropdownModule} from "primeng/dropdown";
 import {TagModule} from "primeng/tag";
 import {CheckboxModule} from "primeng/checkbox";
 import {TooltipModule} from "primeng/tooltip";
-import {AttemptResultComponent} from "./attempt-result.component";
+import {StatsComponent} from "./stats.component";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {ReportQuizModule} from "../../reportquiz/report-quiz.module";
-import {ProgressBarModule} from "primeng/progressbar";
 
 @NgModule({
     imports: [
@@ -26,7 +25,7 @@ import {ProgressBarModule} from "primeng/progressbar";
         TableModule,
         StyleClassModule,
         ButtonModule,
-        AttemptResultRoutingModule,
+        StatsRoutingModule,
         RippleModule,
         InputTextModule,
         ToolbarModule,
@@ -37,10 +36,9 @@ import {ProgressBarModule} from "primeng/progressbar";
         CheckboxModule,
         TooltipModule,
         RadioButtonModule,
-        ReportQuizModule,
-        ProgressBarModule
+        ReportQuizModule
     ],
-    declarations: [AttemptResultComponent]
+    declarations: [StatsComponent]
 })
-export class AttemptResultModule {
+export class StatsModule {
 }

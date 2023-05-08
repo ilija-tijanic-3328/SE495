@@ -39,7 +39,8 @@
                                     <span class="text-lg font-semibold">
                                         {{ attempt.correct_count }} / {{ attempt.total_questions }}
                                     </span>
-                                    <p-progressBar [value]="attempt.percentage" [color]="getSeverity(attempt)"
+                                    <p-progressBar [value]="formatNumber(attempt?.percentage, 'en-US', '1.0-2')"
+                                                   [color]="getSeverity(attempt)"
                                                    styleClass="w-6rem ml-2"></p-progressBar>
                                 </div>
                             </div>

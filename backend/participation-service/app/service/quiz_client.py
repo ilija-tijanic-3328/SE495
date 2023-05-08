@@ -15,8 +15,8 @@ def send_request(path, method='GET', params=None, body=None, headers=None):
     return requests.request(method, f"{ROUTER_URL}{path}", params=params, json=body, headers=headers)
 
 
-def get_questions_for_quiz(quiz_id):
-    response = send_request(f'/quizzes/{quiz_id}/questions/grouped')
+def get_questions_for_quiz(quiz_id, include_configs: bool = False):
+    response = send_request(f'/quizzes/{quiz_id}/questions/grouped', params={'include_configs': include_configs})
 
     if response.status_code != 200:
         abort(500, "Couldn't fetch questions for checking answers")

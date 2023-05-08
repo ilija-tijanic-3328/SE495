@@ -205,7 +205,7 @@ def get_unfinished(quiz_id):
 
     now = datetime.now(timezone.utc)
     if quiz.status != 'PUBLISHED' or now > quiz.end_time.replace(tzinfo=timezone.utc):
-        abort(418, 'Quiz is finished')
+        abort(400, 'Quiz is finished')
 
     if now < quiz.start_time.replace(tzinfo=timezone.utc):
         abort(400, f"Quiz hasn't started yet. Come back on {quiz.start_time.isoformat(sep=' ')}")
@@ -243,7 +243,7 @@ def get_attempt_questions(quiz_id):
     return question_dtos
 
 
-def get_questions_grouped(quiz_id):
+def get_questions_grouped(quiz_id, include_configs: bool = False):
     quiz: Quiz = quiz_repo.get_by_id(quiz_id)
 
     quiz_dto = quiz.to_dict()
@@ -258,6 +258,9 @@ def get_questions_grouped(quiz_id):
         questions_dto[question.id] = question_dto
 
     quiz_dto['questions'] = questions_dto
+
+    if include_configs:
+        quiz_dto['configs'] = [q.to_dict() for q in quiz_config_service.get_by_quiz(quiz_id)]
 
     return quiz_dto
 

@@ -89,7 +89,8 @@ def get_attempt_questions(quiz_id):
 @quizzes.route('/<quiz_id>/questions/grouped', methods=['GET'])
 @current_user_required(optional=True)
 def get_questions_grouped(quiz_id):
-    return jsonify(quiz_service.get_questions_grouped(quiz_id))
+    include_configs = request.args.get('include_configs', type=bool)
+    return jsonify(quiz_service.get_questions_grouped(quiz_id, include_configs))
 
 
 @quizzes.route('/grouped', methods=['GET'])
