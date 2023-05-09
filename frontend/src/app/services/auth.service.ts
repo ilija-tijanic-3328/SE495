@@ -85,12 +85,16 @@ export class AuthService {
         return this.http.put<any>(environment.apiBaseUrl + '/auth/reset-password', request);
     }
 
-    changePassword(request: ChangePasswordRequest) {
+    changePassword(request: ChangePasswordRequest): Observable<any> {
         return this.http.put<any>(environment.apiBaseUrl + '/auth/change-password', request);
     }
 
-    deleteAccount(password: string) {
+    deleteAccount(password: string): Observable<any> {
         return this.http.delete<any>(environment.apiBaseUrl + '/auth/delete-account', {body: {password: password}});
+    }
+
+    unlockAccount(unlockToken: string): Observable<any> {
+        return this.http.put<any>(environment.apiBaseUrl + '/auth/unlock-account', {token: unlockToken});
     }
 
 }

@@ -42,3 +42,10 @@ def create_forgot_password_token(user_id):
 
 def delete_for_user(user_id):
     token_repo.delete_for_user(user_id)
+
+
+def create_unlock_account_token(user_id):
+    expiration = datetime.datetime.now() + datetime.timedelta(days=7)
+    token: Token = Token(user_id=user_id, type='UNLOCK_ACCOUNT_TOKEN', expiration_time=expiration,
+                         value=str(uuid.uuid4()))
+    return token_repo.create(token)

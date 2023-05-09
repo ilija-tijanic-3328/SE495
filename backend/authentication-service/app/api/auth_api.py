@@ -11,7 +11,7 @@ auth = Blueprint('auth', __name__)
 def login():
     email = request.json.get("email")
     password = request.json.get("password")
-    response = auth_service.authenticate(email, password)
+    response = auth_service.login(email, password)
     return jsonify(response)
 
 
@@ -70,3 +70,9 @@ def delete_account():
 @jwt_required()
 def current_user():
     return {"user_id": get_jwt_identity()}
+
+
+@auth.route("/unlock-account", methods=["PUT"])
+def unlock_account():
+    auth_service.unlock_account(request.json)
+    return "OK", 200

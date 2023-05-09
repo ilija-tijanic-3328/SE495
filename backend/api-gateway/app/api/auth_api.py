@@ -67,3 +67,10 @@ def delete_account():
     data = request.json
     response = auth_client.delete_account(data)
     return {"message": response.text}, response.status_code
+
+
+@auth.route('/unlock-account', methods=['PUT'])
+def unlock_account():
+    data = request.json
+    response = auth_client.unlock_account(data)
+    return {"message": response.text}, response.status_code

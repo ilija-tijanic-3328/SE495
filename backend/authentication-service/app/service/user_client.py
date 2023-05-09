@@ -55,3 +55,17 @@ def delete_account(user_id):
     response = send_request(f'/users/{user_id}', method='DELETE')
     if response.status_code != 200:
         abort(response.status_code, response.json().get('error'))
+
+
+def lock_user_account(user_id):
+    response = send_request(f'/users/{user_id}/lock', method='PUT')
+    if response.status_code != 200:
+        app.logger.warning(f'Account lock failed {user_id}')
+        abort(500, 'Account lock failed')
+
+
+def unlock_user_account(user_id):
+    response = send_request(f'/users/{user_id}/unlock', method='PUT')
+    if response.status_code != 200:
+        app.logger.warning(f'Account unlock failed {user_id}')
+        abort(500, 'Account unlock failed')

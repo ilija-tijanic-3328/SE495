@@ -1,4 +1,4 @@
-import {Router, RouterModule} from '@angular/router';
+import {ActivatedRouteSnapshot, Router, RouterModule, RouterStateSnapshot} from '@angular/router';
 import {inject, NgModule} from '@angular/core';
 import {AppLayoutComponent} from "./layout/app.layout.component";
 import {AuthService} from "./services/auth.service";
@@ -69,8 +69,8 @@ export function guestGuard() {
     return loggedIn ? router.navigate(['/app']) : true;
 }
 
-export function userGuard() {
-    let loggedIn = inject(AuthService).isLoggedIn();
+export function userGuard(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let router = inject(Router);
-    return loggedIn ? true : router.navigate(['/auth/login']);
+    let loggedIn = inject(AuthService).isLoggedIn();
+    return loggedIn ? true : router.navigate(['/auth/login'], {queryParams: {forwardUrl: state.url}});
 }

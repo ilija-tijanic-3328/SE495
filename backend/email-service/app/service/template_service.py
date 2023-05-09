@@ -3,7 +3,8 @@ from flask import render_template
 TEMPLATES = {
     "REGISTRATION": "Confirm your account",
     "FORGOT_PASSWORD": "Password reset request",
-    "PARTICIPANT_INVITATION": "Invitation to quiz"
+    "PARTICIPANT_INVITATION": "Invitation to quiz",
+    "ACCOUNT_LOCKED": "Your account has been locked"
 }
 
 

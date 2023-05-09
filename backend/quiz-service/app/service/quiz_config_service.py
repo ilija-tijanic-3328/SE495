@@ -57,8 +57,18 @@ def delete_for_quiz(quiz_id):
 
 
 def should_shuffle_questions(quiz_id):
-    return quiz_config_repo.get_by_quiz_and_config(quiz_id, 'Questions have random order').value == 'true'
+    quiz_config = quiz_config_repo.get_by_quiz_and_config(quiz_id, 'Questions have random order')
+
+    if quiz_config is None:
+        return DEFAULT_CONFIGS.get('Questions have random order') == 'true'
+    else:
+        return quiz_config.value == 'true'
 
 
 def should_shuffle_answers(quiz_id):
-    return quiz_config_repo.get_by_quiz_and_config(quiz_id, 'Answers have random order').value == 'true'
+    quiz_config = quiz_config_repo.get_by_quiz_and_config(quiz_id, 'Answers have random order')
+
+    if quiz_config is None:
+        return DEFAULT_CONFIGS.get('Answers have random order') == 'true'
+    else:
+        return quiz_config.value == 'true'

@@ -16,22 +16,21 @@
     <ng-container *ngIf="!minimal">
         <h5>Menu Type</h5>
         <div class="field-radiobutton">
-            <p-radioButton name="menuMode" value="static" [(ngModel)]="menuMode" inputId="mode1"></p-radioButton>
-            <label for="mode1">Static</label>
+            <p-radioButton name="menuMode" value="static" [(ngModel)]="menuMode" label="Static"></p-radioButton>
         </div>
         <div class="field-radiobutton">
-            <p-radioButton name="menuMode" value="overlay" [(ngModel)]="menuMode" inputId="mode2"></p-radioButton>
-            <label for="mode2">Overlay</label>
+            <p-radioButton name="menuMode" value="overlay" [(ngModel)]="menuMode" label="Overlay"></p-radioButton>
         </div>
     </ng-container>
 
     <ng-container *ngIf="!minimal">
         <h5>Dark Mode</h5>
-        <p-inputSwitch [(ngModel)]="darkMode"></p-inputSwitch>
+        <p-inputSwitch [(ngModel)]="darkMode" (onChange)="onDarkModeChange($event)"></p-inputSwitch>
     </ng-container>
 
     <ng-container *ngIf="!minimal">
         <h5>Two-Factor Authentication</h5>
-        <p-inputSwitch [(ngModel)]="twoFactorAuth"></p-inputSwitch>
+        <p-inputSwitch [(ngModel)]="twoFactorAuth"
+                       (onChange)="onTwoFactorAuthChange($event)"></p-inputSwitch>
     </ng-container>
 </p-sidebar>

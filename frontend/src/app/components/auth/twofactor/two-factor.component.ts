@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LayoutService} from 'src/app/layout/service/app.layout.service';
 import {AuthService} from "../../../services/auth.service";
 import {MessageService} from "primeng/api";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {TwoFactorLoginRequest} from "../../../models/request/two-factor-login-request";
 
 @Component({
@@ -17,12 +17,17 @@ import {TwoFactorLoginRequest} from "../../../models/request/two-factor-login-re
         }
     `]
 })
-export class TwoFactorComponent {
+export class TwoFactorComponent implements OnInit {
 
     protected request: TwoFactorLoginRequest = new TwoFactorLoginRequest();
+    private forwardUrl: string | null = null;
 
     constructor(protected layoutService: LayoutService, private authService: AuthService,
-                private messageService: MessageService, private router: Router) {
+                private messageService: MessageService, private router: Router, private route: ActivatedRoute) {
+    }
+
+    ngOnInit(): void {
+        this.forwardUrl = this.route.snapshot.queryParamMap.get('forwardUrl');
     }
 
     onSubmit() {
@@ -35,17 +40,23 @@ export class TwoFactorComponent {
                         this.authService.logout();
                         this.authService.saveToken(data.access_token);
                         this.authService.saveUserName(data.user_name);
-                        window.location.reload();
+
                         if (data.last_logged_in) {
                             this.messageService.add({
                                 severity: 'info',
-                                summary: `Welcome back ${data.user.name}`,
-                                life: 4000
+                                summary: `Welcome back ${data.user_name}!`,
+                                life: 3000
                             });
+                        }
+
+                        if (this.forwardUrl) {
+                            this.router.navigate([this.forwardUrl]);
+                        } else {
+                            this.router.navigate(['/app']);
                         }
                     } else {
                         this.authService.logout();
-                        this.router.navigate(['/auth/login'])
+                        this.router.navigate(['/auth/login'], {queryParams: {forwardUrl: this.forwardUrl}})
                     }
                 },
                 error: error => {

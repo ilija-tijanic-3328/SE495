@@ -23,7 +23,20 @@ def two_factor_auth(user):
     return token_service.create_two_factor_token(user.get('id'))
 
 
-def authenticate(email, password):
+def lock_user_account(user):
+    token = token_service.create_unlock_account_token(user.get('id'))
+    user_client.lock_user_account(user.get('id'))
+    email_client.send_account_locked_email(user, token)
+
+
+def authenticate(user_auth, user_id, user_name):
+    token = create_access_token(identity=user_id)
+    user_auth_service.set_last_logged_in(user_auth)
+    user_auth_service.reset_failed_login_count(user_auth)
+    return {"access_token": token, "user_name": user_name, "last_logged_in": user_auth.last_logged_in}
+
+
+def login(email, password):
     try:
         if email is not None and password is not None:
             account = user_client.get_account_with_config(email)
@@ -32,19 +45,31 @@ def authenticate(email, password):
                 user_id = user.get('id')
                 user_auth: UserAuth = user_auth_service.get_by_user(user_id)
 
-                if user_auth is not None and check_password(user_auth.password, password):
+                if user_auth is not None:
                     status = user.get('status')
+
                     if status == 'ACTIVE':
-                        configs = account.get('configs')
-                        if is_two_factor_enabled(configs):
-                            token = two_factor_auth(user)
-                            return {"two_factor_token": token.value}
+                        if check_password(user_auth.password, password):
+                            configs = account.get('configs')
+                            if is_two_factor_enabled(configs):
+                                token = two_factor_auth(user)
+                                return {"two_factor_token": token.value}
+                            else:
+                                return authenticate(user_auth, user_id, user.get('name'))
                         else:
-                            token = create_access_token(identity=user_id)
-                            return {"access_token": token, "user_name": user.get('name'),
-                                    "last_logged_in": user_auth.last_logged_in}
+                            attempts_left = user_auth_service.increment_failed_login(user_auth)
+
+                            if attempts_left <= 0:
+                                lock_user_account(user)
+                                info = f'Account locked due to too many failed login attempts.'
+                            else:
+                                info = f'Login attempts left: {attempts_left}'
+
+                            abort(401, f'Invalid email or password. {info}')
                     elif status == 'DISABLED':
                         abort(401, 'Account is disabled')
+                    elif status == 'LOCKED':
+                        abort(401, 'Account is locked due to too many failed login attempts')
                     elif status == 'UNCONFIRMED':
                         abort(401, 'Account is not confirmed, please check your email for account confirmation '
                                    'instructions')
@@ -52,7 +77,6 @@ def authenticate(email, password):
         abort(401, 'Invalid email or password')
     except Unauthorized as e:
         abort(401, e.description)
-        # TODO increment failed login count
     except Exception as e:
         app.logger.warning(f'Login error {e}')
         abort(500)
@@ -86,10 +110,10 @@ def check_two_factor(token, code):
         if two_factor_token is not None and two_factor_code is not None \
                 and two_factor_code.user_id == two_factor_code.user_id:
             user = user_client.get_by_id(two_factor_token.user_id)
-            token = create_access_token(identity=two_factor_token.user_id)
+            user_auth = user_auth_service.get_by_user(two_factor_token.user_id)
             token_service.delete_token(two_factor_token)
             token_service.delete_token(two_factor_code)
-            return {"access_token": token, "user_name": user.get('name')}
+            return authenticate(user_auth, user.get('id'), user.get('name'))
 
     abort(401, 'Invalid verification code')
 
@@ -190,3 +214,24 @@ def delete_account(data):
     user_client.delete_account(user_id)
     user_auth_service.delete(user_auth)
     token_service.delete_for_user(user_id)
+
+
+def unlock_account(data):
+    try:
+        token: str = data.get('token')
+        if token is not None:
+            unlock_token = token_service.get_token(token, 'UNLOCK_ACCOUNT_TOKEN')
+            if unlock_token is not None:
+                user_client.unlock_user_account(unlock_token.user_id)
+                token_service.delete_token(unlock_token)
+                user_auth = user_auth_service.get_by_user(unlock_token.user_id)
+                user_auth_service.reset_failed_login_count(user_auth)
+            else:
+                abort(400, 'Invalid unlock token')
+        else:
+            abort(400, 'Missing unlock token')
+    except BadRequest as e:
+        abort(400, e.description)
+    except Exception as e:
+        app.logger.warning(f'Account unlock error {e}')
+        abort(500)

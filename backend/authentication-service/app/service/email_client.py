@@ -43,3 +43,18 @@ def send_forgot_password_email(user, token):
     if response.status_code != 200:
         app.logger.warning(f'Registration email failed {token.id}')
         abort(500)
+
+
+def send_account_locked_email(user, token):
+    content = {
+        "type": 'ACCOUNT_LOCKED',
+        "email": user.get('email'),
+        "content": {
+            "name": user.get('name'),
+            "token": token.value
+        }
+    }
+    response = send_request('/send', method='POST', body=content)
+    if response.status_code != 200:
+        app.logger.warning(f'Account locked email failed {token.id}')
+        abort(500)

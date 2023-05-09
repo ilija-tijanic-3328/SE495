@@ -17,7 +17,22 @@ export class StatsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        let quizId: string | null = this.route.snapshot.paramMap.get('quizId');
 
+        if (quizId) {
+            if (this.authService.isLoggedIn() && this.router.url.startsWith('/quiz/')) {
+                this.router.navigate(['/app/quiz', quizId, 'stats']);
+                return;
+            }
+        } else {
+            this.messageService.add({
+                severity: 'error',
+                summary: "Invalid ID",
+                detail: 'Missing quiz id',
+                sticky: true
+            });
+            this.router.navigate(['/landing']);
+        }
     }
 
 }

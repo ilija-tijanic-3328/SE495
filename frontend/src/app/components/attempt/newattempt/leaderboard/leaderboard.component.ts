@@ -20,11 +20,14 @@ export class LeaderboardComponent implements OnInit {
         let quizId: string | null = this.route.snapshot.paramMap.get('quizId');
 
         if (quizId) {
-
+            if (this.authService.isLoggedIn() && this.router.url.startsWith('/quiz/')) {
+                this.router.navigate(['/app/quiz', quizId, 'leaderboard']);
+                return;
+            }
         } else {
             this.messageService.add({
                 severity: 'error',
-                summary: "Invalid Id",
+                summary: "Invalid ID",
                 detail: 'Missing quiz id',
                 sticky: true
             });

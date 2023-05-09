@@ -20,9 +20,14 @@ export class AppConfigComponent implements OnInit {
         ['AUTH_2_FACTOR', this.setTwoFactorAuth]
     ]);
 
+    twoFactorAuth: boolean;
+    darkMode: boolean;
+
     constructor(protected layoutService: LayoutService, private userService: UserService,
                 private messageService: MessageService) {
         layoutService.configOpen$.subscribe(() => this.layoutService.showConfigSidebar());
+        this.twoFactorAuth = layoutService.config.twoFactorAuth;
+        this.darkMode = layoutService.config.colorScheme == 'dark';
     }
 
     ngOnInit() {
@@ -52,7 +57,7 @@ export class AppConfigComponent implements OnInit {
     }
 
     set scale(_val: number) {
-        this.updateUserConfig('UI_SCALE', _val);
+        this.updateUserConfig('UI_SCALE', _val, this.scale);
     }
 
     private setScale(_val: number | string, component: AppConfigComponent) {
@@ -72,32 +77,20 @@ export class AppConfigComponent implements OnInit {
         component.layoutService.config.menuMode = _val;
     }
 
-    get darkMode(): boolean {
-        return this.layoutService.config.colorScheme == 'dark';
-    }
-
-    set darkMode(_val: boolean) {
-        this.updateUserConfig('UI_DARK_MODE', _val);
-    }
-
     private setDarkMode(_val: boolean | string, component: AppConfigComponent) {
-        if (_val == true || _val == 'true') {
+        let value = _val == true || _val == 'true';
+        if (value) {
             component.changeTheme('lara-dark-indigo', 'dark');
         } else {
             component.changeTheme('lara-light-indigo', 'light');
         }
-    }
-
-    get twoFactorAuth(): boolean {
-        return this.layoutService.config.twoFactorAuth;
-    }
-
-    set twoFactorAuth(_val: boolean) {
-        this.updateUserConfig('AUTH_2_FACTOR', _val);
+        component.darkMode = value;
     }
 
     private setTwoFactorAuth(_val: boolean | string, component: AppConfigComponent) {
-        component.layoutService.config.twoFactorAuth = _val == true || _val == 'true';
+        let value = _val == true || _val == 'true';
+        component.layoutService.config.twoFactorAuth = value;
+        component.twoFactorAuth = value;
     }
 
     changeTheme(theme: string, colorScheme: string) {
@@ -141,7 +134,7 @@ export class AppConfigComponent implements OnInit {
         document.documentElement.style.fontSize = this.scale + 'px';
     }
 
-    updateUserConfig(config: string, value: any) {
+    updateUserConfig(config: string, value: any, previousValue: any = null) {
         this.userService.updateUserConfig(config, value)
             .subscribe({
                 next: () => {
@@ -151,6 +144,12 @@ export class AppConfigComponent implements OnInit {
                     }
                 },
                 error: error => {
+                    if (previousValue != null) {
+                        let setter: Function | undefined = this.configMap.get(config);
+                        if (setter) {
+                            setter(previousValue, this);
+                        }
+                    }
                     const message = error?.error?.error || 'Unknown error occurred';
                     this.messageService.add({
                         severity: 'error',
@@ -160,6 +159,14 @@ export class AppConfigComponent implements OnInit {
                     })
                 }
             });
+    }
+
+    onTwoFactorAuthChange(event: any) {
+        this.updateUserConfig('AUTH_2_FACTOR', event.checked, !event.checked);
+    }
+
+    onDarkModeChange(event: any) {
+        this.updateUserConfig('UI_DARK_MODE', event.checked, !event.checked);
     }
 
 }

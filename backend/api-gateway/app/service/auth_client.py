@@ -86,3 +86,10 @@ def delete_account(data):
     if response.status_code != 200:
         abort(response.status_code, response.json().get('error'))
     return response
+
+
+def unlock_account(data):
+    response = send_request('/auth/unlock-account', 'PUT', body=data)
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+    return response

@@ -1,7 +1,7 @@
 import re
 
 import phonenumbers
-from flask import abort
+from flask import abort, g
 
 from app.data import user_repo
 from app.data.models import User
@@ -35,7 +35,7 @@ def create(user_request):
     return user_repo.create(user)
 
 
-def validate(name, phone_number):
+def validate(name, phone_number, user_id=None):
     if name is None or len(name) < 2:
         abort(400, 'Name must be at least 2 characters')
 
@@ -46,6 +46,8 @@ def validate(name, phone_number):
                 abort(400)
         except Exception as e:
             abort(400, 'Invalid phone number')
+    elif user_id is not None and user_app_config_service.is_two_factor_auth_enabled(user_id):
+        abort(400, 'Phone number is mandatory when two-factor authentication is enabled')
 
 
 def validate_email(email):
@@ -77,13 +79,16 @@ def confirm_user(user_id):
 
 
 def update(user_id, user_request):
+    if user_id != int(g.current_user_id):
+        abort(403)
+
     user: User = user_repo.get_by_id(user_id)
 
     if user is not None:
         name = user_request.get('name')
         phone_number: str | None = user_request.get('phone_number')
 
-        validate(name, phone_number)
+        validate(name, phone_number, user_id)
 
         if phone_number is not None:
             phone_number = phone_number.replace(' ', '').strip()
@@ -94,6 +99,9 @@ def update(user_id, user_request):
 
 
 def delete(user_id):
+    if user_id != int(g.current_user_id):
+        abort(403)
+
     user: User = user_repo.get_by_id(user_id)
 
     if user.status == 'DELETED':
@@ -137,3 +145,19 @@ def get_names_by_ids(user_ids):
         user_names[user.id] = user.name
 
     return user_names
+
+
+def lock_user_account(user_id):
+    user: User = user_repo.get_by_id(user_id)
+    if user is not None:
+        user_repo.update_status(user, 'LOCKED')
+    else:
+        abort(400, 'Cannot lock user account')
+
+
+def unlock_user_account(user_id):
+    user: User = user_repo.get_by_id(user_id)
+    if user is not None:
+        user_repo.update_status(user, 'ACTIVE')
+    else:
+        abort(400, 'Cannot unlock user account')

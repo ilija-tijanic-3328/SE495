@@ -7,7 +7,7 @@ from app.data.models import UserAppConfig
 def validate_two_factor(value):
     from app.data.user_repo import get_by_id
     user = get_by_id(g.current_user_id)
-    if user.phone_number is None and value == 'true':
+    if not user.phone_number and value == 'true':
         abort(400, 'Your account must have a phone number in order to use two-factor authentication')
 
 
@@ -51,3 +51,13 @@ def update(user_id, config, value):
 
 def delete_for_user(user_id):
     user_app_config_repo.delete_for_user(user_id)
+
+
+def is_two_factor_auth_enabled(user_id):
+    user_config: UserAppConfig = user_app_config_repo.get_by_user_and_config(user_id, 'AUTH_2_FACTOR')
+
+    if user_config is None:
+        default_config = [d for d in DEFAULT_CONFIGS if d.get('config') == 'AUTH_2_FACTOR']
+        return default_config and default_config[0].get('value') == 'true'
+    else:
+        return user_config.value == 'true'
