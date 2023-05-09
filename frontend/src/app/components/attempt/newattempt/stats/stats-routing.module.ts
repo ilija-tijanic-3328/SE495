@@ -4,8 +4,8 @@ import {StatsComponent} from "./stats.component";
 
 @NgModule({
     imports: [RouterModule.forChild([
-        {path: '', component: StatsComponent},
-        {path: ':code', component: StatsComponent},
+        {path: '', component: StatsComponent, title: 'Quiz Stats'},
+        {path: ':code', component: StatsComponent, title: 'Quiz Stats'},
     ])],
     exports: [RouterModule]
 })

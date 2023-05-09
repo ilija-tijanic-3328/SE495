@@ -225,8 +225,10 @@ def get_results(code):
     return results
 
 
-def get_correct_count(participant: Participant):
-    quiz = quiz_client.get_questions_for_quiz(participant.quiz_id)
+def get_correct_count(participant: Participant, quiz=None):
+    if quiz is None:
+        quiz = quiz_client.get_questions_for_quiz(participant.quiz_id)
+
     actual_question_answers = quiz.get('questions')
     correct_count = 0
 
@@ -256,6 +258,15 @@ def get_finished_by_user(user_id):
         dto['correct_count'] = counts[0]
         dto['total_questions'] = counts[1]
         dto['percentage'] = counts[0] / counts[1] * 100
+
+        if participant.start_time and participant.end_time:
+            diff = participant.end_time - participant.start_time
+            duration_seconds = diff.total_seconds()
+        else:
+            duration_seconds = 0
+
+        dto['duration_seconds'] = duration_seconds
+
         participant_dtos.append(dto)
 
     return participant_dtos
@@ -263,3 +274,29 @@ def get_finished_by_user(user_id):
 
 def get_by_id(participant_id):
     return quiz_participant_repo.get_by_id(participant_id)
+
+
+def get_leaderboard(quiz_id):
+    participant_dtos = []
+
+    quiz = quiz_client.get_questions_for_quiz(quiz_id)
+
+    for participant in quiz_participant_repo.get_by_quiz(quiz_id):
+        dto = participant.to_dict()
+        counts = get_correct_count(participant, quiz)
+
+        dto['correct_count'] = counts[0]
+        dto['total_questions'] = counts[1]
+        dto['percentage'] = counts[0] / counts[1] * 100
+
+        if participant.start_time and participant.end_time:
+            diff = participant.end_time - participant.start_time
+            duration_seconds = diff.total_seconds()
+        else:
+            duration_seconds = 0
+
+        dto['duration_seconds'] = duration_seconds
+
+        participant_dtos.append(dto)
+
+    return sorted(participant_dtos, key=lambda p: (-p.get('percentage'), p.get('duration_seconds')))

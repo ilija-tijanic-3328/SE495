@@ -65,3 +65,8 @@ def get_user_finished_participants():
 @current_user_required(optional=True)
 def get_by_id(participant_id):
     return jsonify(quiz_participant_service.get_by_id(participant_id).to_dict())
+
+
+@quiz_participants.route('/leaderboard/<quiz_id>', methods=['GET'])
+def get_leaderboard(quiz_id):
+    return jsonify(quiz_participant_service.get_leaderboard(quiz_id))

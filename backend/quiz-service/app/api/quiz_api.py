@@ -25,9 +25,14 @@ def create():
 
 
 @quizzes.route('/<quiz_id>', methods=['GET'])
-@current_user_required()
 def get_by_id(quiz_id):
-    return jsonify(quiz_service.get_by_id(g.current_user_id, quiz_id).to_dict())
+    return jsonify(quiz_service.get_by_id(quiz_id).to_dict())
+
+
+@quizzes.route('/<quiz_id>/check-user', methods=['GET'])
+@current_user_required()
+def get_by_id_and_user(quiz_id):
+    return jsonify(quiz_service.get_by_id_and_user(quiz_id, g.get('current_user_id')).to_dict())
 
 
 @quizzes.route('/<quiz_id>', methods=['PUT'])

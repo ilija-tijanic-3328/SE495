@@ -64,7 +64,12 @@ export class AttemptListComponent implements OnInit {
         this.participationService.getUserAttempts()
             .subscribe({
                 next: attempts => {
-                    this.attempts = attempts;
+                    this.attempts = attempts.map(p => {
+                        let date = new Date(1970, 0, 1);
+                        date.setSeconds(p.duration_seconds);
+                        p.duration = date;
+                        return p;
+                    });
                 },
                 error: error => {
                     const message = error?.error?.error || 'Unknown error occurred';

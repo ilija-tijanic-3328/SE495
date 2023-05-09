@@ -47,3 +47,9 @@ def get_attempts():
 def report_quiz():
     participation_client.report_quiz(request.json)
     return {"message": "OK"}, 200
+
+
+@participation.route('/<quiz_id>/leaderboard', methods=['GET'])
+@jwt_required()
+def get_leaderboard(quiz_id):
+    return jsonify(participation_client.get_leaderboard(quiz_id))

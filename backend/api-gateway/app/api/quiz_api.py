@@ -23,7 +23,7 @@ def delete(quiz_id):
 @quizzes.route('/<quiz_id>', methods=['GET'])
 @jwt_required()
 def get_by_id(quiz_id):
-    return jsonify(quiz_client.get_by_id(quiz_id))
+    return jsonify(quiz_client.get_by_id_and_check_user(quiz_id))
 
 
 @quizzes.route('/', methods=['POST'])

@@ -17,6 +17,7 @@ import {TooltipModule} from "primeng/tooltip";
 import {LeaderboardComponent} from "./leaderboard.component";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {ReportQuizModule} from "../../reportquiz/report-quiz.module";
+import {ProgressBarModule} from "primeng/progressbar";
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import {ReportQuizModule} from "../../reportquiz/report-quiz.module";
         CheckboxModule,
         TooltipModule,
         RadioButtonModule,
-        ReportQuizModule
+        ReportQuizModule,
+        ProgressBarModule
     ],
     declarations: [LeaderboardComponent]
 })

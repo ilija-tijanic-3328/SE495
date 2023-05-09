@@ -13,6 +13,7 @@ import {PasswordModule} from "primeng/password";
 import {InputTextModule} from "primeng/inputtext";
 import {FormsModule} from "@angular/forms";
 import {KeyFilterModule} from "primeng/keyfilter";
+import {ScrollTopModule} from "primeng/scrolltop";
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import {KeyFilterModule} from "primeng/keyfilter";
         PasswordModule,
         InputTextModule,
         FormsModule,
-        KeyFilterModule
+        KeyFilterModule,
+        ScrollTopModule
     ],
     declarations: [LandingComponent]
 })

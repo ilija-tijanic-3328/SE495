@@ -34,6 +34,10 @@ def delete(quiz_id):
         abort(response.status_code, response.json().get('error'))
 
 
+def get_by_id_and_check_user(quiz_id):
+    return send_json_request(f'/quizzes/{quiz_id}/check-user')
+
+
 def get_by_id(quiz_id):
     return send_json_request(f'/quizzes/{quiz_id}')
 

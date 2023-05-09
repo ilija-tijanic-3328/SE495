@@ -4,8 +4,8 @@ import {LeaderboardComponent} from "./leaderboard.component";
 
 @NgModule({
     imports: [RouterModule.forChild([
-        {path: '', component: LeaderboardComponent},
-        {path: ':code', component: LeaderboardComponent},
+        {path: '', component: LeaderboardComponent, title: 'Quiz Leaderboard'},
+        {path: ':code', component: LeaderboardComponent, title: 'Quiz Leaderboard'},
     ])],
     exports: [RouterModule]
 })

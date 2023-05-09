@@ -28,13 +28,13 @@ def send_json_request(path, method='GET', params=None, body=None, acceptable_cod
 
 
 def get_participants(quiz_id):
-    quiz_client.get_by_id(quiz_id)
+    quiz_client.get_by_id_and_check_user(quiz_id)
 
     return send_json_request('/quiz-participants', params={'quiz_id': quiz_id})
 
 
 def update_participants(quiz_id, participants):
-    quiz = quiz_client.get_by_id(quiz_id)
+    quiz = quiz_client.get_by_id_and_check_user(quiz_id)
     status = quiz.get('status')
 
     if status == 'ARCHIVED':
@@ -188,3 +188,20 @@ def report_quiz(data):
 
     notification_client.report_quiz(message, participant.get('quiz_id'), participant.get('code'),
                                     participant.get('name'))
+
+
+def get_leaderboard_participants(quiz_id):
+    response = send_request(f'/quiz-participants/leaderboard/{quiz_id}')
+
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+
+    return response.json()
+
+
+def get_leaderboard(quiz_id):
+    quiz = quiz_client.get_by_id(quiz_id)
+
+    quiz['participants'] = get_leaderboard_participants(quiz_id)
+
+    return quiz

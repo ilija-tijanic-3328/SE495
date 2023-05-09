@@ -144,4 +144,9 @@ export class QuizListComponent implements OnInit {
         this.router.navigate(['/app/quizzes', quiz.id])
     }
 
+    openLeaderboard(id: any, event: any) {
+        event.stopPropagation();
+        this.router.navigate(['/app/quiz', id, 'leaderboard']);
+    }
+
 }

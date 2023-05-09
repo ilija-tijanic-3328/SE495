@@ -108,13 +108,17 @@ def create(user_id, data: dict) -> Quiz:
     return quiz
 
 
-def get_by_id(user_id, quiz_id):
+def get_by_id_and_user(quiz_id, user_id):
     quiz = quiz_repo.get_by_id(quiz_id)
 
     if quiz.user_id != int(user_id):
         abort(403)
 
     return quiz
+
+
+def get_by_id(quiz_id):
+    return quiz_repo.get_by_id(quiz_id)
 
 
 def update(user_id, quiz_id, data):
@@ -151,12 +155,12 @@ def get_date(date: str, msg: str):
 
 
 def get_quiz_configs(user_id, quiz_id):
-    get_by_id(user_id, quiz_id)
+    get_by_id_and_user(quiz_id, user_id)
     return quiz_config_service.get_by_quiz(quiz_id)
 
 
 def update_configs(user_id, quiz_id, configs):
-    quiz: Quiz = get_by_id(user_id, quiz_id)
+    quiz: Quiz = get_by_id_and_user(quiz_id, user_id)
 
     validate_status(quiz)
 
@@ -164,7 +168,7 @@ def update_configs(user_id, quiz_id, configs):
 
 
 def get_questions(user_id, quiz_id) -> list[dict]:
-    get_by_id(user_id, quiz_id)
+    get_by_id_and_user(quiz_id, user_id)
     questions = question_service.get_by_quiz(quiz_id)
     question_dtos = []
 
@@ -177,7 +181,7 @@ def get_questions(user_id, quiz_id) -> list[dict]:
 
 
 def update_questions(user_id, quiz_id, questions):
-    quiz: Quiz = get_by_id(user_id, quiz_id)
+    quiz: Quiz = get_by_id_and_user(quiz_id, user_id)
 
     validate_status(quiz)
 
@@ -185,7 +189,7 @@ def update_questions(user_id, quiz_id, questions):
 
 
 def publish_quiz(user_id, quiz_id):
-    quiz: Quiz = get_by_id(user_id, quiz_id)
+    quiz: Quiz = get_by_id_and_user(quiz_id, user_id)
     quiz_repo.update_status(quiz, 'PUBLISHED')
 
 
