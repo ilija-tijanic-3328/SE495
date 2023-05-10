@@ -13,6 +13,8 @@ import {Leaderboard} from "../../../../models/response/leaderboard";
 export class LeaderboardComponent implements OnInit {
 
     leaderboard: Leaderboard | null = null;
+    creator: boolean = false;
+    canViewStats: boolean = false;
 
     constructor(private messageService: MessageService, private router: Router, private route: ActivatedRoute,
                 private authService: AuthService, private participationService: ParticipationService) {
@@ -37,6 +39,14 @@ export class LeaderboardComponent implements OnInit {
                             return p;
                         })
                         this.leaderboard = data;
+
+                        let currentUserId = this.authService.getUserId();
+                        if (currentUserId && data.user_id == Number(currentUserId)) {
+                            this.creator = true;
+                        }
+
+                        this.canViewStats = data?.configs
+                            .find((c: any) => c.config == 'Participants can view report')?.value == 'true';
                     },
                     error: error => {
                         const message = error?.error?.error || 'Unknown error occurred';
@@ -62,12 +72,16 @@ export class LeaderboardComponent implements OnInit {
     protected readonly formatNumber = formatNumber;
 
     getSeverity(attempt: ParticipantAttempt) {
-        if (attempt.percentage > 90) {
+        if (attempt?.percentage > 90) {
             return '#22C55E';
-        } else if (attempt.percentage > 75) {
-            return '#6366F1';
-        } else if (attempt.percentage > 50) {
-            return '#F59E0B';
+        } else if (attempt?.percentage > 80) {
+            return '#3B82F6';
+        } else if (attempt?.percentage > 70) {
+            return '#a563f1';
+        } else if (attempt?.percentage > 60) {
+            return '#ee842d';
+        } else if (attempt?.percentage > 50) {
+            return '#efcb16';
         } else {
             return '#EF4444';
         }

@@ -14,6 +14,7 @@ export class AttemptResultComponent implements OnInit {
     code: string | null = null;
     leaderboardEnabled: boolean = false;
     statsEnabled: boolean = false;
+    creator: boolean = false;
 
     constructor(private messageService: MessageService, private router: Router, private route: ActivatedRoute,
                 private authService: AuthService, private participationService: ParticipationService) {
@@ -37,11 +38,21 @@ export class AttemptResultComponent implements OnInit {
             this.participationService.getQuizResultsByCode(code)
                 .subscribe({
                     next: data => {
+                        let date = new Date(1970, 0, 1);
+                        date.setSeconds(data.duration_seconds);
+                        data.duration = date;
+
                         this.attempt = data;
-                        if (data?.quiz?.configs) {
-                            this.leaderboardEnabled = data?.quiz?.configs
+
+                        let currentUserId = this.authService.getUserId();
+                        if (currentUserId && data.quiz.user_id == Number(currentUserId)) {
+                            this.creator = true;
+                        }
+
+                        if (data.quiz.configs) {
+                            this.leaderboardEnabled = this.creator || data?.quiz?.configs
                                 .find((c: any) => c.config == 'Participants can view leaderboard')?.value == 'true';
-                            this.statsEnabled = data?.quiz?.configs
+                            this.statsEnabled = this.creator || data?.quiz?.configs
                                 .find((c: any) => c.config == 'Participants can view report')?.value == 'true';
                         }
                     },
@@ -85,13 +96,16 @@ export class AttemptResultComponent implements OnInit {
     }
 
     getSeverity(attempt: any) {
-        let percentage = attempt?.percentage || 0;
-        if (percentage > 90) {
+        if (attempt?.percentage > 90) {
             return '#22C55E';
-        } else if (percentage > 75) {
-            return '#6366F1';
-        } else if (percentage > 50) {
-            return '#F59E0B';
+        } else if (attempt?.percentage > 80) {
+            return '#3B82F6';
+        } else if (attempt?.percentage > 70) {
+            return '#a563f1';
+        } else if (attempt?.percentage > 60) {
+            return '#ee842d';
+        } else if (attempt?.percentage > 50) {
+            return '#efcb16';
         } else {
             return '#EF4444';
         }

@@ -7,6 +7,7 @@ const TOKEN_KEY = 'auth-token';
 const TWO_FACTOR_TOKEN_KEY = '2-factor-token';
 const QUESTIONS_KEY = 'questions-';
 const PARTICIPANTS_KEY = 'participants-';
+const USER_ID_KEY = 'user-id';
 
 @Injectable({
     providedIn: 'root'
@@ -55,13 +56,21 @@ export class StorageService {
         return questions ? JSON.parse(questions) : [];
     }
 
-    saveParticipants(participants: Participant[], quizId: any) {
+    public saveParticipants(participants: Participant[], quizId: any) {
         this.storage.setItem(PARTICIPANTS_KEY + quizId, JSON.stringify(participants));
     }
 
     public getParticipants(quizId: any): Participant[] {
         let participants = this.storage.getItem(PARTICIPANTS_KEY + quizId);
         return participants ? JSON.parse(participants) : [];
+    }
+
+    public saveUserId(userId: any) {
+        this.storage.setItem(USER_ID_KEY, userId);
+    }
+
+    public getUserId() {
+        return this.storage.getItem(USER_ID_KEY);
     }
 
 }

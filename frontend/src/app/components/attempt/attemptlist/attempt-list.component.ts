@@ -49,12 +49,16 @@ export class AttemptListComponent implements OnInit {
     }
 
     getSeverity(attempt: ParticipantAttempt) {
-        if (attempt.percentage > 90) {
+        if (attempt?.percentage > 90) {
             return '#22C55E';
-        } else if (attempt.percentage > 75) {
-            return '#6366F1';
-        } else if (attempt.percentage > 50) {
-            return '#F59E0B';
+        } else if (attempt?.percentage > 80) {
+            return '#3B82F6';
+        } else if (attempt?.percentage > 70) {
+            return '#a563f1';
+        } else if (attempt?.percentage > 60) {
+            return '#ee842d';
+        } else if (attempt?.percentage > 50) {
+            return '#efcb16';
         } else {
             return '#EF4444';
         }

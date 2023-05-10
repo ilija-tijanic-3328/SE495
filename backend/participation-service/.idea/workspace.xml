@@ -5,13 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e5f4d0e-8519-47da-8b4f-32382a3e9031" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/data/user_auth_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/data/user_auth_repo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/auth_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/email_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/email_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/token_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/token_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/service/user_auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/service/user_auth_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../notification-service/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/quiz-stats.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/participation_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/participation_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/participation_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/participation_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/quiz_participants_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/quiz_participants_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/service/quiz_participant_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/quiz_participant_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/stats/stats.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/models/response/attempt-question.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/attempt-question.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/models/response/leaderboard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/models/response/leaderboard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/participation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/participation.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/storage.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/storage.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +68,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ilija/Documents/SE495/backend/router&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ilija/Documents/SE495/backend/participation-service&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
@@ -118,6 +134,9 @@
       <workItem from="1683460741994" duration="9351000" />
       <workItem from="1683476924962" duration="8704000" />
       <workItem from="1683569956684" duration="1193000" />
+      <workItem from="1683643001672" duration="4101000" />
+      <workItem from="1683658230277" duration="2244000" />
+      <workItem from="1683758482702" duration="1420000" />
     </task>
     <servers />
   </component>

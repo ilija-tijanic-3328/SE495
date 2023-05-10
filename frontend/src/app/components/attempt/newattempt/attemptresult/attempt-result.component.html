@@ -2,7 +2,21 @@
     <div class="col-12">
         <div class="card px-5 py-5" style="min-height: 80vh">
             <div class="grid justify-content-center align-content-center">
-                <div class="col-12 text-center">
+                <div class="col-12 grid justify-content-between">
+                    <div [pTooltip]="getTooltipText('leaderboard')"
+                         [tooltipDisabled]="leaderboardEnabled && isLoggedIn()" tooltipPosition="top">
+                        <button pButton label="Leaderboard" class="p-button-outlined w-10rem"
+                                [disabled]="!leaderboardEnabled || !isLoggedIn()"
+                                [routerLink]="'/quiz/' + attempt?.quiz?.id + '/leaderboard'"></button>
+                    </div>
+                    <div [pTooltip]="getTooltipText('stats')"
+                         [tooltipDisabled]="statsEnabled && isLoggedIn()" tooltipPosition="top">
+                        <button pButton label="Statistics" class="p-button-outlined w-10rem"
+                                [disabled]="!statsEnabled || !isLoggedIn()"
+                                [routerLink]="'/quiz/' + attempt?.quiz?.id + '/stats'"></button>
+                    </div>
+                </div>
+                <div class="col-12 text-center pt-0">
                     <img src="../../../../../assets/demo/images/quiz/quiz-results.svg" alt="{{attempt?.quiz?.title}}"
                          width="120rem"/>
                 </div>
@@ -10,7 +24,10 @@
                     <h5>{{attempt?.name}}'s results for {{ attempt?.quiz?.title }}</h5>
                 </div>
                 <div class="col-12 text-center p-0">
-                    <h4>{{ attempt?.correct_count || 0 }} / {{ attempt?.total_questions || 0 }}</h4>
+                    <h5>Finished in <span class="text-primary">{{ attempt?.duration | date:'mm:ss' }}</span> with
+                        <span class="text-primary">{{ attempt?.correct_count || 0 }}
+                            / {{ attempt?.total_questions || 0 }}</span> correct answers
+                    </h5>
                 </div>
                 <div class="col-12 flex justify-content-center align-content-center align-items-center p-0">
                     <p-progressBar [value]="formatNumber(attempt?.percentage, 'en-US', '1.0-2')"
@@ -40,18 +57,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 mt-3 text-right" [pTooltip]="getTooltipText('leaderboard')"
-                     [tooltipDisabled]="leaderboardEnabled && isLoggedIn()" tooltipPosition="top">
-                    <button pButton label="Leaderboard" class="p-button-outlined w-full md:w-6 xl:w-4"
-                            [disabled]="!leaderboardEnabled || !isLoggedIn()"
-                            [routerLink]="'/quiz/' + attempt?.quiz?.id + '/leaderboard'"></button>
-                </div>
-                <div class="col-6 mt-3 text-left" [pTooltip]="getTooltipText('stats')"
-                     [tooltipDisabled]="statsEnabled && isLoggedIn()" tooltipPosition="top">
-                    <button pButton label="Statistics" class="p-button-outlined w-full md:w-6 xl:w-4"
-                            [disabled]="!statsEnabled || !isLoggedIn()"
-                            [routerLink]="'/quiz/' + attempt?.quiz?.id + '/stats'"></button>
-                </div>
                 <div class="col-12 flex flex-wrap justify-content-center align-items-center align-content-center mt-7"
                      *ngIf="!isLoggedIn()">
                     <h6>Want to create your own quiz and challenge your friends?</h6>
@@ -61,4 +66,4 @@
         </div>
     </div>
 </div>
-<app-report-quiz [participantId]="attempt?.id"></app-report-quiz>
+<app-report-quiz [participantId]="attempt?.id" *ngIf="!creator"></app-report-quiz>

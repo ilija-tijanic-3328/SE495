@@ -154,8 +154,8 @@ def get_date(date: str, msg: str):
         abort(400, msg)
 
 
-def get_quiz_configs(user_id, quiz_id):
-    get_by_id_and_user(quiz_id, user_id)
+def get_quiz_configs(quiz_id):
+    get_by_id(quiz_id)
     return quiz_config_service.get_by_quiz(quiz_id)
 
 
@@ -230,14 +230,19 @@ def get_attempt_questions(quiz_id):
         question_dto = question.to_dict()
         answer_dtos = []
 
+        correct_count = 0
         for answer in question.answers:
             answer_dto = {'id': answer.id, 'text': answer.text}
             answer_dtos.append(answer_dto)
+
+            if answer.correct:
+                correct_count += 1
 
         if shuffle_answers:
             random.shuffle(answer_dtos)
 
         question_dto['answers'] = answer_dtos
+        question_dto['correct_count'] = correct_count
 
         question_dtos.append(question_dto)
 

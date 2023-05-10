@@ -38,8 +38,8 @@ def get_unfinished_participant_by_code(code):
 @quiz_participants.route('/<participant_id>/start', methods=['PUT'])
 @current_user_required(optional=True)
 def start_attempt(participant_id):
-    allowed_time = int(request.json.get('time_allowed'))
-    return jsonify(quiz_participant_service.start_attempt(participant_id, allowed_time))
+    time_allowed = int(request.json.get('time_allowed'))
+    return jsonify(quiz_participant_service.start_attempt(participant_id, time_allowed))
 
 
 @quiz_participants.route('/<participant_id>/answers', methods=['PUT'])
@@ -70,3 +70,8 @@ def get_by_id(participant_id):
 @quiz_participants.route('/leaderboard/<quiz_id>', methods=['GET'])
 def get_leaderboard(quiz_id):
     return jsonify(quiz_participant_service.get_leaderboard(quiz_id))
+
+
+@quiz_participants.route('/stats/<quiz_id>', methods=['GET'])
+def get_stats(quiz_id):
+    return jsonify(quiz_participant_service.get_stats(quiz_id))

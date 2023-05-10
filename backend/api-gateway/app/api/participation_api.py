@@ -53,3 +53,9 @@ def report_quiz():
 @jwt_required()
 def get_leaderboard(quiz_id):
     return jsonify(participation_client.get_leaderboard(quiz_id))
+
+
+@participation.route('/<quiz_id>/stats', methods=['GET'])
+@jwt_required()
+def get_stats(quiz_id):
+    return jsonify(participation_client.get_stats(quiz_id))

@@ -6,6 +6,7 @@ import {Invitation} from "../models/response/invitation";
 import {ParticipantQuiz} from "../models/response/participant-quiz";
 import {ParticipantAttempt} from "../models/response/participant-attempt";
 import {Leaderboard} from "../models/response/leaderboard";
+import {QuizStats} from "../models/response/quiz-stats";
 
 @Injectable()
 export class ParticipationService {
@@ -46,6 +47,10 @@ export class ParticipationService {
 
     getQuizLeaderboard(quizId: string): Observable<Leaderboard> {
         return this.http.get<Leaderboard>(environment.apiBaseUrl + `/participation/${quizId}/leaderboard`);
+    }
+
+    getQuizStats(quizId: string): Observable<QuizStats> {
+        return this.http.get<QuizStats>(environment.apiBaseUrl + `/participation/${quizId}/stats`);
     }
 
 }

@@ -1,7 +1,7 @@
 from datetime import timezone, datetime
 
 import requests
-from flask import g, abort
+from flask import g, abort, current_app
 
 from app import ROUTER_URL
 from app.service import quiz_client, user_client, notification_client
@@ -199,9 +199,46 @@ def get_leaderboard_participants(quiz_id):
     return response.json()
 
 
+def is_config_enabled(configs, config_name):
+    for config in configs:
+        if config.get('config') == config_name and config.get('value') == 'true':
+            return True
+    return False
+
+
 def get_leaderboard(quiz_id):
     quiz = quiz_client.get_by_id(quiz_id)
 
+    configs = quiz_client.get_quiz_configs(quiz_id)
+
+    if quiz.get('user_id') != g.get('current_user_id') and \
+            not is_config_enabled(configs, 'Participants can view leaderboard'):
+        abort(403)
+
+    quiz['configs'] = configs
     quiz['participants'] = get_leaderboard_participants(quiz_id)
+
+    return quiz
+
+
+def get_quiz_stats(quiz_id):
+    response = send_request(f'/quiz-participants/stats/{quiz_id}')
+
+    if response.status_code != 200:
+        abort(response.status_code, response.json().get('error'))
+
+    return response.json()
+
+
+def get_stats(quiz_id):
+    quiz = quiz_client.get_by_id(quiz_id)
+
+    configs = quiz_client.get_quiz_configs(quiz_id)
+    if quiz.get('user_id') != g.get('current_user_id') and \
+            not is_config_enabled(configs, 'Participants can view report'):
+        abort(403)
+
+    quiz['configs'] = configs
+    quiz['stats'] = get_quiz_stats(quiz_id)
 
     return quiz

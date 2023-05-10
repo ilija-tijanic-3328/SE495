@@ -25,14 +25,19 @@
                         <div *ngFor="let question of questions; let i = index"
                              class="col-12 grid text-lg align-content-start">
                             <div class="col-12 font-bold">{{i + 1}}. {{question.text}}</div>
-                            <div *ngFor="let answer of question.answers" class="col-12 pl-6">
-                                <p-radioButton [name]="'group'+question.id" [label]="answer.text"
-                                               [inputId]="''+answer.id"
-                                               [value]="answer.id" *ngIf="question.type == 'Single choice'"
-                                               [(ngModel)]="answers[question.id]"></p-radioButton>
-                                <p-checkbox [name]="'group'+question.id" [label]="answer.text"
-                                            [(ngModel)]="answers[question.id]"
-                                            [value]="answer.id" *ngIf="question.type == 'Multiple choice'"></p-checkbox>
+                            <div *ngIf="question.type == 'Single choice'">
+                                <div *ngFor="let answer of question.answers" class="col-12 pl-6">
+                                    <p-radioButton [name]="'group'+question.id" [label]="answer.text"
+                                                   [inputId]="''+answer.id" [value]="answer.id"
+                                                   [(ngModel)]="answers[question.id]"></p-radioButton>
+                                </div>
+                            </div>
+                            <div *ngIf="question.type == 'Multiple choice'">
+                                <div *ngFor="let answer of question.answers" class="col-12 pl-6">
+                                    <p-checkbox [name]="'group'+question.id" [label]="answer.text"
+                                                [disabled]="answers[question.id]?.length >= question.correct_count && !answers[question.id].includes(answer.id)"
+                                                [(ngModel)]="answers[question.id]" [value]="answer.id"></p-checkbox>
+                                </div>
                             </div>
                         </div>
                     </div>

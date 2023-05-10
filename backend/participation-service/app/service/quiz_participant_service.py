@@ -127,15 +127,19 @@ def end_attempt(participant_id, app_context):
             quiz_participant_repo.set_end_time(participant, end_time)
 
 
-def start_attempt(participant_id, allowed_time: int):
+def start_attempt(participant_id, time_allowed: int):
     participant: Participant = quiz_participant_repo.get_by_id(participant_id)
     start_time = datetime.datetime.now()
     quiz_participant_repo.set_start_time(participant, start_time)
 
     scheduler.add_job(func=end_attempt, args=[participant_id, current_app.app_context()],
-                      run_date=start_time + datetime.timedelta(minutes=allowed_time, seconds=10))
+                      run_date=start_time + datetime.timedelta(minutes=time_allowed, seconds=5))
 
     return {'start_time': start_time}
+
+
+def correct_answer_count(actual_answers):
+    return sum(map(lambda x: 1 if x.get('correct') else 0, actual_answers.values()))
 
 
 def submit_answers(participant_id, attempt: dict):
@@ -146,8 +150,6 @@ def submit_answers(participant_id, attempt: dict):
 
     if participant.end_time is not None:
         abort(400, 'Answers already submitted')
-
-    quiz_participant_repo.set_end_time(participant, datetime.datetime.now())
 
     answers: list[ParticipantAnswer] = []
 
@@ -162,13 +164,19 @@ def submit_answers(participant_id, attempt: dict):
 
         attempt_answers = attempt.get(str(attempt_question))
 
-        if attempt_answers is None or len(attempt_answers) == 0:
+        if not attempt_answers:
             continue
+
+        question_type = actual_question.get('type')
 
         actual_answers = actual_question.get('answers')
 
-        if actual_question.get('type') != 'Multiple choice':
+        if question_type != 'Multiple choice':
             attempt_answers = [attempt_answers]
+
+        if question_type == 'Single choice' and len(attempt_answers) > 1 or question_type == 'Multiple choice' and len(
+                attempt_answers) > correct_answer_count(actual_answers):
+            abort(400, 'Too many answers selected')
 
         filtered_answers = set()
         for attempt_answer in attempt_answers:
@@ -179,6 +187,7 @@ def submit_answers(participant_id, attempt: dict):
         answers.append(ParticipantAnswer(quiz_participant_id=participant.id, question_id=attempt_question,
                                          value=','.join(filtered_answers)))
 
+    quiz_participant_repo.set_end_time(participant, datetime.datetime.now())
     quiz_participant_repo.set_answers(participant, answers)
 
 
@@ -215,25 +224,35 @@ def get_results(code):
         question_dtos.append(question_dto)
 
     results = participant.to_dict()
-    counts = get_correct_count(participant)
+    counts = get_correct_count(participant, quiz.get('questions'))
+
+    time_allowed_seconds = quiz.get('time_allowed') * 60
+    if participant.start_time and participant.end_time:
+        diff = participant.end_time - participant.start_time
+        duration_seconds = min(diff.total_seconds(), time_allowed_seconds)
+    else:
+        duration_seconds = time_allowed_seconds + 5
+
+    results['duration_seconds'] = duration_seconds
     results['correct_count'] = counts[0]
     results['total_questions'] = counts[1]
     results['percentage'] = counts[0] / counts[1] * 100
-    results['quiz'] = {'id': quiz.get('id'), 'title': quiz.get('title'), 'configs': quiz.get('configs')}
+    results['quiz'] = {'id': quiz.get('id'), 'user_id': quiz.get('user_id'), 'title': quiz.get('title'),
+                       'configs': quiz.get('configs')}
     results['questions'] = question_dtos
 
     return results
 
 
-def get_correct_count(participant: Participant, quiz=None):
-    if quiz is None:
-        quiz = quiz_client.get_questions_for_quiz(participant.quiz_id)
-
-    actual_question_answers = quiz.get('questions')
+def get_correct_count(participant: Participant, actual_question_answers, include_by_question=False):
     correct_count = 0
+    correct_count_by_question = {}
 
     for question_id in actual_question_answers:
         question = actual_question_answers.get(question_id)
+
+        if include_by_question:
+            correct_count_by_question[question_id] = 0
 
         answer_attempt = [a for a in participant.answers if a.question_id == int(question_id)]
         answers = question.get('answers')
@@ -244,9 +263,12 @@ def get_correct_count(participant: Participant, quiz=None):
             values = answer_attempt[0].value.split(',') if answer_attempt else []
 
             if answer.get('correct') and values.count(answer_id) > 0:
-                correct_count += 1 / correct_answers
+                points = 1 / correct_answers
+                correct_count += points
+                if include_by_question:
+                    correct_count_by_question[question_id] += points
 
-    return correct_count, len(actual_question_answers)
+    return correct_count, len(actual_question_answers), correct_count_by_question
 
 
 def get_finished_by_user(user_id):
@@ -254,16 +276,18 @@ def get_finished_by_user(user_id):
 
     for participant in quiz_participant_repo.get_finished_by_user(user_id):
         dto = participant.to_dict()
-        counts = get_correct_count(participant)
+        quiz = quiz_client.get_questions_for_quiz(participant.quiz_id)
+        counts = get_correct_count(participant, quiz.get('questions'))
         dto['correct_count'] = counts[0]
         dto['total_questions'] = counts[1]
         dto['percentage'] = counts[0] / counts[1] * 100
 
+        time_allowed_seconds = quiz.get('time_allowed') * 60
         if participant.start_time and participant.end_time:
             diff = participant.end_time - participant.start_time
-            duration_seconds = diff.total_seconds()
+            duration_seconds = min(diff.total_seconds(), time_allowed_seconds)
         else:
-            duration_seconds = 0
+            duration_seconds = time_allowed_seconds + 5
 
         dto['duration_seconds'] = duration_seconds
 
@@ -283,20 +307,52 @@ def get_leaderboard(quiz_id):
 
     for participant in quiz_participant_repo.get_by_quiz(quiz_id):
         dto = participant.to_dict()
-        counts = get_correct_count(participant, quiz)
+        counts = get_correct_count(participant, quiz.get('questions'))
 
         dto['correct_count'] = counts[0]
         dto['total_questions'] = counts[1]
         dto['percentage'] = counts[0] / counts[1] * 100
 
+        time_allowed_seconds = quiz.get('time_allowed') * 60
         if participant.start_time and participant.end_time:
             diff = participant.end_time - participant.start_time
-            duration_seconds = diff.total_seconds()
+            duration_seconds = min(diff.total_seconds(), time_allowed_seconds)
         else:
-            duration_seconds = 0
+            duration_seconds = time_allowed_seconds + 5
 
         dto['duration_seconds'] = duration_seconds
 
         participant_dtos.append(dto)
 
     return sorted(participant_dtos, key=lambda p: (-p.get('percentage'), p.get('duration_seconds')))
+
+
+def get_stats(quiz_id):
+    quiz = quiz_client.get_questions_for_quiz(quiz_id)
+    questions = {}
+    percentages = []
+
+    actual_questions = quiz.get('questions')
+    for question_id in actual_questions:
+        questions[question_id] = {'label': actual_questions.get(question_id).get('text'), 'value': 0}
+
+    for participant in quiz_participant_repo.get_by_quiz(quiz_id):
+        if participant.end_time is None:
+            percentages.append(-1)
+        else:
+            counts = get_correct_count(participant, actual_questions, include_by_question=True)
+            percentages.append(counts[0] / counts[1] * 100)
+
+            for question_id in counts[2]:
+                questions.get(question_id)['value'] = questions.get(question_id).get('value') + counts[2].get(
+                    question_id)
+
+    return {
+        'question_completion': list(questions.values()),
+        'quiz_scores': [{'label': 'A (>90%)', 'value': sum(map(lambda x: x > 90, percentages))},
+                        {'label': 'B (>80%)', 'value': sum(map(lambda x: 80 < x <= 90, percentages))},
+                        {'label': 'C (>70%)', 'value': sum(map(lambda x: 70 < x <= 80, percentages))},
+                        {'label': 'D (>60%)', 'value': sum(map(lambda x: 60 < x <= 70, percentages))},
+                        {'label': 'E (>50%)', 'value': sum(map(lambda x: 50 < x <= 60, percentages))},
+                        {'label': 'F (<=50%)', 'value': sum(map(lambda x: 0 <= x <= 50, percentages))},
+                        {'label': "Didn't attempt", 'value': sum(map(lambda x: x < 0, percentages))}]}

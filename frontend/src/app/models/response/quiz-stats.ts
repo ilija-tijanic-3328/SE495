@@ -1,6 +1,4 @@
-import {ParticipantAttempt} from "./participant-attempt";
-
-export interface Leaderboard {
+export interface QuizStats {
     id: number;
     title: string;
     user_id: number;
@@ -13,5 +11,8 @@ export interface Leaderboard {
         config: string;
         value: string;
     }[];
-    participants: ParticipantAttempt[];
+    stats: {
+        quiz_scores: { label: string, value: number }[],
+        question_completion: { label: string, value: number }[]
+    }
 }

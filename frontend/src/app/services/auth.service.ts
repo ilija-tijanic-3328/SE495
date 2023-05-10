@@ -43,6 +43,7 @@ export class AuthService {
 
     saveToken(token: string): void {
         this.storageService.saveToken(token);
+        this.saveUserId(token);
     }
 
     saveUserName(userName: string): void {
@@ -95,6 +96,16 @@ export class AuthService {
 
     unlockAccount(unlockToken: string): Observable<any> {
         return this.http.put<any>(environment.apiBaseUrl + '/auth/unlock-account', {token: unlockToken});
+    }
+
+    private saveUserId(token: string) {
+        let decoded = atob(token.split('.')[1])
+        let userId = JSON.parse(decoded).sub;
+        this.storageService.saveUserId(userId);
+    }
+
+    getUserId() {
+        return this.storageService.getUserId();
     }
 
 }

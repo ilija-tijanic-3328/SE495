@@ -42,9 +42,9 @@ def update(quiz_id):
 
 
 @quizzes.route('/<quiz_id>/quiz-configs', methods=['GET'])
-@current_user_required()
+@current_user_required(optional=True)
 def get_quiz_configs(quiz_id):
-    quiz_configs = quiz_service.get_quiz_configs(g.current_user_id, quiz_id)
+    quiz_configs = quiz_service.get_quiz_configs(quiz_id)
     return jsonify([q.to_dict() for q in quiz_configs])
 
 

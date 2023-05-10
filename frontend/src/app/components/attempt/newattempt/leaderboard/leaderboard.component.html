@@ -1,6 +1,15 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-5 py-5" style="min-height: 80vh">
+            <div class="grid justify-content-between">
+                <button pButton class="p-button-outlined w-7rem lg:w-10rem" label="Back"
+                        routerLink="/app/quizzes" [disabled]="!creator"
+                        [style.visibility]="creator ? 'visible' : 'hidden'"></button>
+                <button pButton class="p-button-outlined w-7rem lg:w-10rem" label="Statistics"
+                        [disabled]="!creator && !canViewStats"
+                        [style.visibility]="creator || canViewStats ? 'visible' : 'hidden'"
+                        [routerLink]="'/app/quiz/' + leaderboard?.id + '/stats'"></button>
+            </div>
             <div class="text-center">
                 <img src="assets/demo/images/quiz/trophy.svg" alt="{{leaderboard?.title}}" width="120rem"/>
                 <h3>{{ leaderboard?.title }}</h3>
@@ -21,13 +30,16 @@
                                     </div>
                                     <div class="flex align-items-center gap-3">
                                         <span class="flex align-items-center gap-2 md:pl-4">
-                                            <i class="pi pi-calendar"></i>
-                                            <span class="font-semibold color-">
+                                            <span class="font-semibold color-" *ngIf="attempt.start_time">
+                                                <i class="pi pi-calendar"></i>
                                                 {{ attempt.start_time | date:'medium' }}
                                                 - {{ attempt.end_time | date:'medium' }}
                                                 <span class="text-primary">
                                                     ({{ attempt.duration | date:'mm:ss' }})
                                                 </span>
+                                            </span>
+                                            <span class="font-semibold color-" *ngIf="!attempt.start_time">
+                                                Didn't attempt
                                             </span>
                                         </span>
                                     </div>
