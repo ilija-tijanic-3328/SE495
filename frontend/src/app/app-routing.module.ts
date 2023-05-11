@@ -11,6 +11,7 @@ import {AuthService} from "./services/auth.service";
                 children: [
                     {
                         path: '',
+                        title: 'Quick Quiz Ninja',
                         loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule)
                     },
                     {
@@ -46,6 +47,7 @@ import {AuthService} from "./services/auth.service";
                 children: [
                     {
                         path: '',
+                        title: 'Quick Quiz Ninja',
                         loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule)
                     },
                     {

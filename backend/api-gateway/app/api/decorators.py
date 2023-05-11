@@ -11,8 +11,11 @@ def jwt_required(optional: bool = False):
         def decorator(*args, **kwargs):
             jwt_header = request.headers.get('Authorization')
             if jwt_header is not None:
-                user_id = auth_client.get_current_user(jwt_header)
-                g.current_user_id = user_id
+                try:
+                    user_id = auth_client.get_current_user(jwt_header)
+                    g.current_user_id = user_id
+                except:
+                    abort(401)
             else:
                 if not optional:
                     abort(401)
