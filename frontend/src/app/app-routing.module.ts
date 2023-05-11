@@ -14,40 +14,70 @@ import {AuthService} from "./services/auth.service";
                         loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule)
                     },
                     {
-                        path: 'pages',
-                        loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule)
-                    },
-                    {
                         path: 'account',
-                        title: 'QuickQuiz.Ninja - Account',
+                        title: 'Quick Quiz Ninja - Account',
                         loadChildren: () => import('./components/account/account.module').then(m => m.AccountModule)
                     },
                     {
                         path: 'quizzes',
-                        title: 'QuickQuiz.Ninja - My Quizzes',
+                        title: 'Quick Quiz Ninja - My Quizzes',
                         loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
                     },
                     {
                         path: 'attempts',
-                        title: 'QuickQuiz.Ninja - My Attempts',
+                        title: 'Quick Quiz Ninja - My Attempts',
                         loadChildren: () => import('./components/attempt/attempt.module').then(m => m.AttemptModule)
                     },
                     {
                         path: 'invitations',
-                        title: 'QuickQuiz.Ninja - My Invitations',
+                        title: 'Quick Quiz Ninja - My Invitations',
                         loadChildren: () => import('./components/attempt/invitationlist/invitation-list.module').then(m => m.InvitationListModule)
                     },
                     {
                         path: 'quiz',
-                        title: 'QuickQuiz.Ninja - Quiz Attempt',
+                        title: 'Quick Quiz Ninja - Quiz Attempt',
                         loadChildren: () => import('./components/attempt/newattempt/new-attempt.module').then(m => m.NewAttemptModule)
                     }
                 ],
                 canActivate: [userGuard]
             },
             {
+                path: 'admin', component: AppLayoutComponent,
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule)
+                    },
+                    {
+                        path: 'account',
+                        title: 'Quick Quiz Ninja - Account',
+                        loadChildren: () => import('./components/account/account.module').then(m => m.AccountModule)
+                    },
+                    {
+                        path: 'users',
+                        title: 'Quick Quiz Ninja - Users',
+                        loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
+                    },
+                    {
+                        path: 'quizzes',
+                        title: 'Quick Quiz Ninja - Quizzes',
+                        loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
+                    },
+                    {
+                        path: 'notifications',
+                        title: 'Quick Quiz Ninja - Notifications',
+                        loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
+                    },
+                    {
+                        path: 'pages',
+                        loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule)
+                    }
+                ],
+                canActivate: [adminGuard]
+            },
+            {
                 path: 'quiz',
-                title: 'QuickQuiz.Ninja - Quiz Attempt',
+                title: 'Quick Quiz Ninja - Quiz Attempt',
                 loadChildren: () => import('./components/attempt/newattempt/new-attempt.module').then(m => m.NewAttemptModule)
             },
             {path: 'auth', loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule)},
@@ -73,4 +103,11 @@ export function userGuard(route: ActivatedRouteSnapshot, state: RouterStateSnaps
     let router = inject(Router);
     let loggedIn = inject(AuthService).isLoggedIn();
     return loggedIn ? true : router.navigate(['/auth/login'], {queryParams: {forwardUrl: state.url}});
+}
+
+export function adminGuard(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    let router = inject(Router);
+    let authService = inject(AuthService);
+    let adminLoggedIn = authService.isLoggedIn() && authService.isAdmin();
+    return adminLoggedIn ? true : router.navigate(['/auth/login'], {queryParams: {forwardUrl: state.url}});
 }

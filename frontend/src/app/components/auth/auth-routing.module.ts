@@ -11,24 +11,25 @@ import {ConfirmComponent} from "./confirm.component";
         {path: 'access-denied', loadChildren: () => import('./access/access.module').then(m => m.AccessModule)},
         {
             path: 'register',
-            title: 'QuickQuiz.Ninja - Register',
+            title: 'Quick Quiz Ninja - Register',
             loadChildren: () => import('./register/register.module').then(m => m.RegisterModule),
             canActivate: [guestGuard]
         },
         {
             path: 'forgot-password',
-            title: 'QuickQuiz.Ninja - Forgot Password',
+            title: 'Quick Quiz Ninja - Forgot Password',
             loadChildren: () => import('./forgotpassword/forgot-password.module').then(m => m.ForgotPasswordModule),
             canActivate: [guestGuard]
         },
         {
             path: 'reset-password',
-            title: 'QuickQuiz.Ninja - Reset Password',
+            title: 'Quick Quiz Ninja - Reset Password',
             loadChildren: () => import('./resetpassword/reset-password.module').then(m => m.ResetPasswordModule),
             canActivate: [guestGuard]
         },
         {
             path: 'two-factor',
+            title: 'Quick Quiz Ninja - Two Factor Login',
             loadChildren: () => import('./twofactor/two-factor.module').then(m => m.TwoFactorModule),
             canActivate: [twoFactorGuard]
         },
@@ -43,7 +44,7 @@ import {ConfirmComponent} from "./confirm.component";
         },
         {
             path: '**',
-            title: 'QuickQuiz.Ninja - Login',
+            title: 'Quick Quiz Ninja - Login',
             loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
             canActivate: [guestGuard]
         }

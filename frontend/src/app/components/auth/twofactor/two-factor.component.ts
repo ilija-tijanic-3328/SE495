@@ -40,6 +40,7 @@ export class TwoFactorComponent implements OnInit {
                         this.authService.logout();
                         this.authService.saveToken(data.access_token);
                         this.authService.saveUserName(data.user_name);
+                        this.authService.saveRole(data.role);
 
                         if (data.last_logged_in) {
                             this.messageService.add({

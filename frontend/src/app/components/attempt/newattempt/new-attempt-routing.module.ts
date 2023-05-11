@@ -7,18 +7,18 @@ import {userGuard} from "../../../app-routing.module";
     imports: [RouterModule.forChild([
         {
             path: ':code/results',
-            title: 'QuickQuiz.Ninja - Quiz Results',
+            title: 'Quick Quiz Ninja - Quiz Results',
             loadChildren: () => import('./attemptresult/attempt-result.module').then(m => m.AttemptResultModule)
         },
         {
             path: ':quizId/leaderboard',
-            title: 'QuickQuiz.Ninja - Quiz Leaderboard',
+            title: 'Quick Quiz Ninja - Quiz Leaderboard',
             loadChildren: () => import('./leaderboard/leaderboard.module').then(m => m.LeaderboardModule),
             canActivate: [userGuard]
         },
         {
             path: ':quizId/stats',
-            title: 'QuickQuiz.Ninja - Quiz Stats',
+            title: 'Quick Quiz Ninja - Quiz Stats',
             loadChildren: () => import('./stats/stats.module').then(m => m.StatsModule),
             canActivate: [userGuard]
         },

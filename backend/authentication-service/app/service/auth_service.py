@@ -29,11 +29,12 @@ def lock_user_account(user):
     email_client.send_account_locked_email(user, token)
 
 
-def authenticate(user_auth, user_id, user_name):
+def authenticate(user_auth, user_id, user_name, role):
     token = create_access_token(identity=user_id)
+    last_logged_in = user_auth.last_logged_in
     user_auth_service.set_last_logged_in(user_auth)
     user_auth_service.reset_failed_login_count(user_auth)
-    return {"access_token": token, "user_name": user_name, "last_logged_in": user_auth.last_logged_in}
+    return {"access_token": token, "user_name": user_name, "role": role, "last_logged_in": last_logged_in}
 
 
 def login(email, password):
@@ -55,7 +56,7 @@ def login(email, password):
                                 token = two_factor_auth(user)
                                 return {"two_factor_token": token.value}
                             else:
-                                return authenticate(user_auth, user_id, user.get('name'))
+                                return authenticate(user_auth, user_id, user.get('name'), user.get('role'))
                         else:
                             attempts_left = user_auth_service.increment_failed_login(user_auth)
 
@@ -113,7 +114,7 @@ def check_two_factor(token, code):
             user_auth = user_auth_service.get_by_user(two_factor_token.user_id)
             token_service.delete_token(two_factor_token)
             token_service.delete_token(two_factor_code)
-            return authenticate(user_auth, user.get('id'), user.get('name'))
+            return authenticate(user_auth, user.get('id'), user.get('name'), user.get('role'))
 
     abort(401, 'Invalid verification code')
 

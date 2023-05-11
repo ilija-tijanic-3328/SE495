@@ -4,7 +4,7 @@ import {AttemptListComponent} from "./attempt-list.component";
 
 @NgModule({
     imports: [RouterModule.forChild([
-        {path: '', component: AttemptListComponent, title: 'Attempts'},
+        {path: '', component: AttemptListComponent},
     ])],
     exports: [RouterModule]
 })

@@ -108,4 +108,12 @@ export class AuthService {
         return this.storageService.getUserId();
     }
 
+    isAdmin() {
+        return this.storageService.getRole() == 'ADMIN';
+    }
+
+    saveRole(role: string) {
+        this.storageService.saveRole(role);
+    }
+
 }

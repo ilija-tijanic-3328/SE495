@@ -8,6 +8,7 @@ const TWO_FACTOR_TOKEN_KEY = '2-factor-token';
 const QUESTIONS_KEY = 'questions-';
 const PARTICIPANTS_KEY = 'participants-';
 const USER_ID_KEY = 'user-id';
+const ROLE_KEY = 'role';
 
 @Injectable({
     providedIn: 'root'
@@ -71,6 +72,14 @@ export class StorageService {
 
     public getUserId() {
         return this.storage.getItem(USER_ID_KEY);
+    }
+
+    public saveRole(role: string) {
+        this.storage.setItem(ROLE_KEY, role);
+    }
+
+    public getRole() {
+        return this.storage.getItem(ROLE_KEY);
     }
 
 }
