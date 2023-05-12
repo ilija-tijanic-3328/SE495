@@ -52,3 +52,29 @@ def report_quiz(message, quiz_id, code, name):
     if response.status_code != 201:
         current_app.logger.warning(f'Report quiz notification failed {code}')
         abort(response.status_code, response.json())
+
+
+def send(data):
+    recipient_ids = data.get('recipient_ids')
+    message = data.get('message')
+    deep_link = data.get('deep_link') or '/app'
+    failed_for = []
+
+    if not recipient_ids:
+        abort(400, 'Recipients must be added')
+
+    if not message:
+        abort(400, 'Message cannot be empty')
+
+    for recipient_id in recipient_ids:
+        response = send_request(f'/notifications', 'POST', body={
+            "type": "ADMIN_MESSAGE",
+            "user_id": recipient_id,
+            "content": {'message': message},
+            "deep_link": {'deep_link': deep_link}
+        })
+        if response.status_code != 201:
+            current_app.logger.warning(f'Admin message notification failed {recipient_id}')
+            failed_for.append(recipient_id)
+
+    return {'failed_for': failed_for}

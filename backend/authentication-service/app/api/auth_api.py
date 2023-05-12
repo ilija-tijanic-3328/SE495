@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.api.decorators import current_user_required
-from app.service import auth_service
+from app.service import auth_service, user_client
 
 auth = Blueprint('auth', __name__)
 
@@ -69,7 +69,8 @@ def delete_account():
 @auth.route("/current-user", methods=["GET"])
 @jwt_required()
 def current_user():
-    return {"user_id": get_jwt_identity()}
+    user_id = get_jwt_identity()
+    return user_client.get_by_id(user_id)
 
 
 @auth.route("/unlock-account", methods=["PUT"])

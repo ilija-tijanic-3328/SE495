@@ -1,0 +1,91 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-4 py-4" style="min-height: 80vh">
+            <p-dataView #dt [value]="quizzes" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                        [sortField]="sortField" [sortOrder]="sortOrder" [rows]="10" [filterBy]="searchFields">
+                <ng-template pTemplate="header">
+                    <div class="flex flex-column md:flex-row md:justify-content-between align-items-center">
+                        <span class="block mt-2 md:mt-0">
+                            <p-dropdown [options]="filterOptions" placeholder="Published"
+                                        (onChange)="onFilterChange($event)" styleClass="w-9rem"></p-dropdown>
+                        </span>
+                        <span class="block mt-2 md:mt-0">
+                            <p-dropdown [options]="sortOptions" placeholder="Sort by Start Time Ascending"
+                                        (onChange)="onSortChange($event)" styleClass="w-16rem"></p-dropdown>
+                        </span>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search"
+                                   class="w-16rem"/>
+                        </span>
+                        <span class="block mt-2 md:mt-0">
+                            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 w-8rem"
+                                    routerLink="/app/quizzes/new"></button>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="listItem" let-quiz>
+                    <div class="col-12 hoverable" (click)="onQuizClicked(quiz)">
+                        <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                            <div
+                                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                    <div class="text-2xl font-bold text-900">
+                                        {{ quiz.title }}
+                                        <p-tag [value]="getStatus(quiz)" [severity]="getSeverity(quiz)"
+                                               *ngIf="quiz.status == 'PUBLISHED'"></p-tag>
+                                    </div>
+                                    <div class="flex align-items-center gap-3">
+                                        <span class="flex align-items-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="font-semibold">
+                                                {{ quiz.start_time | date:'medium' }}
+                                                - {{ quiz.end_time | date:'medium' }}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                    <span class="text-lg font-semibold">{{ quiz.submitted_count }}
+                                        / {{quiz.participants_count}} submitted</span>
+                                    <div class="flex gap-2">
+                                        <button pButton icon="pi pi-users" tooltipPosition="left"
+                                                (click)="openLeaderboard(quiz.id, $event)"
+                                                class="md:align-self-end mb-2 p-button-rounded p-button-info"
+                                                *ngIf="quiz.submitted_count > 0" pTooltip="Leaderboard">
+                                        </button>
+                                        <button pButton icon="pi pi-trash" (click)="deleteQuiz(quiz, $event)"
+                                                class="md:align-self-end mb-2 p-button-rounded p-button-danger"
+                                                *ngIf="quiz.submitted_count == 0" pTooltip="Delete"
+                                                tooltipPosition="left">
+                                        </button>
+                                        <button pButton icon="pi pi-folder-open" (click)="deleteQuiz(quiz, $event)"
+                                                class="md:align-self-end mb-2 p-button-rounded p-button-help"
+                                                *ngIf="quiz.submitted_count > 0 && quiz.status != 'ARCHIVED'"
+                                                pTooltip="Archive" tooltipPosition="left">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+
+        <p-dialog [(visible)]="deleteQuizDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="quiz">
+                    Are you sure you want to {{quiz.submitted_count ? 'archive' : 'delete'}} <b>{{quiz.title}}</b>?
+                </span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                        (click)="deleteQuizDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                        (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

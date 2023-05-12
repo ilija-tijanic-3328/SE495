@@ -22,3 +22,9 @@ def mark_as_seen():
 @jwt_required()
 def get_unseen_count():
     return jsonify(notification_client.get_unseen_count())
+
+
+@notifications.route('/', methods=['POST'])
+@jwt_required(role='ADMIN')
+def send_notification():
+    return jsonify(notification_client.send(request.json))

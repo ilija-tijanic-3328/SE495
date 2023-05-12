@@ -58,17 +58,17 @@ import {AuthService} from "./services/auth.service";
                     {
                         path: 'users',
                         title: 'Quick Quiz Ninja - Users',
-                        loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
+                        loadChildren: () => import('./components/admin/userlist/admin-user-list.module').then(m => m.AdminUserListModule)
                     },
                     {
                         path: 'quizzes',
                         title: 'Quick Quiz Ninja - Quizzes',
-                        loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
+                        loadChildren: () => import('./components/admin/quizlist/admin-quiz-list.module').then(m => m.AdminQuizListModule)
                     },
                     {
-                        path: 'notifications',
-                        title: 'Quick Quiz Ninja - Notifications',
-                        loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
+                        path: 'notification',
+                        title: 'Quick Quiz Ninja - New Notification',
+                        loadChildren: () => import('./components/admin/notification/admin-notification.module').then(m => m.AdminNotificationModule)
                     },
                     {
                         path: 'pages',

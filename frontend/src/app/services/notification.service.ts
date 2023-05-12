@@ -21,4 +21,12 @@ export class NotificationService {
         return this.http.put<any>(environment.apiBaseUrl + '/notifications', {ids: [id]});
     }
 
+    sendMessage(recipientIds: number[], message: string, deepLink: string) {
+        return this.http.post<any>(environment.apiBaseUrl + '/notifications', {
+            recipient_ids: recipientIds,
+            message: message,
+            deep_link: deepLink
+        });
+    }
+
 }

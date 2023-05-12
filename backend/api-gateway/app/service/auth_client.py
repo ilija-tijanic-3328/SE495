@@ -71,7 +71,7 @@ def get_current_user(jwt_header):
     response = send_request('/auth/current-user', headers={"Authorization": jwt_header})
     if response.status_code != 200:
         abort(response.status_code, response.json().get('error'))
-    return response.json().get('user_id')
+    return response.json()
 
 
 def change_password(data):

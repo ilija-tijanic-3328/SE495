@@ -20,6 +20,10 @@ TEMPLATES = {
     "REPORT_QUIZ": {
         "content": "{name} ({code}) has reported a quiz for the following reason: {message}",
         "deep_link": "/admin/quizzes/{quiz_id}"
+    },
+    "ADMIN_MESSAGE": {
+        "content": "{message}",
+        "deep_link": "{deep_link}"
     }
 }
 
