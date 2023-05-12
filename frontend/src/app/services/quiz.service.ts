@@ -61,4 +61,8 @@ export class QuizService {
         return this.http.put<any>(environment.apiBaseUrl + `/quizzes/${quizId}/participants`, participants);
     }
 
+    getQuizzes() {
+        return this.http.get<Quiz[]>(environment.apiBaseUrl + '/admin/quizzes');
+    }
+
 }

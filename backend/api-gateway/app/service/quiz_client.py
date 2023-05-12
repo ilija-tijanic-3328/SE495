@@ -25,7 +25,7 @@ def send_json_request(path, method='GET', params=None, body=None, acceptable_cod
 
 
 def get_by_user(status: str):
-    return send_json_request('/quizzes', params={'status': status})
+    return send_json_request('/quizzes', params={'user_id': g.get('current_user_id'), 'status': status})
 
 
 def delete(quiz_id):
@@ -104,3 +104,7 @@ def get_by_ids(quiz_ids):
         return {}
 
     return response.json()
+
+
+def get_all():
+    return send_json_request('/quizzes')

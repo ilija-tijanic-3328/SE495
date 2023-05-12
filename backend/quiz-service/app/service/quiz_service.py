@@ -10,9 +10,7 @@ from app.service import participation_client, quiz_config_service, question_serv
 DATE_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 
 
-def get_by_user_and_status(user_id, status='PUBLISHED'):
-    quizzes = quiz_repo.get_by_user_and_status(user_id, status)
-
+def get_dtos(quizzes):
     quiz_dtos = []
 
     if len(quizzes) > 0:
@@ -35,6 +33,11 @@ def get_by_user_and_status(user_id, status='PUBLISHED'):
             quiz_dtos.append(quiz_dto)
 
     return quiz_dtos
+
+
+def get_by_user_and_status(user_id, status='PUBLISHED'):
+    quizzes = quiz_repo.get_by_user_and_status(user_id, status)
+    return get_dtos(quizzes)
 
 
 def delete(user_id, quiz_id):
@@ -283,3 +286,8 @@ def get_grouped(quiz_ids):
         quizzes[quiz.id] = quiz.to_dict()
 
     return quizzes
+
+
+def get_all():
+    quizzes = quiz_repo.get_all()
+    return get_dtos(quizzes)

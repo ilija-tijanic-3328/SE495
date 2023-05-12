@@ -8,8 +8,14 @@ quizzes = Blueprint('quizzes', __name__)
 
 @quizzes.route('/', methods=['GET'])
 @current_user_required()
-def get_by_user():
-    return jsonify(quiz_service.get_by_user_and_status(g.current_user_id, request.args.get('status')))
+def get_by():
+    status = request.args.get('status')
+    user_id = request.args.get('user_id')
+
+    if user_id and status:
+        return jsonify(quiz_service.get_by_user_and_status(user_id, status))
+
+    return jsonify(quiz_service.get_all())
 
 
 @quizzes.route('/<quiz_id>', methods=['DELETE'])

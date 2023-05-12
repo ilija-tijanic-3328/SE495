@@ -1,152 +1,152 @@
 import {Component, OnInit} from '@angular/core';
-import {MessageService, SelectItem} from "primeng/api";
-import {QuizService} from "../../../services/quiz.service";
-import {Quiz} from "../../../models/response/quiz";
-import {DataView} from "primeng/dataview";
-import {Router} from "@angular/router";
+import {MessageService} from "primeng/api";
+import {User} from "../../../models/response/user";
+import {UserService} from "../../../services/user.service";
+import {Table} from "primeng/table";
 
 @Component({
     templateUrl: './admin-user-list.component.html'
 })
 export class AdminUserListComponent implements OnInit {
 
-    deleteQuizDialog: boolean = false;
+    deleteUserDialog: boolean = false;
 
-    quizzes: Quiz[] = [];
+    users: User[] = [];
 
-    quiz: Quiz | null = null;
+    selectedUser: User | null = null;
 
-    sortField: string = 'start_time';
-
-    sortOrder: number = 1;
-
-    searchFields: string = 'title,description,start_time,end_time,allowed_time';
-
-    sortOptions: SelectItem[] = [
-        {label: "Sort by Start Time Ascending", value: "start_time"},
-        {label: "Sort by Start Time Descending", value: "!start_time"},
-        {label: "Sort by Title Ascending", value: "title"},
-        {label: "Sort by Title Descending", value: "!title"}
+    columns: any = [
+        {field: 'name', header: 'Name'},
+        {field: 'email', header: 'Email'},
+        {field: 'phone_number', header: 'Phone Number'},
+        {field: 'role', header: 'Role'},
+        {field: 'status', header: 'Status'}
     ];
 
-    filterOptions: SelectItem[] = [
-        {label: "Published", value: "PUBLISHED"},
-        {label: "Draft", value: "DRAFT"},
-        {label: "Archived", value: "ARCHIVED"}
-    ];
+    changeStatusDialog: boolean = false;
+    selectedStatus: string | null = null;
 
-    constructor(private messageService: MessageService, private quizService: QuizService, private router: Router) {
+    constructor(private messageService: MessageService, private userService: UserService) {
     }
 
     ngOnInit(): void {
-        this.loadQuizzes('PUBLISHED');
+        this.loadUsers();
     }
 
-    deleteQuiz(quiz: Quiz, event: Event) {
+    deleteUser(user: User, event: Event) {
         event.stopPropagation();
-        this.deleteQuizDialog = true;
-        this.quiz = {...quiz};
+        this.deleteUserDialog = true;
+        this.selectedUser = {...user};
     }
 
     confirmDelete() {
-        this.deleteQuizDialog = false;
-        if (this.quiz) {
-            this.quizService.deleteQuiz(this.quiz)
+        this.deleteUserDialog = false;
+        if (this.selectedUser) {
+            this.userService.deleteUser(this.selectedUser)
                 .subscribe({
                     next: () => {
-                        this.quizzes = this.quizzes.filter(val => val.id !== this.quiz?.id);
+                        this.users = this.users.filter(val => val.id !== this.selectedUser?.id);
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Successful',
-                            detail: 'Quiz Deleted',
+                            detail: 'User Deleted',
                             life: 3000
                         });
-                        this.quiz = null;
+                        this.selectedUser = null;
                     },
                     error: error => {
                         const message = error?.error?.error || 'Unknown error occurred';
                         this.messageService.add({
                             severity: 'error',
-                            summary: "Quiz deletion failed",
+                            summary: "User deletion failed",
                             detail: message,
-                            sticky: true
+                            life: 4000
                         });
                     }
                 });
         }
     }
 
-    onGlobalFilter(dataView: DataView, event: Event) {
-        dataView.filter((event.target as HTMLInputElement).value, 'contains');
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    onFilterChange(event: any) {
-        this.loadQuizzes(event.value);
-    }
-
-    onSortChange(event: any) {
-        let value = event.value;
-
-        if (value.indexOf('!') == 0) {
-            this.sortOrder = -1;
-            this.sortField = value.substring(1);
-        } else {
-            this.sortOrder = 1;
-            this.sortField = value;
+    getSeverity(user: User) {
+        switch (user.status) {
+            case 'ACTIVE':
+                return 'success';
+            case 'LOCKED':
+                return 'help';
+            case 'DISABLED':
+                return 'danger';
+            case 'UNCONFIRMED':
+                return 'warn';
+            default:
+                return '';
         }
     }
 
-    getSeverity(quiz: Quiz) {
-        let now = new Date();
-        if (quiz.start_time && now < quiz.start_time) {
-            return 'primary';
-        } else if (quiz.end_time && now > quiz.end_time) {
-            return 'warning';
-        } else {
-            return 'success';
-        }
-    }
-
-    getStatus(quiz: Quiz) {
-        let now = new Date();
-        if (quiz.start_time && now < quiz.start_time) {
-            return 'Not started';
-        } else if (quiz.end_time && now > quiz.end_time) {
-            return 'Finished';
-        } else {
-            return 'Active';
-        }
-    }
-
-    private loadQuizzes(status: string) {
-        this.quizService.getUserCreatedQuizzes(status)
+    private loadUsers() {
+        this.userService.getAllUsers()
             .subscribe({
-                next: quizList => {
-                    this.quizzes = quizList.map(q => {
-                        q.start_time = new Date(String(q.start_time));
-                        q.end_time = new Date(String(q.end_time));
-                        return q;
-                    });
+                next: userList => {
+                    this.users = userList;
                 },
                 error: error => {
                     const message = error?.error?.error || 'Unknown error occurred';
                     this.messageService.add({
                         severity: 'error',
-                        summary: "Couldn't load your quizzes",
+                        summary: "Couldn't load users",
                         detail: message,
-                        sticky: true
+                        life: 4000
                     });
                 }
             });
     }
 
-    onQuizClicked(quiz: Quiz) {
-        this.router.navigate(['/app/quizzes', quiz.id])
+    onUserClicked(user: User) {
+
     }
 
-    openLeaderboard(id: any, event: any) {
-        event.stopPropagation();
-        this.router.navigate(['/app/quiz', id, 'leaderboard']);
+    openChangeStatusDialog(user: User) {
+        if (user.role != 'ADMIN') {
+            this.selectedUser = user;
+            this.changeStatusDialog = true;
+            this.selectedStatus = user.status;
+        }
+    }
+
+    changeStatus() {
+        this.changeStatusDialog = false;
+        if (this.selectedUser && this.selectedStatus) {
+            this.userService.changeStatus(this.selectedUser.id, this.selectedStatus)
+                .subscribe({
+                    next: () => {
+                        this.users = [...this.users.map(u => {
+                            if (this.selectedUser != null && this.selectedStatus != null && u.id == this.selectedUser.id) {
+                                u.status = this.selectedStatus;
+                            }
+                            return u;
+                        })]
+
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: "Status Updated",
+                            detail: `Status of user ${this.selectedUser?.name} set to ${this.selectedStatus}`,
+                            life: 3000
+                        });
+                    },
+                    error: error => {
+                        const message = error?.error?.error || 'Unknown error occurred';
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: "Couldn't change status",
+                            detail: message,
+                            life: 4000
+                        });
+                    }
+                });
+        }
     }
 
 }

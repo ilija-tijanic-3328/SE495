@@ -161,3 +161,16 @@ def unlock_user_account(user_id):
         user_repo.update_status(user, 'ACTIVE')
     else:
         abort(400, 'Cannot unlock user account')
+
+
+def get_all():
+    return user_repo.get_all()
+
+
+def set_status(user_id, data):
+    user = get_by_id(user_id)
+
+    if user.role == 'ADMIN':
+        abort(400, 'Cannot change status of admin account')
+
+    user_repo.update_status(user, data.get('status'))

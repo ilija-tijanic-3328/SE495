@@ -29,6 +29,10 @@ export class LeaderboardComponent implements OnInit {
                 return;
             }
 
+            if (this.authService.isAdmin()) {
+                this.backLink = '/admin/quizzes';
+            }
+
             this.participationService.getQuizLeaderboard(quizId)
                 .subscribe({
                     next: data => {
@@ -70,6 +74,7 @@ export class LeaderboardComponent implements OnInit {
     }
 
     protected readonly formatNumber = formatNumber;
+    backLink: string = '/app/quizzes';
 
     getSeverity(attempt: ParticipantAttempt) {
         if (attempt?.percentage > 90) {

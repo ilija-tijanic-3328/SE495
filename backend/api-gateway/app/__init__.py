@@ -40,6 +40,9 @@ def create_app():
     from .api.participation_api import participation
     app.register_blueprint(participation, url_prefix='/participation')
 
+    from .api.admin_api import admin
+    app.register_blueprint(admin, url_prefix='/admin')
+
     with app.app_context():
         from .api import error_handler
 

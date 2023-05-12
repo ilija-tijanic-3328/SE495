@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {Account} from "../models/response/account";
 import {AutoCompleteUser} from "../models/response/auto-complete-user";
+import {User} from "../models/response/user";
 
 @Injectable()
 export class UserService {
@@ -35,6 +36,18 @@ export class UserService {
 
     getActiveUsers(): Observable<AutoCompleteUser[]> {
         return this.http.get<AutoCompleteUser[]>(environment.apiBaseUrl + '/users/active');
+    }
+
+    deleteUser(userId: any): Observable<any> {
+        return this.http.delete<any>(environment.apiBaseUrl + '/users/' + userId);
+    }
+
+    getAllUsers(): Observable<User[]> {
+        return this.http.get<User[]>(environment.apiBaseUrl + '/admin/users');
+    }
+
+    changeStatus(userId: any, status: string): Observable<any> {
+        return this.http.put<any>(environment.apiBaseUrl + `/admin/users/${userId}/status`, {status: status});
     }
 
 }

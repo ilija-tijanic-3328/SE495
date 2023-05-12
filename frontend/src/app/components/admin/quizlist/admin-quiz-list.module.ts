@@ -15,6 +15,7 @@ import {TagModule} from "primeng/tag";
 import {CheckboxModule} from "primeng/checkbox";
 import {TooltipModule} from "primeng/tooltip";
 import {AdminQuizListComponent} from "./admin-quiz-list.component";
+import {RatingModule} from "primeng/rating";
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import {AdminQuizListComponent} from "./admin-quiz-list.component";
         DropdownModule,
         TagModule,
         CheckboxModule,
-        TooltipModule
+        TooltipModule,
+        RatingModule
     ],
     declarations: [AdminQuizListComponent]
 })

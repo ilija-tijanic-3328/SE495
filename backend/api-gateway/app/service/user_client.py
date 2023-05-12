@@ -58,3 +58,11 @@ def get_names_by_ids(user_ids):
         return {}
 
     return response.json()
+
+
+def get_all():
+    return send_json_request('/users')
+
+
+def set_status(user_id, data):
+    return send_json_request(f'/users/{user_id}/status', method='PUT', body=data)

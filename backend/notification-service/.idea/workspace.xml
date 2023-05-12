@@ -5,29 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ca7abc3-4bd8-4150-b990-b9c4ad94f461" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/notification/admin-notification-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/notification/admin-notification.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/notification/admin-notification.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/notification/admin-notification.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/userlist/admin-user-list-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/userlist/admin-user-list.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/userlist/admin-user-list.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/userlist/admin-user-list.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/api/notification_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/api/notification_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/auth_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/auth_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/notification_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/notification_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../authentication-service/app/api/auth_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/app/api/auth_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../api-gateway/app/api/admin_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/service/notification_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/notification_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../participation-service/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../participation-service/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menu.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/notification.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/notification.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +108,7 @@
       <workItem from="1683487011417" duration="1705000" />
       <workItem from="1683569961218" duration="594000" />
       <workItem from="1683827722747" duration="562000" />
-      <workItem from="1683831651108" duration="1020000" />
+      <workItem from="1683831651108" duration="1662000" />
     </task>
     <servers />
   </component>

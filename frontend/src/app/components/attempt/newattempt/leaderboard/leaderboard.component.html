@@ -3,7 +3,7 @@
         <div class="card px-5 py-5" style="min-height: 80vh">
             <div class="grid justify-content-between">
                 <button pButton class="p-button-outlined w-7rem lg:w-10rem" label="Back"
-                        routerLink="/app/quizzes" [disabled]="!creator"
+                        [routerLink]="backLink" [disabled]="!creator"
                         [style.visibility]="creator ? 'visible' : 'hidden'"></button>
                 <button pButton class="p-button-outlined w-7rem lg:w-10rem" label="Statistics"
                         [disabled]="!creator && !canViewStats"

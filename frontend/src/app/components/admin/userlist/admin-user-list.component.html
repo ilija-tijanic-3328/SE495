@@ -1,90 +1,104 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-4 py-4" style="min-height: 80vh">
-            <p-dataView #dt [value]="quizzes" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
-                        [sortField]="sortField" [sortOrder]="sortOrder" [rows]="10" [filterBy]="searchFields">
-                <ng-template pTemplate="header">
-                    <div class="flex flex-column md:flex-row md:justify-content-between align-items-center">
-                        <span class="block mt-2 md:mt-0">
-                            <p-dropdown [options]="filterOptions" placeholder="Published"
-                                        (onChange)="onFilterChange($event)" styleClass="w-9rem"></p-dropdown>
-                        </span>
-                        <span class="block mt-2 md:mt-0">
-                            <p-dropdown [options]="sortOptions" placeholder="Sort by Start Time Ascending"
-                                        (onChange)="onSortChange($event)" styleClass="w-16rem"></p-dropdown>
-                        </span>
+            <p-table #dt [value]="users" [columns]="columns" responsiveLayout="scroll" [rows]="10"
+                     [globalFilterFields]="['name','email','phone_number','status', 'role']"
+                     [paginator]="true" [rowsPerPageOptions]="[10,20,30]" selectionMode="single" [rowHover]="true"
+                     dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Manage Users</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search"
-                                   class="w-16rem"/>
-                        </span>
-                        <span class="block mt-2 md:mt-0">
-                            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 w-8rem"
-                                    routerLink="/app/quizzes/new"></button>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                                   class="w-full sm:w-auto"/>
                         </span>
                     </div>
                 </ng-template>
-                <ng-template pTemplate="listItem" let-quiz>
-                    <div class="col-12 hoverable" (click)="onQuizClicked(quiz)">
-                        <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                            <div
-                                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-                                <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                                    <div class="text-2xl font-bold text-900">
-                                        {{ quiz.title }}
-                                        <p-tag [value]="getStatus(quiz)" [severity]="getSeverity(quiz)"
-                                               *ngIf="quiz.status == 'PUBLISHED'"></p-tag>
-                                    </div>
-                                    <div class="flex align-items-center gap-3">
-                                        <span class="flex align-items-center gap-2">
-                                            <i class="pi pi-calendar"></i>
-                                            <span class="font-semibold">
-                                                {{ quiz.start_time | date:'medium' }}
-                                                - {{ quiz.end_time | date:'medium' }}
-                                            </span>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                                    <span class="text-lg font-semibold">{{ quiz.submitted_count }}
-                                        / {{quiz.participants_count}} submitted</span>
-                                    <div class="flex gap-2">
-                                        <button pButton icon="pi pi-users" tooltipPosition="left"
-                                                (click)="openLeaderboard(quiz.id, $event)"
-                                                class="md:align-self-end mb-2 p-button-rounded p-button-info"
-                                                *ngIf="quiz.submitted_count > 0" pTooltip="Leaderboard">
-                                        </button>
-                                        <button pButton icon="pi pi-trash" (click)="deleteQuiz(quiz, $event)"
-                                                class="md:align-self-end mb-2 p-button-rounded p-button-danger"
-                                                *ngIf="quiz.submitted_count == 0" pTooltip="Delete"
-                                                tooltipPosition="left">
-                                        </button>
-                                        <button pButton icon="pi pi-folder-open" (click)="deleteQuiz(quiz, $event)"
-                                                class="md:align-self-end mb-2 p-button-rounded p-button-help"
-                                                *ngIf="quiz.submitted_count > 0 && quiz.status != 'ARCHIVED'"
-                                                pTooltip="Archive" tooltipPosition="left">
-                                        </button>
-                                    </div>
-                                </div>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="name">Name
+                            <p-sortIcon field="name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="email">Email
+                            <p-sortIcon field="email"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="phone_number">Phone Number
+                            <p-sortIcon field="phone_number"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="role">Role
+                            <p-sortIcon field="role"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="status">Status
+                            <p-sortIcon field="status"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr (click)="onUserClicked(user)">
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title"></span>
+                            {{ user.name }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title"></span>
+                            {{ user.email }}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title"></span>
+                            {{ user.phone_number }}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title"></span>
+                            {{ user.role }}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title"></span>
+                            <p-tag [value]="user.status" [severity]="getSeverity(user)"
+                                   [style.cursor]="user.role == 'ADMIN' ? 'not-allowed' : 'pointer'"
+                                   (click)="openChangeStatusDialog(user)"></p-tag>
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                        (click)="deleteUser(user, $event)" [disabled]="user.role == 'ADMIN'"></button>
                             </div>
-                        </div>
-                    </div>
+                        </td>
+                    </tr>
                 </ng-template>
-            </p-dataView>
+            </p-table>
         </div>
 
-        <p-dialog [(visible)]="deleteQuizDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteUserDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="quiz">
-                    Are you sure you want to {{quiz.submitted_count ? 'archive' : 'delete'}} <b>{{quiz.title}}</b>?
+                <span *ngIf="selectedUser">
+                    Are you sure you want to delete <b>{{selectedUser.name}}</b>?
                 </span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-                        (click)="deleteQuizDialog = false"></button>
+                        (click)="deleteUserDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
                         (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="changeStatusDialog" header="Status Change" [modal]="true"
+                  [style]="{width:'400px', height:'350px'}">
+            <div class="grid align-items-center justify-content-center">
+                <div *ngIf="selectedUser" class="col-12 flex justify-content-center">
+                    Change status of user: <b class="ml-1"> {{ selectedUser.name }}</b>
+                </div>
+                <div class="col-12 flex justify-content-center">
+                    <p-dropdown [options]="['ACTIVE', 'DISABLED']" [(ngModel)]="selectedStatus"></p-dropdown>
+                </div>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                        (click)="changeStatusDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                        (click)="changeStatus()"></button>
             </ng-template>
         </p-dialog>
     </div>

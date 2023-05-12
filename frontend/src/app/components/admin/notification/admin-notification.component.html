@@ -1,7 +1,7 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-4 py-4 flex justify-content-center" style="min-height: 80vh">
-            <form #notificationForm="ngForm" (ngSubmit)="sendMessage()" novalidate class="w-6">
+            <form #notificationForm="ngForm" (ngSubmit)="sendMessage()" novalidate class="w-6 mt-4">
                 <div class="field">
                     <label for="message" class="block text-900 text-lg font-medium mb-2">Message*</label>
                     <textarea pInputTextarea name="message" id="message" placeholder="Message" [(ngModel)]="message"

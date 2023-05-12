@@ -43,3 +43,7 @@ def get_unfinished_by_ids(quiz_ids):
 
 def get_by_ids(quiz_ids):
     return db.session.query(Quiz).filter(Quiz.id.in_(quiz_ids)).all()
+
+
+def get_all():
+    return db.session.query(Quiz).all()

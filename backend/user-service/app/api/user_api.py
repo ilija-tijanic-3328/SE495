@@ -65,3 +65,14 @@ def lock_user_account(user_id):
 def unlock_user_account(user_id):
     user_service.unlock_user_account(user_id)
     return {"message": "OK"}, 200
+
+
+@users.route('/', methods=['GET'])
+def get_all():
+    return jsonify(user_service.get_all())
+
+
+@users.route('/<user_id>/status', methods=['PUT'])
+def set_status(user_id):
+    user_service.set_status(user_id, request.json)
+    return {"message": "OK"}, 200

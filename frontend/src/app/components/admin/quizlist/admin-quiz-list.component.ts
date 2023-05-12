@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {MessageService, SelectItem} from "primeng/api";
+import {MessageService} from "primeng/api";
 import {QuizService} from "../../../services/quiz.service";
 import {Quiz} from "../../../models/response/quiz";
-import {DataView} from "primeng/dataview";
 import {Router} from "@angular/router";
+import {Table} from "primeng/table";
 
 @Component({
     templateUrl: './admin-quiz-list.component.html'
@@ -14,54 +14,44 @@ export class AdminQuizListComponent implements OnInit {
 
     quizzes: Quiz[] = [];
 
-    quiz: Quiz | null = null;
+    quizToDelete: Quiz | null = null;
 
-    sortField: string = 'start_time';
-
-    sortOrder: number = 1;
-
-    searchFields: string = 'title,description,start_time,end_time,allowed_time';
-
-    sortOptions: SelectItem[] = [
-        {label: "Sort by Start Time Ascending", value: "start_time"},
-        {label: "Sort by Start Time Descending", value: "!start_time"},
-        {label: "Sort by Title Ascending", value: "title"},
-        {label: "Sort by Title Descending", value: "!title"}
-    ];
-
-    filterOptions: SelectItem[] = [
-        {label: "Published", value: "PUBLISHED"},
-        {label: "Draft", value: "DRAFT"},
-        {label: "Archived", value: "ARCHIVED"}
+    columns: any = [
+        {field: 'title', header: 'Title'},
+        {field: 'status', header: 'Status'},
+        {field: 'start_time', header: 'Start Time'},
+        {field: 'end_time', header: 'End Time'},
+        {field: 'time_allowed', header: 'Time Allowed'},
+        {field: 'submitted_count', header: 'Submitted'}
     ];
 
     constructor(private messageService: MessageService, private quizService: QuizService, private router: Router) {
     }
 
     ngOnInit(): void {
-        this.loadQuizzes('PUBLISHED');
+        this.loadQuizzes();
     }
 
     deleteQuiz(quiz: Quiz, event: Event) {
         event.stopPropagation();
         this.deleteQuizDialog = true;
-        this.quiz = {...quiz};
+        this.quizToDelete = {...quiz};
     }
 
     confirmDelete() {
         this.deleteQuizDialog = false;
-        if (this.quiz) {
-            this.quizService.deleteQuiz(this.quiz)
+        if (this.quizToDelete) {
+            this.quizService.deleteQuiz(this.quizToDelete)
                 .subscribe({
                     next: () => {
-                        this.quizzes = this.quizzes.filter(val => val.id !== this.quiz?.id);
+                        this.quizzes = this.quizzes.filter(val => val.id !== this.quizToDelete?.id);
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Successful',
                             detail: 'Quiz Deleted',
                             life: 3000
                         });
-                        this.quiz = null;
+                        this.quizToDelete = null;
                     },
                     error: error => {
                         const message = error?.error?.error || 'Unknown error occurred';
@@ -76,50 +66,8 @@ export class AdminQuizListComponent implements OnInit {
         }
     }
 
-    onGlobalFilter(dataView: DataView, event: Event) {
-        dataView.filter((event.target as HTMLInputElement).value, 'contains');
-    }
-
-    onFilterChange(event: any) {
-        this.loadQuizzes(event.value);
-    }
-
-    onSortChange(event: any) {
-        let value = event.value;
-
-        if (value.indexOf('!') == 0) {
-            this.sortOrder = -1;
-            this.sortField = value.substring(1);
-        } else {
-            this.sortOrder = 1;
-            this.sortField = value;
-        }
-    }
-
-    getSeverity(quiz: Quiz) {
-        let now = new Date();
-        if (quiz.start_time && now < quiz.start_time) {
-            return 'primary';
-        } else if (quiz.end_time && now > quiz.end_time) {
-            return 'warning';
-        } else {
-            return 'success';
-        }
-    }
-
-    getStatus(quiz: Quiz) {
-        let now = new Date();
-        if (quiz.start_time && now < quiz.start_time) {
-            return 'Not started';
-        } else if (quiz.end_time && now > quiz.end_time) {
-            return 'Finished';
-        } else {
-            return 'Active';
-        }
-    }
-
-    private loadQuizzes(status: string) {
-        this.quizService.getUserCreatedQuizzes(status)
+    private loadQuizzes() {
+        this.quizService.getQuizzes()
             .subscribe({
                 next: quizList => {
                     this.quizzes = quizList.map(q => {
@@ -132,7 +80,7 @@ export class AdminQuizListComponent implements OnInit {
                     const message = error?.error?.error || 'Unknown error occurred';
                     this.messageService.add({
                         severity: 'error',
-                        summary: "Couldn't load your quizzes",
+                        summary: "Couldn't load quizzes",
                         detail: message,
                         sticky: true
                     });
@@ -147,6 +95,10 @@ export class AdminQuizListComponent implements OnInit {
     openLeaderboard(id: any, event: any) {
         event.stopPropagation();
         this.router.navigate(['/app/quiz', id, 'leaderboard']);
+    }
+
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
 }

@@ -58,3 +58,7 @@ def get_active():
 
 def get_names_by_ids(user_ids):
     return db.session.query(User).filter(User.id.in_(user_ids)).all()
+
+
+def get_all():
+    return db.session.query(User).all()
