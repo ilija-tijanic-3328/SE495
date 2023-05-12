@@ -4,7 +4,7 @@
             <p-table #dt [value]="quizzes" [columns]="columns" responsiveLayout="scroll" [rows]="10"
                      [globalFilterFields]="['title','description','start_time','end_time','time_allowed','status', 'submitted_count']"
                      [paginator]="true" [rowsPerPageOptions]="[10,20,30]" selectionMode="single" [rowHover]="true"
-                     dataKey="id">
+                     dataKey="id" [first]="first">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Manage Quizzes</h5>
@@ -39,7 +39,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-quiz>
-                    <tr (click)="onQuizClicked(quiz)">
+                    <tr (click)="onQuizClicked(quiz)" [style.background-color]="quiz.id == quizId ? '#E0E0E0' : ''">
                         <td style="width:14%; min-width:10rem;"><span class="p-column-title">Code</span>
                             {{ quiz.title }}
                         </td>
@@ -84,9 +84,9 @@
                 </span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Cancel"
                         (click)="deleteQuizDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Update Status"
                         (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>

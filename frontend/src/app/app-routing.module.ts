@@ -10,11 +10,6 @@ import {AuthService} from "./services/auth.service";
                 path: 'app', component: AppLayoutComponent,
                 children: [
                     {
-                        path: '',
-                        title: 'Quick Quiz Ninja',
-                        loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule)
-                    },
-                    {
                         path: 'account',
                         title: 'Quick Quiz Ninja - Account',
                         loadChildren: () => import('./components/account/account.module').then(m => m.AccountModule)
@@ -38,6 +33,11 @@ import {AuthService} from "./services/auth.service";
                         path: 'quiz',
                         title: 'Quick Quiz Ninja - Quiz Attempt',
                         loadChildren: () => import('./components/attempt/newattempt/new-attempt.module').then(m => m.NewAttemptModule)
+                    },
+                    {
+                        path: '',
+                        title: 'Quick Quiz Ninja - My Quizzes',
+                        loadChildren: () => import('./components/quiz/quiz.module').then(m => m.QuizModule)
                     }
                 ],
                 canActivate: [userGuard]
@@ -45,11 +45,6 @@ import {AuthService} from "./services/auth.service";
             {
                 path: 'admin', component: AppLayoutComponent,
                 children: [
-                    {
-                        path: '',
-                        title: 'Quick Quiz Ninja',
-                        loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule)
-                    },
                     {
                         path: 'account',
                         title: 'Quick Quiz Ninja - Account',
@@ -71,8 +66,9 @@ import {AuthService} from "./services/auth.service";
                         loadChildren: () => import('./components/admin/notification/admin-notification.module').then(m => m.AdminNotificationModule)
                     },
                     {
-                        path: 'pages',
-                        loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule)
+                        path: '',
+                        title: 'Quick Quiz Ninja - Users',
+                        loadChildren: () => import('./components/admin/userlist/admin-user-list.module').then(m => m.AdminUserListModule)
                     }
                 ],
                 canActivate: [adminGuard]

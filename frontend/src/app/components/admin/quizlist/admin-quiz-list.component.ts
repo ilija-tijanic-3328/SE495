@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MessageService} from "primeng/api";
 import {QuizService} from "../../../services/quiz.service";
 import {Quiz} from "../../../models/response/quiz";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Table} from "primeng/table";
 
 @Component({
@@ -16,6 +16,8 @@ export class AdminQuizListComponent implements OnInit {
 
     quizToDelete: Quiz | null = null;
 
+    first: number = 0;
+
     columns: any = [
         {field: 'title', header: 'Title'},
         {field: 'status', header: 'Status'},
@@ -25,7 +27,10 @@ export class AdminQuizListComponent implements OnInit {
         {field: 'submitted_count', header: 'Submitted'}
     ];
 
-    constructor(private messageService: MessageService, private quizService: QuizService, private router: Router) {
+    quizId: number | null = null;
+
+    constructor(private messageService: MessageService, private quizService: QuizService, private router: Router,
+                private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -75,6 +80,15 @@ export class AdminQuizListComponent implements OnInit {
                         q.end_time = new Date(String(q.end_time));
                         return q;
                     });
+
+                    let quizId: string | null = this.route.snapshot.paramMap.get('quizId');
+                    if (quizId) {
+                        this.quizId = Number(quizId);
+                        let index = this.quizzes.findIndex(q => q.id == this.quizId);
+                        if (index >= 10) {
+                            this.first = index % 10 + 1;
+                        }
+                    }
                 },
                 error: error => {
                     const message = error?.error?.error || 'Unknown error occurred';

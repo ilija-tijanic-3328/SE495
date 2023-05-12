@@ -82,7 +82,11 @@ export class LoginComponent implements OnInit {
                         if (this.forwardUrl) {
                             this.router.navigate([this.forwardUrl]);
                         } else {
-                            this.router.navigate(['/app']);
+                            if (data.role == 'ADMIN') {
+                                this.router.navigate(['/admin/users']);
+                            } else {
+                                this.router.navigate(['/app/quizzes']);
+                            }
                         }
                     }
                 },
