@@ -1,15 +1,15 @@
 version: '3.8'
 
 services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - "/root/certs:/etc/nginx/certs"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+#  frontend:
+#    build: ./frontend
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - "/root/certs:/etc/nginx/certs"
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
 
   router:
     container_name: ${ROUTER_HOST}
@@ -253,7 +253,7 @@ services:
       - "DD_API_KEY=${DD_API_KEY}"
       - "DD_SITE=us5.datadoghq.com"
       - "DD_LOGS_ENABLED=true"
-      - "DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true"
+#      - "DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true"
       - 'DD_CONTAINER_EXCLUDE_LOGS="name:datadog-agent"'
       - "DD_TAGS=env:${ENV}"
     volumes:

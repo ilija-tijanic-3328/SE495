@@ -26,7 +26,7 @@ def send(data):
 
 def send_request(to_email: str, subject: str, html_content: str, text_content: str):
     requests.post(
-        f"https://api.mailgun.net/v3/{DOMAIN_NAME}/messages",
+        f"{API_BASE_URL}/messages",
         auth=("api", API_KEY),
         data={
             "from": f"Quick Quiz Ninja <mailgun@{DOMAIN_NAME}>",
@@ -40,7 +40,7 @@ def send_request(to_email: str, subject: str, html_content: str, text_content: s
 
 def check_mail_api_health():
     response = requests.get(
-        f"https://api.mailgun.net/v3/{DOMAIN_NAME}/stats/total",
+        f"{API_BASE_URL}/stats/total",
         auth=("api", API_KEY),
         params={"event": ["failed"], "duration": "1h"})
     if response.status_code != 200:

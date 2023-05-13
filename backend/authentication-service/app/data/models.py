@@ -1,6 +1,7 @@
 import os
+
 from sqlalchemy import text
-from app import db
+from app import db, bcrypt
 
 
 class UserAuth(db.Model):
@@ -30,4 +31,7 @@ class Token(db.Model):
 
 @db.event.listens_for(UserAuth.__table__, 'after_create')
 def initial_data(target, connection, **kw):
-    connection.execute(text(os.getenv('INIT_DATA')))
+    init_data = os.getenv('INIT_DATA')
+    password = os.getenv('AUTH_ADMIN_PASSWORD')
+    init_data = init_data.replace('{{password}}', bcrypt.generate_password_hash(password).decode('utf-8'))
+    connection.execute(text(init_data))
