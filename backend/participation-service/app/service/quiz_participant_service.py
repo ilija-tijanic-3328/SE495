@@ -138,8 +138,8 @@ def start_attempt(participant_id, time_allowed: int):
     return {'start_time': start_time}
 
 
-def correct_answer_count(actual_answers):
-    return sum(map(lambda x: 1 if x.get('correct') else 0, actual_answers.values()))
+def count_correct_answers(actual_answers):
+    return sum(map(lambda x: 1 if x.get('correct') else 0, actual_answers))
 
 
 def submit_answers(participant_id, attempt: dict):
@@ -175,7 +175,7 @@ def submit_answers(participant_id, attempt: dict):
             attempt_answers = [attempt_answers]
 
         if question_type == 'Single choice' and len(attempt_answers) > 1 or question_type == 'Multiple choice' and len(
-                attempt_answers) > correct_answer_count(actual_answers):
+                attempt_answers) > count_correct_answers(actual_answers.values()):
             abort(400, 'Too many answers selected')
 
         filtered_answers = set()

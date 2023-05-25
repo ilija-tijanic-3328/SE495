@@ -151,4 +151,8 @@ export class NewAttemptComponent implements OnInit {
         }
     }
 
+    isLoggedIn(): boolean {
+        return this.authService.isLoggedIn();
+    }
+
 }

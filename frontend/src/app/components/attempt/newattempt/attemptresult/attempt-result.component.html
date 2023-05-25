@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-12 text-center p-0">
                     <h5>Finished in <span class="text-primary">{{ attempt?.duration | date:'mm:ss' }}</span> with
-                        <span class="text-primary">{{ attempt?.correct_count || 0 }}
+                        <span class="text-primary">{{ formatNumber(attempt?.correct_count || 0, 'en-US', '1.0-2') }}
                             / {{ attempt?.total_questions || 0 }}</span> correct answers
                     </h5>
                 </div>

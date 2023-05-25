@@ -15,8 +15,8 @@
             </div>
             <div *ngIf="started">
                 <div class="grid justify-content-center align-content-center">
-                    <div class="text-center sticky w-full"
-                         style="top: 1.5rem; background-color: lightgray; z-index: 100">
+                    <div class="text-center sticky w-full" [style.top]="isLoggedIn() ? '5rem' : '1.5rem'"
+                         style="background-color: lightgray; z-index: 100">
                         <h6 class="mt-2 mb-1">Your answers will automatically be saved when the allowed time
                             passes.</h6>
                         <h3 class="mt-1 mb-1">{{ timeRemaining$ | async | date:'mm:ss' }}</h3>

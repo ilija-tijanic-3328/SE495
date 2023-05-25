@@ -7,7 +7,7 @@ from app.data import user_repo
 from app.data.models import User
 from app.service import user_app_config_service, notification_client
 
-email_pattern = re.compile('^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$')
+email_pattern = re.compile('^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,24}$')
 
 
 def get_filtered(args):
