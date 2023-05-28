@@ -1,0 +1,69 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-5 py-5" style="min-height: 80vh">
+            <div class="grid justify-content-center align-content-center">
+                <div class="col-12 grid justify-content-between">
+                    <div [pTooltip]="getTooltipText('leaderboard')"
+                         [tooltipDisabled]="leaderboardEnabled && isLoggedIn()" tooltipPosition="top">
+                        <button pButton label="Leaderboard" class="p-button-outlined w-10rem"
+                                [disabled]="!leaderboardEnabled || !isLoggedIn()"
+                                [routerLink]="'/quiz/' + attempt?.quiz?.id + '/leaderboard'"></button>
+                    </div>
+                    <div [pTooltip]="getTooltipText('stats')"
+                         [tooltipDisabled]="statsEnabled && isLoggedIn()" tooltipPosition="top">
+                        <button pButton label="Statistics" class="p-button-outlined w-10rem"
+                                [disabled]="!statsEnabled || !isLoggedIn()"
+                                [routerLink]="'/quiz/' + attempt?.quiz?.id + '/stats'"></button>
+                    </div>
+                </div>
+                <div class="col-12 text-center pt-0">
+                    <img src="../../../../../assets/demo/images/quiz/quiz-results.svg" alt="{{attempt?.quiz?.title}}"
+                         width="120rem"/>
+                </div>
+                <div class="col-12 text-center p-0">
+                    <h5>{{attempt?.name}}'s results for {{ attempt?.quiz?.title }}</h5>
+                </div>
+                <div class="col-12 text-center p-0">
+                    <h5>Finished in <span class="text-primary">{{ attempt?.duration | date:'mm:ss' }}</span> with
+                        <span class="text-primary">{{ formatNumber(attempt?.correct_count || 0, 'en-US', '1.0-2') }}
+                            / {{ attempt?.total_questions || 0 }}</span> correct answers
+                    </h5>
+                </div>
+                <div class="col-12 flex justify-content-center align-content-center align-items-center p-0">
+                    <p-progressBar [value]="formatNumber(attempt?.percentage, 'en-US', '1.0-2')"
+                                   [color]="getSeverity(attempt)" styleClass="w-12rem ml-2"></p-progressBar>
+                </div>
+                <div class="col-12 grid justify-content-center align-content-center">
+                    <div class="w-full md:w-6 xl:w-4">
+                        <div *ngFor="let question of attempt?.questions; let i = index"
+                             class="col-12 grid text-lg align-content-start">
+                            <div class="col-12 font-bold">{{i + 1}}. {{question.text}}</div>
+                            <div *ngFor="let answer of question.answers" class="col-12 pl-6 grid">
+                            <span>
+                                <i class="pi mr-2 text-lg"
+                                   [ngClass]="{'pi-check': answer.correct, 'pi-times': !answer.correct}"
+                                   [style.color]="answer.correct && answer.selected ? 'limegreen' : !answer.correct && answer.selected ? 'red':'lightgray'"></i>
+
+                                <p-radioButton [name]="'group'+question.id" [label]="answer.text" [value]="answer.id"
+                                               [ngModel]="answer.selected ? answer.id : answer"
+                                               [inputId]="''+answer.id" [disabled]="true"
+                                               *ngIf="question.type == 'Single choice'"></p-radioButton>
+
+                                <p-checkbox [name]="'group'+question.id" [label]="answer.text" [disabled]="true"
+                                            [value]="answer.id" *ngIf="question.type == 'Multiple choice'"
+                                            [ngModel]="answer.selected" [binary]="true"></p-checkbox>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 flex flex-wrap justify-content-center align-items-center align-content-center mt-7"
+                     *ngIf="!isLoggedIn()">
+                    <h6>Want to create your own quiz and challenge your friends?</h6>
+                    <button pButton label="Sign Up" class="w-10rem ml-2" routerLink="/auth/register"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-report-quiz [participantId]="attempt?.id" *ngIf="!creator"></app-report-quiz>

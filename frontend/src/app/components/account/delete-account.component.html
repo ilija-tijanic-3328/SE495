@@ -1,0 +1,26 @@
+<div class="surface-card py-4 px-4 sm:px-8">
+    <div class="flex flex-wrap align-items-center justify-content-center">
+        <p-messages [closable]="false" [enableService]="false" [value]="messages"></p-messages>
+        <button pButton pRipple label="Delete Account" class="w-full md:w-6 lg:w-4 xl:w-4 p-3 text-xl p-button-danger"
+                (click)="deleteAccount()"></button>
+    </div>
+</div>
+
+<p-dialog [(visible)]="deleteAccountDialog" header="Confirm Account Deletion" [modal]="true" [style]="{width:'500px'}"
+          [draggable]="false">
+    <div class="flex flex-wrap align-items-center justify-content-center">
+        <div class="w-full flex align-items-center justify-content-center font-bold">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            Enter your password to permanently delete your account:
+        </div>
+        <div class="mt-4">
+            <p-password [feedback]="false" [(ngModel)]="password" placeholder="Password"></p-password>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Cancel"
+                (click)="deleteAccountDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-danger" label="Confirm"
+                (click)="confirmDelete()"></button>
+    </ng-template>
+</p-dialog>

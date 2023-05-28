@@ -1,0 +1,68 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-4 py-4" style="min-height: 80vh">
+            <div class="flex align-items-center justify-content-center">
+                <p-orderList [value]="invitations" header="Questions" [dragdrop]="false" class="w-full"
+                             filterBy="quiz_title,code,inviter,quiz_start_time,quiz_end_time"
+                             filterPlaceholder="Filter invitations"
+                             (onSelectionChange)="onInvitationClicked($event)">
+                    <ng-template pTemplate="header">
+                        <div class="flex flex-wrap justify-content-between m-0 w-full">
+                            <h5 class="mt-3">Quizzes you were invited to take:</h5>
+                            <p-button label="Enter Code" (click)="enterCodeDialog=true"></p-button>
+                        </div>
+                    </ng-template>
+                    <ng-template let-invitation pTemplate="item">
+                        <div class="col-12">
+                            <div class="flex flex-column xl:flex-row xl:align-items-start gap-4">
+                                <div
+                                    class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                    <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                        <div class="text-lg font-bold text-900">
+                                            {{ invitation.quiz_title }}
+                                        </div>
+                                        <div class="flex align-items-center gap-3">
+                                        <span class="flex align-items-center gap-2" tooltipPosition="bottom"
+                                              pTooltip="Period when quiz is active">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="font-semibold">
+                                                {{ invitation.quiz_start_time | date:'medium' }}
+                                                - {{ invitation.quiz_end_time | date:'medium' }}
+                                            </span>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                        <span class="font-semibold"
+                                              pTooltip="Quiz duration">{{ invitation.quiz_time_allowed }} minutes</span>
+                                        <div class="flex gap-3 sm:gap-2">
+                                            <span class="font-semibold">Invited by {{ invitation.inviter }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-orderList>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="enterCodeDialog" [modal]="true" [style]="{width:'400px'}"
+          [draggable]="false">
+    <div class="flex flex-wrap align-items-center justify-content-center">
+        <div class="w-full flex align-items-center justify-content-center font-bold text-xl">
+            Enter the code you received to open a quiz:
+        </div>
+        <form class="mt-4 text-center">
+            <input type="text" pInputText [(ngModel)]="code" [pKeyFilter]="'alphanum'" placeholder="Code" autofocus
+                   class="p-inputtext-lg font-bold text-2xl text-center" (ngModelChange)="code = $event.toUpperCase()"
+                   maxlength="5" required name="code">
+
+            <button pButton pRipple icon="pi pi-check" class="p-button-lg mt-4" label="Open Quiz"
+                    (click)="openQuiz()" [disabled]="!code || code.length != 5"></button>
+        </form>
+    </div>
+</p-dialog>

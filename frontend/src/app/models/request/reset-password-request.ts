@@ -1,4 +1,4 @@
 export class ResetPasswordRequest {
-    currentPassword?: string;
-    newPassword?: string;
+    token?: string
+    password?: string
 }

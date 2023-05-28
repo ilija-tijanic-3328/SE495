@@ -1,0 +1,25 @@
+<div style="position: fixed; bottom: 1.5rem; right: 1.5rem">
+    <button pButton icon="pi pi-exclamation-circle" class="p-button-rounded p-button-lg p-button-raised p-button-help"
+            (click)="reportDialog=true"></button>
+</div>
+
+<p-dialog [(visible)]="reportDialog" header="Report Quiz Content to Admin" [modal]="true" [style]="{width:'500px'}"
+          [draggable]="false">
+    <div class="flex flex-wrap align-items-center justify-content-center">
+        <div class="w-full flex align-items-center justify-content-center font-bold">
+            <i class="pi pi-exclamation-circle mr-3" style="font-size: 2rem"></i>
+            Please describe the inappropriate content:
+        </div>
+        <form #reportForm="ngForm" class="mt-4 w-full">
+            <textarea pInputTextarea [(ngModel)]="message" rows="4" class="w-full" required name="message" id="message"
+                      placeholder="Write a description of the content that you believe shouldn't be on this platform"></textarea>
+
+            <div class="text-right mt-2">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Cancel"
+                        (click)="reportDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-danger" label="Send Report"
+                        (click)="sendReportToAdmin()" [disabled]="reportForm.invalid"></button>
+            </div>
+        </form>
+    </div>
+</p-dialog>

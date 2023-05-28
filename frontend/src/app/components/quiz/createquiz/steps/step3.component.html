@@ -1,0 +1,167 @@
+<div class="flex align-items-center justify-content-center mt-6">
+    <div class="grid w-full text-center">
+        <div class="col-12">
+            <div class="p-message p-message-info">
+                <div class="p-message-wrapper grid">
+                    <div class="col-1 p-0 flex align-items-center justify-content-center">
+                        <span class="p-message-icon pi pi-info-circle"></span>
+                    </div>
+                    <div class="text-left col-11 p-0">
+                        <div>
+                            Invitations will be sent to participants once you publish the quiz.
+                        </div>
+                        <div class="mt-2">
+                            Different types of invitations can be used, but keep in mind that sending multiple types of
+                            invitations to one person will allow them to have multiple attempts.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p-tabView styleClass="w-full">
+                <p-tabPanel header="Invite Users"
+                            tooltip="Choose participants who have a user account on QuickQuiz.Ninja to send in-app invitations">
+                    <ng-template pTemplate="content">
+                        <div class="p-inputgroup mb-3 w-full">
+                            <span class="p-input-icon-left w-full">
+                                <i class="pi pi-search" style="z-index: 1"></i>
+                                <p-autoComplete [(ngModel)]="selectedUsers" [suggestions]="suggestions"
+                                                (completeMethod)="searchUsers($event)"
+                                                placeholder="Search users by name or email" [multiple]="true"
+                                                [forceSelection]="true" field="display"
+                                                styleClass="w-full text-left"></p-autoComplete>
+                            </span>
+
+                            <button pButton pTooltip="Add Selected Participants" icon="pi pi-plus"
+                                    class="p-button-success" tooltipPosition="left" (click)="addUserParticipants()"
+                                    style="margin-left: -4px"
+                                    [disabled]="selectedUsers.length == 0 || allDisabled"></button>
+                        </div>
+                        <p-dataView [value]="userParticipants" [rows]="50" styleClass="border-1 surface-border">
+                            <ng-template pTemplate="listItem" let-item>
+                                <div class="col-12 hoverable" style="cursor: default">
+                                    <div class="flex align-items-center p-2">
+                                        <div class="col-9 text-lg text-left">
+                                            <span *ngIf="item.id" class="mr-2" tooltipPosition="bottom"
+                                                  pTooltip="Invitation sent">
+                                                <i class="pi pi-check"></i>
+                                            </span>
+                                            <span class="font-bold">{{ item.name }} - {{ item.email }}</span>
+                                            <span class="">: {{ item.code }}</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <button pButton class="p-button-danger p-button-rounded"
+                                                    pTooltip="Delete Participant" icon="pi pi-trash"
+                                                    [disabled]="allDisabled"
+                                                    (click)="deleteUserParticipant(item, $event)"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataView>
+                    </ng-template>
+                </p-tabPanel>
+                <p-tabPanel header="Invite by Email"
+                            tooltip="Enter participants' email addresses to send email invitations">
+                    <ng-template pTemplate="content">
+                        <div class="p-inputgroup mb-3 w-full">
+                            <p-chips [(ngModel)]="enteredEmails" placeholder="Email Addresses"
+                                     styleClass="w-full" [allowDuplicate]="false"></p-chips>
+
+                            <button pButton pTooltip="Add Email Addresses" icon="pi pi-plus"
+                                    class="p-button-success" tooltipPosition="left" (click)="addEmailParticipants()"
+                                    [disabled]="enteredEmails.length == 0 || allDisabled"></button>
+                        </div>
+                        <p-dataView [value]="emailParticipants" [rows]="50" styleClass="border-1 surface-border">
+                            <ng-template pTemplate="listItem" let-item>
+                                <div class="col-12 hoverable" (click)="openNameDialog(item)">
+                                    <div class="flex align-items-center p-2">
+                                        <div class="col-9 text-lg text-left">
+                                            <span *ngIf="item.id" class="mr-2" tooltipPosition="bottom"
+                                                  pTooltip="Invitation sent">
+                                                <i class="pi pi-check"></i>
+                                            </span>
+                                            <span class="font-bold">
+                                                {{ item.name || '[No name]' }} - {{ item.email }}
+                                            </span>
+                                            <span class="">: {{ item.code }}</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <button pButton class="p-button-danger p-button-rounded"
+                                                    pTooltip="Delete Participant" icon="pi pi-trash"
+                                                    [disabled]="allDisabled"
+                                                    (click)="deleteEmailParticipant(item, $event)"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataView>
+                    </ng-template>
+                </p-tabPanel>
+                <p-tabPanel header="Invite Manually"
+                            tooltip="Generate codes and distribute them to participants how ever you want to">
+                    <ng-template pTemplate="content">
+                        <div class="p-inputgroup mb-3 w-full">
+                            <p-chips [(ngModel)]="enteredNames" placeholder="Participants' Names"
+                                     styleClass="w-full" [separator]="separatorRegex"></p-chips>
+
+                            <button pButton pTooltip="Generate Codes" icon="pi pi-plus"
+                                    class="p-button-success" tooltipPosition="left" (click)="addManualParticipants()"
+                                    [disabled]="enteredNames.length == 0 || allDisabled"></button>
+                        </div>
+                        <p-dataView [value]="manualParticipants" [rows]="50" styleClass="border-1 surface-border">
+                            <ng-template pTemplate="listItem" let-item>
+                                <div class="col-12 hoverable" style="cursor: default">
+                                    <div class="flex align-items-center p-2">
+                                        <div class="col-9 text-lg text-left">
+                                            <span *ngIf="item.id" class="mr-2" tooltipPosition="bottom"
+                                                  pTooltip="Saved">
+                                                <i class="pi pi-check"></i>
+                                            </span>
+                                            <span class="font-bold">{{ item.name }}</span>
+                                            <span>: {{ item.code }}</span>
+                                            <i class="pi pi-copy text-2xl ml-2" style="cursor: pointer"
+                                               pTooltip="Copy code to clipboard"
+                                               (click)="copyToClipboard(item.code)"></i>
+                                        </div>
+                                        <div class="col-3">
+                                            <button pButton class="p-button-danger p-button-rounded"
+                                                    pTooltip="Delete Participant" icon="pi pi-trash"
+                                                    [disabled]="allDisabled"
+                                                    (click)="deleteManualParticipant(item, $event)"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataView>
+                    </ng-template>
+                </p-tabPanel>
+                <p-tabPanel header="Total Invitations: {{ totalParticipants }}" [disabled]="true">
+                    <ng-template pTemplate="content"></ng-template>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+        <div class="col-6 p-2">
+            <button pButton pRipple label="Back" class="w-full md:w-10 lg:w-6 p-3 text-lg"
+                    (click)="onPrevStep()"></button>
+        </div>
+        <div class="col-6 p-2">
+            <button pButton pRipple [label]="quiz.status == 'DRAFT' ? 'Publish' : 'Save'"
+                    class="w-full md:w-10 lg:w-6 p-3 text-lg" (click)="onPublish()"
+                    [disabled]="allDisabled || !touched"></button>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="selectedParticipant" header="Participant Name" [modal]="true" [draggable]="false">
+    <div class="flex flex-wrap align-items-center justify-content-center">
+        <div class="w-full flex align-items-center justify-content-center font-bold">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            Enter the name of participant with code {{selectedParticipant?.code}}:
+        </div>
+        <form class="mt-4">
+            <input pInputText name="name" type="text" id="name" #name placeholder="Name" autofocus>
+            <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Set Name"
+                    (click)="setName(name)" [disabled]="allDisabled"></button>
+        </form>
+    </div>
+</p-dialog>

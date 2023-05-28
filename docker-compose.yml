@@ -6,7 +6,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-
+    volumes:
+      - "/root/certs:/etc/nginx/certs"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   router:
     container_name: ${ROUTER_HOST}
@@ -15,13 +18,13 @@ services:
       - datadog-agent
     expose:
       - "${INTERNAL_PORT}"
-    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
+    volumes:
+      - cache:${CACHE_DIR}
     environment:
-      - FLASK_APP=${FLASK_APP}
-      - DATADOG_HOST=datadog-agent
-      - DD_TRACE_AGENT_PORT=8126
-      - DD_AGENT_HOST=datadog-agent
-      - INTERNAL_PORT=${INTERNAL_PORT}
+      - "FLASK_APP=${FLASK_APP}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+      - "CACHE_DIR=${CACHE_DIR}"
 
   api-gateway:
     build: ./backend/api-gateway
@@ -30,104 +33,229 @@ services:
       - datadog-agent
     ports:
       - "${INTERNAL_PORT}:${INTERNAL_PORT}"
-    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
     environment:
-      - FLASK_APP=${FLASK_APP}
-      - ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}
-      - INTERNAL_PORT=${INTERNAL_PORT}
-      - DATADOG_HOST=datadog-agent
-      - DD_TRACE_AGENT_PORT=8126
-      - DD_AGENT_HOST=datadog-agent
+      - "FLASK_APP=${FLASK_APP}"
+      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+      - "CORS_ORIGINS=${CORS_ORIGINS}"
 
   user-service:
     build: ./backend/user-service
     expose:
       - "${INTERNAL_PORT}"
-    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
     depends_on:
-      - user-db
-      - router
-      - datadog-agent
+      user-db:
+        condition: service_healthy
+      router:
+        condition: service_started
+      datadog-agent:
+        condition: service_started
     environment:
-      - DB_URI=postgresql://${USER_DB_USERNAME}:${USER_DB_PASSWORD}@${USER_DB_HOST}:${INTERNAL_DB_PORT}/${USER_DB_NAME}
-      - FLASK_APP=${FLASK_APP}
-      - ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}
-      - INTERNAL_PORT=${INTERNAL_PORT}
-      - DATADOG_HOST=datadog-agent
-      - DD_TRACE_AGENT_PORT=8126
-      - DD_AGENT_HOST=datadog-agent
+      - "DB_URI=postgresql://${USER_DB_USERNAME}:${USER_DB_PASSWORD}@${USER_DB_HOST}:${INTERNAL_DB_PORT}/${USER_DB_NAME}"
+      - "FLASK_APP=${FLASK_APP}"
+      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+      - "INIT_DATA=${USER_INIT_DATA}"
 
   authentication-service:
     build: ./backend/authentication-service
     expose:
       - "${INTERNAL_PORT}"
-    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
     depends_on:
-      - authentication-db
-      - router
-      - datadog-agent
+      authentication-db:
+        condition: service_healthy
+      router:
+        condition: service_started
+      datadog-agent:
+        condition: service_started
     environment:
-      - DB_URI=postgresql://${AUTH_DB_USERNAME}:${AUTH_DB_PASSWORD}@${AUTH_DB_HOST}:${INTERNAL_DB_PORT}/${AUTH_DB_NAME}
-      - FLASK_APP=${FLASK_APP}
-      - ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}
-      - INTERNAL_PORT=${INTERNAL_PORT}
-      - DATADOG_HOST=datadog-agent
-      - DD_TRACE_AGENT_PORT=8126
-      - DD_AGENT_HOST=datadog-agent
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - "DB_URI=postgresql://${AUTH_DB_USERNAME}:${AUTH_DB_PASSWORD}@${AUTH_DB_HOST}:${INTERNAL_DB_PORT}/${AUTH_DB_NAME}"
+      - "FLASK_APP=${FLASK_APP}"
+      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+      - "JWT_SECRET_KEY=${JWT_SECRET_KEY}"
+      - "INIT_DATA=${AUTH_INIT_DATA}"
+      - "AUTH_ADMIN_PASSWORD=${AUTH_ADMIN_PASSWORD}"
+      - "TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}"
+      - "TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}"
+      - "TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}"
 
   email-service:
     build: ./backend/email-service
     depends_on:
-      - router
-      - datadog-agent
+      router:
+        condition: service_started
+      datadog-agent:
+        condition: service_started
     expose:
       - "${INTERNAL_PORT}"
-    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT}
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
     environment:
-      - FLASK_APP=${FLASK_APP}
-      - ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}
-      - INTERNAL_PORT=${INTERNAL_PORT}
-      - DATADOG_HOST=datadog-agent
-      - DD_TRACE_AGENT_PORT=8126
-      - DD_AGENT_HOST=datadog-agent
+      - "FLASK_APP=${FLASK_APP}"
+      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+      - "MAILGUN_API_BASE_URL=${MAILGUN_API_BASE_URL}"
+      - "MAILGUN_API_KEY=${MAILGUN_API_KEY}"
+      - "MAILGUN_DOMAIN_NAME=${MAILGUN_DOMAIN_NAME}"
+      - "APP_BASE_URL=${APP_BASE_URL}"
+
+  quiz-service:
+    build: ./backend/quiz-service
+    expose:
+      - "${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
+    depends_on:
+      quiz-db:
+        condition: service_healthy
+      router:
+        condition: service_started
+      datadog-agent:
+        condition: service_started
+    environment:
+      - "DB_URI=postgresql://${QUIZ_DB_USERNAME}:${QUIZ_DB_PASSWORD}@${QUIZ_DB_HOST}:${INTERNAL_DB_PORT}/${QUIZ_DB_NAME}"
+      - "FLASK_APP=${FLASK_APP}"
+      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+
+  participation-service:
+    build: ./backend/participation-service
+    expose:
+      - "${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
+    depends_on:
+      participation-db:
+        condition: service_healthy
+      router:
+        condition: service_started
+      datadog-agent:
+        condition: service_started
+    environment:
+      - "DB_URI=postgresql://${PARTICIPATION_DB_USERNAME}:${PARTICIPATION_DB_PASSWORD}@${PARTICIPATION_DB_HOST}:${INTERNAL_DB_PORT}/${PARTICIPATION_DB_NAME}"
+      - "FLASK_APP=${FLASK_APP}"
+      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+
+  notification-service:
+    build: ./backend/notification-service
+    expose:
+      - "${INTERNAL_PORT}"
+    command: flask run --host 0.0.0.0 --port ${INTERNAL_PORT} --debug --no-reload
+    depends_on:
+      notification-db:
+        condition: service_healthy
+      router:
+        condition: service_started
+      datadog-agent:
+        condition: service_started
+    environment:
+      - "DB_URI=postgresql://${NOTIFICATION_DB_USERNAME}:${NOTIFICATION_DB_PASSWORD}@${NOTIFICATION_DB_HOST}:${INTERNAL_DB_PORT}/${NOTIFICATION_DB_NAME}"
+      - "FLASK_APP=${FLASK_APP}"
+      - "ROUTER_URI=${ROUTER_HOST}:${INTERNAL_PORT}"
+      - "INTERNAL_PORT=${INTERNAL_PORT}"
+      - "APP_BASE_URL=${APP_BASE_URL}"
 
   user-db:
     container_name: ${USER_DB_HOST}
     image: postgres:15-alpine
-    expose:
-      - "${INTERNAL_DB_PORT}"
+    ports:
+      - "5436:${INTERNAL_DB_PORT}"
     volumes:
       - user-data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=${USER_DB_USERNAME}
-      - POSTGRES_PASSWORD=${USER_DB_PASSWORD}
-      - POSTGRES_DB=${USER_DB_NAME}
+      - "POSTGRES_USER=${USER_DB_USERNAME}"
+      - "POSTGRES_PASSWORD=${USER_DB_PASSWORD}"
+      - "POSTGRES_DB=${USER_DB_NAME}"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
 
   authentication-db:
     container_name: ${AUTH_DB_HOST}
     image: postgres:15-alpine
-    expose:
-      - "${INTERNAL_DB_PORT}"
+    ports:
+      - "5435:${INTERNAL_DB_PORT}"
     volumes:
       - authentication-data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=${AUTH_DB_USERNAME}
-      - POSTGRES_PASSWORD=${AUTH_DB_PASSWORD}
-      - POSTGRES_DB=${AUTH_DB_NAME}
+      - "POSTGRES_USER=${AUTH_DB_USERNAME}"
+      - "POSTGRES_PASSWORD=${AUTH_DB_PASSWORD}"
+      - "POSTGRES_DB=${AUTH_DB_NAME}"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+  quiz-db:
+    container_name: ${QUIZ_DB_HOST}
+    image: postgres:15-alpine
+    ports:
+      - "5437:${INTERNAL_DB_PORT}"
+    volumes:
+      - quiz-data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_USER=${QUIZ_DB_USERNAME}"
+      - "POSTGRES_PASSWORD=${QUIZ_DB_PASSWORD}"
+      - "POSTGRES_DB=${QUIZ_DB_NAME}"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+  participation-db:
+    container_name: ${PARTICIPATION_DB_HOST}
+    image: postgres:15-alpine
+    ports:
+      - "5439:${INTERNAL_DB_PORT}"
+    volumes:
+      - participation-data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_USER=${PARTICIPATION_DB_USERNAME}"
+      - "POSTGRES_PASSWORD=${PARTICIPATION_DB_PASSWORD}"
+      - "POSTGRES_DB=${PARTICIPATION_DB_NAME}"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+  notification-db:
+    container_name: ${NOTIFICATION_DB_HOST}
+    image: postgres:15-alpine
+    ports:
+      - "5438:${INTERNAL_DB_PORT}"
+    volumes:
+      - notification-data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_USER=${NOTIFICATION_DB_USERNAME}"
+      - "POSTGRES_PASSWORD=${NOTIFICATION_DB_PASSWORD}"
+      - "POSTGRES_DB=${NOTIFICATION_DB_NAME}"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
 
   datadog-agent:
     container_name: datadog-agent
-    image: datadog/agent
+    image: datadog/agent:7
+    logging:
+      driver: none
     ports:
       - "8126:8126"
     environment:
-      - DD_API_KEY=${DD_API_KEY}
-      - DD_SITE=us5.datadoghq.com
-      - DD_LOGS_ENABLED=true
-      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
-      - DD_CONTAINER_EXCLUDE_LOGS="name:datadog-agent"
-      - DD_TAGS=env:${ENV}
+      - "DD_API_KEY=${DD_API_KEY}"
+      - "DD_SITE=us5.datadoghq.com"
+      - "DD_LOGS_ENABLED=true"
+      - "DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true"
+      - 'DD_CONTAINER_EXCLUDE_LOGS="name:datadog-agent"'
+      - "DD_TAGS=env:${ENV}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc/:/host/proc/:ro
@@ -137,3 +265,7 @@ services:
 volumes:
   user-data:
   authentication-data:
+  cache:
+  quiz-data:
+  participation-data:
+  notification-data:

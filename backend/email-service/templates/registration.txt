@@ -1,0 +1,5 @@
+Hi {{name}},
+
+Please confirm your email address by going to this link: {{base_url}}/auth/confirm?token={{token}}
+
+If you haven't registered an account on QuickQuiz.Ninja, ignore this email.

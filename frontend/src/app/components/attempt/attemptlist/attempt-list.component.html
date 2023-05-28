@@ -1,0 +1,56 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-4 py-4" style="min-height: 80vh">
+            <p-dataView #dt [value]="attempts" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                        [sortField]="sortField" [sortOrder]="sortOrder" [rows]="10" [filterBy]="searchFields">
+                <ng-template pTemplate="header">
+                    <div class="flex flex-column md:flex-row md:justify-content-between align-items-center">
+                        <span class="block mt-2 md:mt-0">
+                            <p-dropdown [options]="sortOptions" placeholder="Sort by Start Time Ascending"
+                                        (onChange)="onSortChange($event)" styleClass="w-16rem"></p-dropdown>
+                        </span>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search"
+                                   class="w-16rem"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="listItem" let-attempt>
+                    <div class="col-12 hoverable" [routerLink]="'/app/quiz/'+attempt.code+'/results'">
+                        <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                            <div
+                                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                    <div class="text-2xl font-bold text-900">
+                                        {{ attempt.quiz.title }}
+                                    </div>
+                                    <div class="flex align-items-center gap-3">
+                                        <span class="flex align-items-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="font-semibold">
+                                                {{ attempt.start_time | date:'medium' }}
+                                                - {{ attempt.end_time | date:'medium' }}
+                                                <span class="text-primary">
+                                                    ({{ attempt.duration | date:'mm:ss' }})
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                    <span class="text-lg font-semibold">
+                                        {{ formatNumber(attempt?.correct_count || 0, 'en-US', '1.0-2') }} / {{ attempt.total_questions }}
+                                    </span>
+                                    <p-progressBar [value]="formatNumber(attempt?.percentage, 'en-US', '1.0-2')"
+                                                   [color]="getSeverity(attempt)"
+                                                   styleClass="w-6rem ml-2"></p-progressBar>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+</div>

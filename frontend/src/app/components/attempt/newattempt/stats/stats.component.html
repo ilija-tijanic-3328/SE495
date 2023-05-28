@@ -1,0 +1,23 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-5 py-5" style="min-height: 80vh">
+            <div class="grid justify-content-between">
+                <button pButton class="p-button-outlined w-7rem lg:w-10rem" label="Back"
+                        [routerLink]="'/app/quiz/' + quiz?.id + '/leaderboard'"
+                        [disabled]="!creator && !canViewLeaderboard"
+                        [style.visibility]="creator || canViewLeaderboard ? 'visible' : 'hidden'"></button>
+            </div>
+            <div class="grid justify-content-evenly mt-3">
+                <div class="col-12 text-center max-w-30rem">
+                    <h4>Participants' scores</h4>
+                    <p-chart type="pie" [data]="quizScores" [options]="quizScoreChartOptions"></p-chart>
+                </div>
+                <div class="col-12 text-center" style="max-width: 50rem !important;">
+                    <h4>Questions answered correctly</h4>
+                    <p-chart type="bar" [data]="questionCompletion"
+                             [options]="questionCompletionChartOptions"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

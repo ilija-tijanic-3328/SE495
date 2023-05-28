@@ -1,5 +1,5 @@
 <p-sidebar [(visible)]="visible" position="right" [transitionOptions]="'.3s cubic-bezier(0, 0, 0.2, 1)'"
-           styleClass="layout-config-sidebar w-20rem" style="z-index: 1110">
+           styleClass="layout-config-sidebar w-20rem">
     <h5>Scale</h5>
     <div class="flex align-items-center">
         <button icon="pi pi-minus" type="button" pButton (click)="decrementScale()"
@@ -16,17 +16,21 @@
     <ng-container *ngIf="!minimal">
         <h5>Menu Type</h5>
         <div class="field-radiobutton">
-            <p-radioButton name="menuMode" value="static" [(ngModel)]="menuMode" inputId="mode1"></p-radioButton>
-            <label for="mode1">Static</label>
+            <p-radioButton name="menuMode" value="static" [(ngModel)]="menuMode" label="Static"></p-radioButton>
         </div>
         <div class="field-radiobutton">
-            <p-radioButton name="menuMode" value="overlay" [(ngModel)]="menuMode" inputId="mode2"></p-radioButton>
-            <label for="mode2">Overlay</label>
+            <p-radioButton name="menuMode" value="overlay" [(ngModel)]="menuMode" label="Overlay"></p-radioButton>
         </div>
     </ng-container>
 
     <ng-container *ngIf="!minimal">
-        <h5>Dark mode</h5>
-        <p-inputSwitch [(ngModel)]="darkMode"></p-inputSwitch>
+        <h5>Dark Mode</h5>
+        <p-inputSwitch [(ngModel)]="darkMode" (onChange)="onDarkModeChange($event)"></p-inputSwitch>
+    </ng-container>
+
+    <ng-container *ngIf="!minimal">
+        <h5>Two-Factor Authentication</h5>
+        <p-inputSwitch [(ngModel)]="twoFactorAuth"
+                       (onChange)="onTwoFactorAuthChange($event)"></p-inputSwitch>
     </ng-container>
 </p-sidebar>

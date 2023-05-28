@@ -1,0 +1,62 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-5 py-5" style="min-height: 80vh">
+            <div class="grid justify-content-between">
+                <button pButton class="p-button-outlined w-7rem lg:w-10rem" label="Back"
+                        [routerLink]="backLink" [disabled]="!creator"
+                        [style.visibility]="creator ? 'visible' : 'hidden'"></button>
+                <button pButton class="p-button-outlined w-7rem lg:w-10rem" label="Statistics"
+                        [disabled]="!creator && !canViewStats"
+                        [style.visibility]="creator || canViewStats ? 'visible' : 'hidden'"
+                        [routerLink]="'/app/quiz/' + leaderboard?.id + '/stats'"></button>
+            </div>
+            <div class="text-center">
+                <img src="assets/demo/images/quiz/trophy.svg" alt="{{leaderboard?.title}}" width="120rem"/>
+                <h3>{{ leaderboard?.title }}</h3>
+                <h6>{{ leaderboard?.start_time | date:'medium' }} - {{ leaderboard?.end_time | date:'medium' }}</h6>
+            </div>
+            <p-dataView [value]="leaderboard?.participants || []" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                        [rows]="10">
+                <ng-template pTemplate="listItem" let-attempt let-index="rowIndex">
+                    <div class="col-12 hoverable" [routerLink]="'/app/quiz/'+attempt.code+'/results'">
+                        <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                            <div
+                                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                    <div class="text-2xl font-bold text-700">
+                                        <i class="pi pi-star-fill text-xl" [style.color]="getColor(index)"
+                                           [style.visibility]="index > 2 ? 'hidden' : 'visible'"></i>
+                                        {{ index + 1 }}. {{ attempt.name }}
+                                    </div>
+                                    <div class="flex align-items-center gap-3">
+                                        <span class="flex align-items-center gap-2 md:pl-4">
+                                            <span class="font-semibold color-" *ngIf="attempt.start_time">
+                                                <i class="pi pi-calendar"></i>
+                                                {{ attempt.start_time | date:'medium' }}
+                                                - {{ attempt.end_time | date:'medium' }}
+                                                <span class="text-primary">
+                                                    ({{ attempt.duration | date:'mm:ss' }})
+                                                </span>
+                                            </span>
+                                            <span class="font-semibold color-" *ngIf="!attempt.start_time">
+                                                Didn't attempt
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                    <span class="text-lg font-semibold">
+                                        {{ formatNumber(attempt?.correct_count || 0, 'en-US', '1.0-2') }} / {{ attempt.total_questions }}
+                                    </span>
+                                    <p-progressBar [value]="formatNumber(attempt?.percentage, 'en-US', '1.0-2')"
+                                                   [color]="getSeverity(attempt)"
+                                                   styleClass="w-6rem ml-2"></p-progressBar>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+</div>

@@ -15,13 +15,21 @@
 
     <div #topbarmenu class="layout-topbar-menu"
          [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button" (click)="notificationsPanel.toggleNotificationsOverlay($event)"
+                pTooltip="Notifications" tooltipPosition="bottom">
+            <i class="pi pi-bell" pBadge [value]="String(unseenCount)" severity="danger" *ngIf="unseenCount > 0"></i>
+            <i class="pi pi-bell" *ngIf="unseenCount == 0"></i>
+            <span class="lg:hidden">Notifications</span>
+        </button>
         <button class="p-link layout-topbar-button" pTooltip="Account" tooltipPosition="bottom"
                 [routerLink]="['/app/account']">
-            <i class="pi pi-user"></i>
+            <i class="pi pi-user"></i><span class="lg:hidden">Account</span>
         </button>
         <button class="p-link layout-topbar-button" (click)="onConfigButtonClick()" pTooltip="Settings"
                 tooltipPosition="bottom">
-            <i class="pi pi-cog"></i>
+            <i class="pi pi-cog"></i><span class="lg:hidden">Settings</span>
         </button>
     </div>
 </div>
+<app-config></app-config>
+<app-notifications (notificationSeen)="onNotificationSeen($event)"></app-notifications>

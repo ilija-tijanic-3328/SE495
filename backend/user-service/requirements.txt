@@ -3,5 +3,4 @@ Flask-SQLAlchemy~=3.0.3
 Flask-Migrate~=4.0.4
 psycopg2-binary~=2.9.5
 requests~=2.28.2
-alembic~=1.10.2
-ddtrace~=1.10.1
+phonenumbers~=8.13.8

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3ca7abc3-4bd8-4150-b990-b9c4ad94f461" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../api-gateway/app/api/admin_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/app/service/quiz_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/api/quiz_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../quiz-service/app/service/quiz_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/admin/quizlist/admin-quiz-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/layout/app.menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/services/quiz.service.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Flask Main" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="2OHcvcrGiE58oLFnhZn7YRcQGyD" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ilija/Documents/SE495/backend/notification-service&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
+  }
+}</component>
+  <component name="RunManager" selected="Docker...: Compose Deployment">
+    <configuration name="notification-service" type="Python.FlaskServer">
+      <module name="notification-service" />
+      <option name="target" value="$PROJECT_DIR$/app.py" />
+      <option name="targetType" value="PATH" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="..: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="../../docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker...: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3ca7abc3-4bd8-4150-b990-b9c4ad94f461" name="Changes" comment="" />
+      <created>1681221180222</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681221180222</updated>
+      <workItem from="1681221182213" duration="126000" />
+      <workItem from="1681221599433" duration="23000" />
+      <workItem from="1681343481791" duration="317000" />
+      <workItem from="1681386537667" duration="1488000" />
+      <workItem from="1681514185444" duration="275000" />
+      <workItem from="1681599054972" duration="221000" />
+      <workItem from="1681770378434" duration="1790000" />
+      <workItem from="1682108378901" duration="6106000" />
+      <workItem from="1683227581066" duration="3213000" />
+      <workItem from="1683292563175" duration="596000" />
+      <workItem from="1683399415576" duration="17000" />
+      <workItem from="1683400236603" duration="617000" />
+      <workItem from="1683487011417" duration="1705000" />
+      <workItem from="1683569961218" duration="594000" />
+      <workItem from="1683827722747" duration="562000" />
+      <workItem from="1683831651108" duration="1662000" />
+    </task>
+    <servers />
+  </component>
+</project>

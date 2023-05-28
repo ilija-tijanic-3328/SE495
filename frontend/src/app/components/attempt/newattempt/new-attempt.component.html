@@ -1,0 +1,53 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-5 py-5" style="min-height: 80vh">
+            <div *ngIf="!started" class="text-center">
+                <img src="assets/demo/images/quiz/quiz.svg" alt="{{attempt?.quiz?.title}}" width="120rem"/>
+                <h3>{{ attempt?.quiz?.title }}</h3>
+                <h6>{{ attempt?.quiz?.description }}</h6>
+                <h5 class="mt-5">
+                    The quiz is available from <i>{{ attempt?.quiz?.start_time | date:'medium' }}</i>
+                    until <i>{{ attempt?.quiz?.end_time | date:'medium' }}</i>
+                </h5>
+                <h5 class="mt-5">Once you start the quiz, you'll have <span
+                    class="text-primary">{{ attempt?.quiz?.time_allowed }} minutes</span> to finish it.</h5>
+                <button pButton label="Start Quiz" class="mt-5 p-button-lg" (click)="startQuiz()"></button>
+            </div>
+            <div *ngIf="started">
+                <div class="grid justify-content-center align-content-center">
+                    <div class="text-center sticky w-full" [style.top]="isLoggedIn() ? '5rem' : '1.5rem'"
+                         style="background-color: lightgray; z-index: 100">
+                        <h6 class="mt-2 mb-1">Your answers will automatically be saved when the allowed time
+                            passes.</h6>
+                        <h3 class="mt-1 mb-1">{{ timeRemaining$ | async | date:'mm:ss' }}</h3>
+                    </div>
+                    <div class="w-full md:w-6 lg:w-4">
+                        <div *ngFor="let question of questions; let i = index"
+                             class="col-12 grid text-lg align-content-start">
+                            <div class="col-12 font-bold">{{i + 1}}. {{question.text}}</div>
+                            <div *ngIf="question.type == 'Single choice'">
+                                <div *ngFor="let answer of question.answers" class="col-12 pl-6">
+                                    <p-radioButton [name]="'group'+question.id" [label]="answer.text"
+                                                   [inputId]="''+answer.id" [value]="answer.id"
+                                                   [(ngModel)]="answers[question.id]"></p-radioButton>
+                                </div>
+                            </div>
+                            <div *ngIf="question.type == 'Multiple choice'">
+                                <div *ngFor="let answer of question.answers" class="col-12 pl-6">
+                                    <p-checkbox [name]="'group'+question.id" [label]="answer.text"
+                                                [disabled]="answers[question.id]?.length >= question.correct_count && !answers[question.id].includes(answer.id)"
+                                                [(ngModel)]="answers[question.id]" [value]="answer.id"></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3 text-center">
+                        <button pButton label="Submit" class="p-button-lg w-full md:w-6 xl:w-3"
+                                (click)="submitAnswers()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-report-quiz [participantId]="attempt?.id"></app-report-quiz>

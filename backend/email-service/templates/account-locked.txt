@@ -1,0 +1,9 @@
+Hi {{name}},
+
+Your account has been locked due to too many failed login attempts.
+
+Your account can be unlocked by going to this link: {{base_url}}/auth/login?unlockToken={{token}}
+
+We recommend changing your password and turning on two-factor authentication to secure your account.
+
+This link expires in 7 days, after which you will have to contact the admin to unlock your account.

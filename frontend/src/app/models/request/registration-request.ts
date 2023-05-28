@@ -1,6 +1,6 @@
 export class RegistrationRequest {
     name?: string;
     email?: string;
-    phoneNumber?: string;
+    phone_number?: string;
     password?: string;
 }

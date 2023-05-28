@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1e5f4d0e-8519-47da-8b4f-32382a3e9031" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/integration/test_quiz_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/unit/test_quiz_participant_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/service/quiz_participant_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/quiz_participant_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service/app/service/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service/app/service/user_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/attemptlist/attempt-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/attemptresult/attempt-result.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/leaderboard/leaderboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/attempt/newattempt/new-attempt.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/app/components/auth/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/app/components/auth/register/register.component.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Flask Main" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="2OHdFHP3L2WUb4n5gWPlUTthByK" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Ilija/Documents/SE495/backend/participation-service/tests/integration"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ilija\Documents\SE495\backend\participation-service\tests\integration" />
+      <recent name="C:\Users\Ilija\Documents\SE495\backend\participation-service\app\api" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ilija\Documents\SE495\backend\participation-service\tests\unit" />
+      <recent name="C:\Users\Ilija\Documents\SE495\backend\participation-service\tests" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python tests.Python tests for tests.unit.test_quiz_participant_service.ParticipantServiceTest">
+    <configuration name="participation-service" type="Python.FlaskServer">
+      <module name="participation-service" />
+      <option name="target" value="$PROJECT_DIR$/app.py" />
+      <option name="targetType" value="PATH" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="..: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="../../docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.unit.test_quiz_participant_service.ParticipantServiceTest" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="participation-service" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.unit.test_quiz_participant_service.ParticipantServiceTest&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.unit.test_quiz_participant_service.ParticipantServiceTest" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="participation-service" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.unit.test_quiz_participant_service.ParticipantServiceTest&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Python tests for tests.unit.test_quiz_participant_service.ParticipantServiceTest" />
+        <item itemvalue="Python tests.Python tests for tests.unit.test_quiz_participant_service.ParticipantServiceTest" />
+        <item itemvalue="Docker...: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1e5f4d0e-8519-47da-8b4f-32382a3e9031" name="Changes" comment="" />
+      <created>1681221335250</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681221335250</updated>
+      <workItem from="1681221336818" duration="506000" />
+      <workItem from="1681516263255" duration="3693000" />
+      <workItem from="1681840238492" duration="146000" />
+      <workItem from="1681901559862" duration="3641000" />
+      <workItem from="1683213810886" duration="9796000" />
+      <workItem from="1683292559948" duration="26552000" />
+      <workItem from="1683460741994" duration="9351000" />
+      <workItem from="1683476924962" duration="8704000" />
+      <workItem from="1683569956684" duration="1193000" />
+      <workItem from="1683643001672" duration="4101000" />
+      <workItem from="1683658230277" duration="2244000" />
+      <workItem from="1683758482702" duration="1456000" />
+      <workItem from="1683828621710" duration="31000" />
+      <workItem from="1685037960267" duration="2513000" />
+    </task>
+    <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/participation_service$.coverage" NAME=" Coverage Results" MODIFIED="1685038913651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+  </component>
+</project>

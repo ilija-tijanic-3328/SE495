@@ -1,0 +1,153 @@
+<div class="flex align-items-center justify-content-center mt-6">
+    <div class="grid w-full text-center">
+        <div class="col-12 lg:col-6 p-2">
+            <p-orderList [value]="questions" header="Questions" [dragdrop]="!allDisabled" filterBy="text,type"
+                         [listStyle]="{'max-height': '30rem'}" filterPlaceholder="Filter questions by text or type"
+                         (onSelectionChange)="onSelectionChange($event.value)" (onReorder)="touched = true">
+                <ng-template pTemplate="header">
+                    <div class="flex flex-wrap justify-content-between m-0 w-full">
+                        <h6 class="mt-3">Questions ({{questions.length}})</h6>
+                        <p-button icon="pi pi-plus" styleClass="p-button-rounded p-button-success"
+                                  pTooltip="Add Question" tooltipPosition="left" [disabled]="allDisabled"
+                                  (onClick)="addQuestion()"></p-button>
+                    </div>
+                </ng-template>
+                <ng-template let-question pTemplate="item">
+                    <div class="col-12">
+                        <div class="flex flex-column xl:flex-row xl:align-items-start gap-4">
+                            <div
+                                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                    <div class="text-lg font-bold text-900">
+                                        {{ question.text }}
+                                    </div>
+                                    <div class="flex align-items-center gap-3">
+                                        <span class="flex align-items-center gap-2">
+                                            <i class="pi pi-tag"></i>
+                                            <span class="font-semibold">{{ question.type }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                    <span class="font-semibold">{{ question.answers?.length || 0 }} answers</span>
+                                    <div class="flex gap-3 sm:gap-2">
+                                        <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-info"
+                                                (click)="editQuestion(question, $event)" pTooltip="Edit Question"
+                                                tooltipPosition="left" [disabled]="allDisabled"
+                                                (mousedown)="$event.stopPropagation()"></button>
+                                        <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                                (click)="removeQuestion(question, $event)" pTooltip="Delete Question"
+                                                tooltipPosition="left" [disabled]="allDisabled"
+                                                (mousedown)="$event.stopPropagation()"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-orderList>
+        </div>
+        <div class="col-12 lg:col-6 p-2">
+            <p-orderList [value]="selectedQuestion?.answers || []" [dragdrop]="!allDisabled"
+                         (onReorder)="touched = true"
+                         [listStyle]="{'max-height': '30rem'}" filterBy="text"
+                         filterPlaceholder="Filter answers by text">
+                <ng-template pTemplate="header">
+                    <div class="flex flex-wrap justify-content-between m-0 w-full">
+                        <h6 class="mt-3" *ngIf="selectedQuestion">Answers for <i>{{selectedQuestion.text || ''}}</i>
+                        </h6>
+                        <h6 class="mt-3" *ngIf="!selectedQuestion">Select a question to show its answers</h6>
+                        <button pButton icon="pi pi-plus" class="p-button-rounded p-button-success"
+                                pTooltip="Add Answer" tooltipPosition="left" (click)="addAnswer()"
+                                [disabled]="allDisabled || !selectedQuestion"></button>
+                    </div>
+                </ng-template>
+                <ng-template let-answer pTemplate="item">
+                    <div class="col-12">
+                        <div class="flex flex-column xl:flex-row xl:align-items-start gap-4">
+                            <div
+                                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                    <div class="text-lg font-bold text-900">
+                                        {{ answer.text }}
+                                    </div>
+                                    <div class="flex align-items-center gap-3">
+                                        <span class="flex align-items-center gap-2">
+                                            <p-tag [value]="answer.correct ? 'Correct' : 'Incorrect'"
+                                                   styleClass="vertical-align-middle"
+                                                   [severity]="answer.correct ? 'success' : 'danger'"></p-tag>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                    <div class="flex gap-3 sm:gap-2">
+                                        <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-info"
+                                                (click)="editAnswer(answer, $event)" pTooltip="Edit Answer"
+                                                tooltipPosition="left" [disabled]="allDisabled"
+                                                (mousedown)="$event.stopPropagation()"></button>
+                                        <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                                pTooltip="Delete Answer" tooltipPosition="left" [disabled]="allDisabled"
+                                                (click)="removeAnswer(answer, $event)"
+                                                (mousedown)="$event.stopPropagation()"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-orderList>
+        </div>
+        <div class="col-6 p-2">
+            <button pButton pRipple label="Back" class="w-full md:w-10 lg:w-6 p-3 text-lg"
+                    (click)="onPrevStep()"></button>
+        </div>
+        <div class="col-6 p-2">
+            <button pButton pRipple [label]="allDisabled || !touched ? 'Next' : 'Save'"
+                    class="w-full md:w-10 lg:w-6 p-3 text-lg" (click)="onNextStep()"
+                    [disabled]="questions.length == 0"></button>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="{{edit ? 'Edit' : 'Add'}} Question" [(visible)]="showQuestionDialog" [modal]="true"
+          [draggable]="false" [closable]="true" [style]="{width: '30rem'}" class="p-fluid">
+    <ng-template pTemplate="content">
+        <form #questionForm="ngForm" (ngSubmit)="saveQuestion()">
+            <div class="field">
+                <label for="text" class="block text-lg font-medium mb-2">Text</label>
+                <input type="text" pInputText id="text" name="text" [(ngModel)]="currentQuestion.text" required
+                       autofocus/>
+            </div>
+            <div class="field">
+                <label for="type" class="block text-lg font-medium mb-2">Type</label>
+                <p-dropdown id="type" [(ngModel)]="currentQuestion.type" name="type"
+                            [options]="questionTypes"></p-dropdown>
+            </div>
+            <div class="field mt-5">
+                <button pButton pRipple label="{{edit ? 'Edit' : 'Add'}}" icon="pi pi-check"
+                        class="p-button-" [disabled]="questionForm.invalid"></button>
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="{{edit ? 'Edit' : 'Add'}} Answer" [(visible)]="showAnswerDialog" [modal]="true"
+          [draggable]="false" [style]="{width: '30rem'}" class="p-fluid">
+    <ng-template pTemplate="content">
+        <form #answerForm="ngForm" (ngSubmit)="saveAnswer()">
+            <div class="field">
+                <label for="atext" class="block text-lg font-medium mb-2">Text</label>
+                <input type="text" pInputText id="atext" name="text" [(ngModel)]="currentAnswer.text" required
+                       autofocus/>
+            </div>
+            <div class="field">
+                <p-checkbox id="correct" name="correct" [binary]="true" [(ngModel)]="currentAnswer.correct"
+                            label="Correct"></p-checkbox>
+            </div>
+            <div class="field mt-5">
+                <button pButton pRipple label="{{edit ? 'Edit' : 'Add'}}" icon="pi pi-check"
+                        [disabled]="answerForm.invalid"></button>
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>

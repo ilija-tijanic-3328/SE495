@@ -1,0 +1,94 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-4 py-4" style="min-height: 80vh">
+            <p-table #dt [value]="quizzes" [columns]="columns" responsiveLayout="scroll" [rows]="10"
+                     [globalFilterFields]="['title','description','start_time','end_time','time_allowed','status', 'submitted_count']"
+                     [paginator]="true" [rowsPerPageOptions]="[10,20,30]" selectionMode="single" [rowHover]="true"
+                     dataKey="id" [first]="first">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Manage Quizzes</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                                   class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="title">Title
+                            <p-sortIcon field="title"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="status">Status
+                            <p-sortIcon field="status"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="start_time">Start Time
+                            <p-sortIcon field="start_time"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="end_time">End Time
+                            <p-sortIcon field="end_time"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="time_allowed">Time Allowed
+                            <p-sortIcon field="time_allowed"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="submitted_count">Submitted
+                            <p-sortIcon field="submitted_count"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quiz>
+                    <tr (click)="onQuizClicked(quiz)" [style.background-color]="quiz.id == quizId ? '#E0E0E0' : ''">
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Code</span>
+                            {{ quiz.title }}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Name</span>
+                            {{ quiz.status }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Price</span>
+                            {{ quiz.start_time | date:'medium' }}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Category</span>
+                            {{ quiz.end_time | date:'medium' }}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Name</span>
+                            {{ quiz.time_allowed }}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Name</span>
+                            {{ quiz.submitted_count }} / {{ quiz.participants_count }}
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button pButton pRipple icon="pi pi-users" class="p-button-rounded p-button-info"
+                                        (click)="openLeaderboard(quiz.id, $event)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                        (click)="deleteQuiz(quiz, $event)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteQuizDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="quizToDelete">
+                    Are you sure you want to delete <b>{{quizToDelete.title}}</b>?
+                </span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Cancel"
+                        (click)="deleteQuizDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Update Status"
+                        (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

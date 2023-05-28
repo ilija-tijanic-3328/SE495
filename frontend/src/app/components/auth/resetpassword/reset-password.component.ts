@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {LayoutService} from 'src/app/layout/service/app.layout.service';
-import {ResetPasswordRequest} from "../../../models/request/reset-password-request";
 import {MessageService} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AuthService} from "../../../services/auth.service";
+import {ResetPasswordRequest} from "../../../models/request/reset-password-request";
 
 @Component({
     selector: 'app-reset-password',
@@ -22,32 +23,60 @@ export class ResetPasswordComponent implements OnInit {
     protected validToken: boolean = false;
 
     constructor(protected layoutService: LayoutService, private messageService: MessageService,
-                private router: Router, private route: ActivatedRoute) {
+                private router: Router, private route: ActivatedRoute, private authService: AuthService) {
     }
 
     ngOnInit() {
-        let token = this.route.snapshot.queryParamMap.get("token");
-
+        let token = this.route.snapshot.queryParamMap.get('token');
         if (token) {
-            // TODO
-            this.validToken = true;
+            this.authService.validatePasswordResetToken(token)
+                .subscribe({
+                    next: () => {
+                        this.validToken = true;
+                        this.request.token = token || undefined;
+                    },
+                    error: error => {
+                        const message = error?.error?.error || 'Unknown error occurred';
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Invalid token',
+                            detail: message,
+                            sticky: true
+                        });
+                    }
+                });
         } else {
-            this.onError("Missing token", "A valid token must be provided.");
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Cannot reset password',
+                detail: 'Missing token',
+                sticky: true
+            });
         }
     }
 
     onSubmit() {
-        // TODO
-    }
-
-    onError(summary: string, detail: string) {
-        this.messageService.add({
-            severity: "error",
-            life: 7000,
-            summary: summary,
-            detail: detail
-        });
-        this.router.navigate(["/"]);
+        this.authService.resetPassword(this.request)
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Password changed',
+                        detail: 'You can now sign in to your account with your new password',
+                        sticky: true
+                    });
+                    this.router.navigate(['/auth/login']);
+                },
+                error: error => {
+                    const message = error?.error?.error || 'Unknown error occurred';
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Password reset failed',
+                        detail: message,
+                        sticky: true
+                    });
+                }
+            })
     }
 
 }
